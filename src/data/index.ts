@@ -1,6 +1,6 @@
-import { IAddSdutind } from "@/interface";
+import { IAddStudent } from "@/interface";
 
-export const BasicBataInput:IAddSdutind[] = [
+export const BasicDataInput:IAddStudent[] = [
     {
         name: "admission_system",
         type: "text",
@@ -100,7 +100,7 @@ export const BasicBataInput:IAddSdutind[] = [
         id: "programid"
     }
 ];
-export const ContactInformationInput:IAddSdutind[] = [
+export const ContactInformationInput:IAddStudent[] = [
     {
         name: "The_state",
         type: "text",
@@ -196,7 +196,7 @@ export const ContactInformationInput:IAddSdutind[] = [
         id: "facebookId"
     }
 ];
-export const EducationData:IAddSdutind[] = [
+export const EducationData:IAddStudent[] = [
     {
         name: "Type-of-education",
         type: "text",
@@ -232,7 +232,7 @@ export const EducationData:IAddSdutind[] = [
         id: "High-school-percentageId"
     }
 ]
-export const AdditionalData:IAddSdutind[] = [
+export const AdditionalData:IAddStudent[] = [
     {
         name: "Sports-activity",
         type: "text",
@@ -259,3 +259,136 @@ export const AdditionalData:IAddSdutind[] = [
         id: "commentsId"
     }
 ]
+
+export const students = [
+    {
+      photo: "/avatar1.png",
+      name: "سوفيا ميتشل",
+      fileNumber: "12345",
+      landline: "555-1234",
+      phone: "555-5678",
+      specialization: "علوم البيانات",
+      dues: "$500",
+    },
+    {
+      photo: "/avatar2.png",
+      name: "إيثان هاربر",
+      fileNumber: "67890",
+      landline: "555-2468",
+      phone: "555-9012",
+      specialization: "تطوير الويب",
+      dues: "$300",
+    },
+    {
+      photo: "/avatar3.png",
+      name: "أوليفيا بينيت",
+      fileNumber: "11223",
+      landline: "555-3690",
+      phone: "555-3456",
+      specialization: "تصميم واجهات المستخدم",
+      dues: "$200",
+    },
+    {
+      photo: "/avatar4.png",
+      name: "كاليب فوستر",
+      fileNumber: "44556",
+      landline: "555-4812",
+      phone: "555-7890",
+      specialization: "تطوير تطبيقات الجوال",
+      dues: "$400",
+    },
+    {
+      photo: "/avatar5.png",
+      name: "آفا غرين",
+      fileNumber: "77889",
+      landline: "555-5034",
+      phone: "555-1234",
+      specialization: "التسويق الرقمي",
+      dues: "$100",
+    },
+    {
+      photo: "/avatar6.png",
+      name: "ليام هايز",
+      fileNumber: "99001",
+      landline: "555-6266",
+      phone: "555-5678",
+      specialization: "الأمن السيبراني",
+      dues: "$600",
+    },
+    {
+      photo: "/avatar7.png",
+      name: "إيزابيلا إنغرام",
+      fileNumber: "22354",
+      landline: "555-7478",
+      phone: "555-9012",
+      specialization: "الحوسبة السحابية",
+      dues: "$250",
+    },
+    {
+      photo: "/avatar8.png",
+      name: "جاكسون جنكينز",
+      fileNumber: "55667",
+      landline: "555-8690",
+      phone: "555-3456",
+      specialization: "إدارة المشاريع",
+      dues: "$350",
+    },
+    {
+      photo: "/avatar9.png",
+      name: "ميا كلارك",
+      fileNumber: "88990",
+      landline: "555-9812",
+      phone: "555-7890",
+      specialization: "تحليل الأعمال",
+      dues: "$450",
+    },
+    {
+      photo: "/avatar10.png",
+      name: "لوكاس إيفانز",
+      fileNumber: "11225",
+      landline: "555-1034",
+      phone: "555-1234",
+      specialization: "الذكاء الاصطناعي وتعلم الآلة",
+      dues: "$550",
+    },
+  ];
+
+  interface IProgram {
+    program_name: string;
+    description: string;
+    duration: string;
+    fees: string;       
+    }
+export  const programs : IProgram[]= [
+    {
+      program_name: "Software Engineering Bootcamp",
+      description: "Intensive program covering software development fundamentals.",
+      duration: "12 weeks",
+      fees: "$8,000"
+    },
+    {
+      program_name: "Data Science Fundamentals",
+      description: "Introduction to data analysis, machine learning, and data visualization.",
+      duration: "8 weeks",
+      fees: "$6,000"
+    },
+    {
+      program_name: "Digital Marketing Mastery",
+      description: "Comprehensive course on digital marketing strategies and tools.",
+      duration: "10 weeks",
+      fees: "$7,500"
+    },
+    {
+      program_name: "UX/UI Design Essentials",
+      description: "Learn the principles of user experience and user interface design.",
+      duration: "6 weeks",
+      fees: "$5,000"
+    },
+    {
+      program_name: "Cybersecurity Professional",
+      description: "Training on cybersecurity threats, prevention, and response.",
+      duration: "14 weeks",
+      fees: "$9,000"
+    }
+  ]
+  
