@@ -6,7 +6,7 @@ import { useDropzone } from "react-dropzone";
 export default function StudentImageUpload() {
   const [preview, setPreview] = useState<string | null>(null);
 
-  const onDrop = useCallback((acceptedFiles: any[]) => {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
       setPreview(URL.createObjectURL(file));
