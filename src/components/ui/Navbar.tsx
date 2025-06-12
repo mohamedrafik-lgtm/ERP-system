@@ -5,6 +5,7 @@ import { Dropmenu } from "./Dropmenu";
 import Link from "next/link";
 import { useState } from "react";
 import { ReactNode } from "react";
+import Image from "next/image";
 interface IProps{
   name:string,
   svg:ReactNode,
@@ -48,7 +49,7 @@ export const Navbar = () => {
               </svg>
 
             ),
-            url: ""
+            url: "/AddTriningContent"
           },
         ];
         const list2: IProps[] = [
@@ -106,16 +107,16 @@ export const Navbar = () => {
         
 
   return (
-    <nav className="py-2 px-4 bg-white shadow-md flex items-center justify-between">
+    <nav className="py-2 px-4 bg-white/20 shadow-md flex items-center justify-between">
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6">
         <img src={img1.src} alt="User" className="w-10 h-10 rounded-full" />
         <Dropmenu key={'accountant'} name="الحسابات" list={list3} />
         <Dropmenu key={"users"} name="المستخدمين" list={list2} />
         <Dropmenu key={"trainers"} name="شؤون المتدربين" list={list1} />
-        <h3 className="hidden md:block font-normal py-1 px-3 hover:bg-black hover:text-white transition-all duration-300 rounded-md">
+        <li className="hidden md:block font-normal py-1 px-3 text-white hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
           التعليم الالكتروني
-        </h3>
+        </li>
       </div>
 
       {/* Mobile Menu Button */}
@@ -144,15 +145,16 @@ export const Navbar = () => {
           <Dropmenu key={1} name="شؤون المتدربين" list={list1} />
           <Dropmenu key={2} name="المستخدمين" list={list2} />
           <Dropmenu key={3} name="الحسابات" list={list3} />
-          <h3 className="font-normal py-1 px-3 hover:bg-black hover:text-white transition-all duration-300 rounded-md">
-            التعليم الالكتروني
-          </h3>
-          <img src={img1.src} alt="User" className="w-10 h-10 rounded-full self-end" />
+          <li className="font-normal py-1 px-3 hover:bg-orange-600 cursor-pointer hover:text-white transition-all duration-300 rounded-md">
+          التعليم الالكتروني
+
+          </li>
+          <Image src={img1.src} alt="User" width={40} height={40} className="rounded-full self-end" />
         </div>
       )}
       <div className="flex items-center space-x-4">
        <Link href={"/"}>
-           <img src={img.src} className="w-16" alt="Logo" />
+           <Image src={img.src} width={100} height={100}  alt="Logo" />
        </Link>
       </div>
     </nav>

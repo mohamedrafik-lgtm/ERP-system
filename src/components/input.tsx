@@ -22,7 +22,7 @@ export const Input: React.FC<IProps> = ({
       name={name}
       id={id}
       placeholder={placeholder}
-      className={`px-4 py-2 border outline-none ${className}`}
+      className={`px-4 py-2 border  outline-none ${className}`}
       {...rest}
     />
   );

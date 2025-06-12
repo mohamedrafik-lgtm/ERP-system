@@ -1,4 +1,4 @@
-import FilterButton from "@/components/AllStudent/filterButton";
+import FilterButton from "@/components/ui/filterButton";
 import { Input } from "@/components/input";
 import StudentTable from "@/components/AllStudent/studentTable";
 import Paginator from "@/components/ui/paginator";
@@ -7,15 +7,15 @@ const AllStudent = () => {
         
 
     return(
-        <div className="mb-10">
-            <div className="max-w-9/12 mx-auto mt-10 space-y-3">
+        <div className="mb-10 bg-slate-800 text-white">
+            <div className="max-w-9/12 mx-auto pt-10 space-y-3">
                {/* title and add student button */}
                <div className="flex justify-between items-center">
-                    <button className="bg-gray-200 font-bold px-8 py-2 rounded-3xl mt-2 hover:bg-gray-600 transition-all duration-300 hover:text-white">إضافة متدرب</button>
+                    <button className="bg-orange-600 font-bold px-8 py-2 rounded-3xl mt-2 hover:bg-orange-600 transition-all duration-300 hover:text-white">إضافة متدرب</button>
                     <h1 className="text-2xl font-bold">جميع المتدربين</h1>
                </div>
-               <form className="bg-gray-200 rounded-xl flex items-center mt-10">
-                    <Input type="text" placeholder="البحث عن طالب" name="search_student" id="searchStudent" className="border-0 w-full py-3"/>
+               <form className="bg-white/20 rounded-xl flex items-center mt-10">
+                    <Input type="text" placeholder="البحث عن طالب" name="search_student" id="searchStudent" className="border-0 w-full py-3 "/>
                     <button className="px-5 py-3">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -30,16 +30,20 @@ const AllStudent = () => {
                    <FilterButton 
                     label="البرنامج"
                     options={["Frontend", "Backend", "Fullstack"]}
-                    paramKey={"program"}/>
+                    paramKey={"program"}
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"/>
+                    
                     <FilterButton
                      label="الحاله"
                      paramKey="status"
                      options={["Active", "Pending", "Completed"]}
+                     className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
                      />
                      <FilterButton
                       label="تاريخ التسجيل"
                       paramKey="date"
                       options={["Newest", "Oldest"]}
+                      className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
                       />
                 </div>
                 </div>

@@ -269,6 +269,7 @@ export const students = [
       phone: "555-5678",
       specialization: "علوم البيانات",
       dues: "$500",
+      id: "1",
     },
     {
       photo: "/avatar2.png",
@@ -278,6 +279,7 @@ export const students = [
       phone: "555-9012",
       specialization: "تطوير الويب",
       dues: "$300",
+        id: "2",
     },
     {
       photo: "/avatar3.png",
@@ -287,6 +289,7 @@ export const students = [
       phone: "555-3456",
       specialization: "تصميم واجهات المستخدم",
       dues: "$200",
+        id: "3",
     },
     {
       photo: "/avatar4.png",
@@ -296,6 +299,7 @@ export const students = [
       phone: "555-7890",
       specialization: "تطوير تطبيقات الجوال",
       dues: "$400",
+        id: "4",
     },
     {
       photo: "/avatar5.png",
@@ -305,6 +309,7 @@ export const students = [
       phone: "555-1234",
       specialization: "التسويق الرقمي",
       dues: "$100",
+        id: "5",
     },
     {
       photo: "/avatar6.png",
@@ -314,6 +319,7 @@ export const students = [
       phone: "555-5678",
       specialization: "الأمن السيبراني",
       dues: "$600",
+        id: "6",
     },
     {
       photo: "/avatar7.png",
@@ -323,6 +329,7 @@ export const students = [
       phone: "555-9012",
       specialization: "الحوسبة السحابية",
       dues: "$250",
+        id: "7",
     },
     {
       photo: "/avatar8.png",
@@ -332,6 +339,7 @@ export const students = [
       phone: "555-3456",
       specialization: "إدارة المشاريع",
       dues: "$350",
+        id: "8",
     },
     {
       photo: "/avatar9.png",
@@ -341,6 +349,7 @@ export const students = [
       phone: "555-7890",
       specialization: "تحليل الأعمال",
       dues: "$450",
+        id: "9",
     },
     {
       photo: "/avatar10.png",
@@ -350,6 +359,7 @@ export const students = [
       phone: "555-1234",
       specialization: "الذكاء الاصطناعي وتعلم الآلة",
       dues: "$550",
+        id: "10",
     },
   ];
 
@@ -391,4 +401,11 @@ export  const programs : IProgram[]= [
       fees: "$9,000"
     }
   ]
+  export const transactions = [
+    { date: '2023-08-15', description: 'رسوم التسجيل', type: 'إضافة', amount: 5000, status: 'قيد الانتظار' },
+    { date: '2023-08-20', description: 'الدفعة الأولى', type: 'دفع', amount: 2000, status: 'مكتمل' },
+    { date: '2023-09-15', description: 'قسط شهري', type: 'دفع', amount: 1000, status: 'مكتمل' },
+    { date: '2023-10-15', description: 'قسط شهري', type: 'دفع', amount: 500, status: 'مكتمل' },
+    { date: '2023-11-15', description: 'رسوم تأخير', type: 'إضافة', amount: 100, status: 'قيد الانتظار' },
+  ];
   

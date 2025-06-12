@@ -8,9 +8,10 @@ interface FilterButtonProps {
   label: string;
   paramKey: string;
   options: string[];
+  className?: string;
 }
 
-export default function FilterButton({ label, paramKey, options }: FilterButtonProps) {
+export default function FilterButton({ label, paramKey, options , className}: FilterButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,7 +29,8 @@ export default function FilterButton({ label, paramKey, options }: FilterButtonP
     <div className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="inline-flex items-center px-4 py-2 rounded-full bg-gray-200 text-sm font-medium text-gray-900  transition duration-200 shadow-sm"
+        className={`${className}`}
+        // className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
       >
         {selectedValue ? `${label}: ${selectedValue}` : label}
         <ChevronDown
