@@ -408,4 +408,88 @@ export  const programs : IProgram[]= [
     { date: '2023-10-15', description: 'قسط شهري', type: 'دفع', amount: 500, status: 'مكتمل' },
     { date: '2023-11-15', description: 'رسوم تأخير', type: 'إضافة', amount: 100, status: 'قيد الانتظار' },
   ];
+
+  export const  payments = [
+  {
+    id: 1,
+    name: "رسوم مقدم برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 2400,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 2,
+    name: "رسوم القسط الأول برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 3,
+    name: "رسوم القسط الثانى برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 4,
+    name: "رسوم القسط الثالث برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 5,
+    name: "رسوم القسط الرابع برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 6,
+    name: "رسوم القسط الخامس برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 7,
+    name: "رسوم القسط السادس برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 8,
+    name: "رسوم القسط السابع برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 9,
+    name: "رسوم القسط الثامن برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+  {
+    id: 10,
+    name: "رسوم القسط التاسع برنامج الذكاء الاصطناعى (مبتدئ+متقدم)",
+    amount: 800,
+    total: 0,
+    paid: 0,
+    by: "Raed osman",
+  },
+];
+
   
