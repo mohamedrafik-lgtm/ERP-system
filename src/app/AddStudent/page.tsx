@@ -1,4 +1,4 @@
-import { renderstInput } from "@/components/AddStudent/addSTinput"
+import { RenderStudentInput } from "@/components/AddStudent/addSTinput"
 import StudentImageUpload from "@/components/AddStudent/StudentImageUpload"
 import {AdditionalData, BasicDataInput, ContactInformationInput, EducationData} from "@/data"
 const AddStudent = () => {
@@ -10,7 +10,7 @@ const AddStudent = () => {
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">البيانات الاساسيه</h2>
                     <div className="grid grid-cols-2 gap-5">
-                      {renderstInput(BasicDataInput)}
+                      {RenderStudentInput(BasicDataInput)}
                     </div>
                 </div>
                 <div>
@@ -19,19 +19,19 @@ const AddStudent = () => {
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات الاتصال</h2>
                     <div className="grid grid-cols-2 gap-5">
-                      {renderstInput(ContactInformationInput)}
+                      {RenderStudentInput(ContactInformationInput)}
                     </div>
                 </div>
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات التعليم</h2>
                     <div className="grid grid-cols-2 gap-5">
-                      {renderstInput(EducationData)}
+                      {RenderStudentInput(EducationData)}
                     </div>
                 </div>
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات اضافيه</h2>
                     <div className="grid grid-cols-2 gap-5">
-                      {renderstInput(AdditionalData)}
+                      {RenderStudentInput(AdditionalData)}
                     </div>
                 </div>
 

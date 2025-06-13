@@ -2,6 +2,7 @@ import FilterButton from "@/components/ui/filterButton";
 import { Input } from "@/components/input";
 import StudentTable from "@/components/AllStudent/studentTable";
 import Paginator from "@/components/ui/paginator";
+import { NavigationButton } from "@/components/ui/button";
 
 const AllStudent = () => {
         
@@ -11,7 +12,7 @@ const AllStudent = () => {
             <div className="max-w-9/12 mx-auto pt-10 space-y-3">
                {/* title and add student button */}
                <div className="flex justify-between items-center">
-                    <button className="bg-orange-600 font-bold px-8 py-2 rounded-3xl mt-2 hover:bg-orange-600 transition-all duration-300 hover:text-white">إضافة متدرب</button>
+                     <NavigationButton name="إضافة متدرب" url="/AddStudent" className="bg-orange-600 font-bold px-8 py-2 rounded-3xl mt-2 hover:bg-orange-600 transition-all duration-300 hover:text-white"/>
                     <h1 className="text-2xl font-bold">جميع المتدربين</h1>
                </div>
                <form className="bg-white/20 rounded-xl flex items-center mt-10">
