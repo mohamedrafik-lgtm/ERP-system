@@ -1,11 +1,13 @@
 import Menu from "@/components/ui/menu";
 
 const AddTriningContent = () => {
+    
     const programOptions = [
         { value: 'frontend', label: 'Front-End Development' },
         { value: 'backend', label: 'Back-End Development' },
         { value: 'fullstack', label: 'Full-Stack Development' },
-      ];    return (
+      ];  
+      return (
         <div className="text-white">
              <div className="max-w-9/12 mx-auto pt-10">
                 <div>

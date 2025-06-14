@@ -523,5 +523,93 @@ export const studentActions = [
   "سحب ملف",
   "الإجراءات العقابية"
 ];
+export const stats = [
+  { title: 'Total Students', value: '250' },
+  { title: 'Active Courses', value: '15' },
+  { title: 'Payments Received', value: '$12,500', color: 'text-green-600' },
+];
+
+export const activities = [
+  {
+    date: '2024-03-15',
+    activity: 'New Student Enrollment',
+    details: "Liam Carter enrolled in 'Introduction to Programming'",
+  },
+  {
+    date: '2024-03-14',
+    activity: 'Payment Received',
+    details: "$500 payment received from Olivia Bennett for 'Advanced Calculus'",
+  },
+  {
+    date: '2024-03-12',
+    activity: 'Course Created',
+    details: "New course 'Digital Marketing Fundamentals' created by Professor Harper",
+  },
+  {
+    date: '2024-03-10',
+    activity: 'Student Updated',
+    details: "Sophia Clark's profile updated with new contact information",
+  },
+  {
+    date: '2024-03-08',
+    activity: 'Report Generated',
+    details: 'Monthly financial report generated and downloaded',
+  },
+];
+
+export const ReviewOfFinancialRestrictionsData = [
+  {
+    id: 330,
+    image: "--",
+    date: "2025-05-13",
+    createdBy: "Raed osman",
+    toAccount: "حساب ( FULL STACK ) رسوم القسط السادس [3-1648]",
+    fromAccount: "خزينة عمومية [348-132]",
+    amount: 800,
+    details: "تفاصيل"
+  },
+  {
+    id: 329,
+    image: "--",
+    date: "2025-05-13",
+    createdBy: "Raed osman",
+    toAccount: "حساب ( FULL STACK ) رسوم القسط الخامس [3-1647]",
+    fromAccount: "خزينة عمومية [348-132]",
+    amount: 800,
+    details: "تفاصيل"
+  },
+  {
+    id: 328,
+    image: "--",
+    date: "2025-05-13",
+    createdBy: "Raed osman",
+    toAccount: "حساب ( FULL STACK ) رسوم القسط الرابع [3-1646]",
+    fromAccount: "خزينة عمومية [348-132]",
+    amount: 800,
+    details: "تفاصيل"
+  },
+  {
+    id: 327,
+    image: "--",
+    date: "2025-05-13",
+    createdBy: "Raed osman",
+    toAccount: "حساب ( FULL STACK ) رسوم القسط الثالث [3-1645]",
+    fromAccount: "خزينة عمومية [348-132]",
+    amount: 800,
+    details: "تفاصيل"
+  },
+  {
+    id: 325,
+    image: "--",
+    date: "2025-05-13",
+    createdBy: "Raed osman",
+    toAccount: "حساب ( FULL STACK ) رسوم القسط الأول [3-1643]",
+    fromAccount: "خزينة عمومية [348-132]",
+    amount: 800,
+    details: "تفاصيل"
+  }
+  // ويمكنك متابعة إدخال باقي الصفوف بنفس النمط...
+];
+
 
   

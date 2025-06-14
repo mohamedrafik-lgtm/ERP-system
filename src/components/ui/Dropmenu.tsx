@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useRef, useState, } from "react"
 import Link from "next/link";
 interface list{
     name:string,
-    svg:ReactNode,
+    svg?:ReactNode,
     url:string
 }
 interface IProps{
