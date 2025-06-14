@@ -492,4 +492,36 @@ export  const programs : IProgram[]= [
   },
 ];
 
+export const users = [
+  { id: 1, name: "Ahmed Gad", group: "5", report: "تقارير", program: "مشرف أقسام" },
+  { id: 2, name: "Ahmed Qasem", group: "4", report: "تقارير", program: "مشرف أقسام" },
+  { id: 3, name: "Raed osman", group: "2", report: "تقارير", program: "مشرف أقسام" },
+  { id: 4, name: "احمد بدران", group: "3", report: "تقارير", program: "مشرف أقسام" },
+  { id: 5, name: "احمد عثمان", group: "1", report: "تقارير", program: "مشرف أقسام" },
+  { id: 6, name: "محمد اشرف", group: "5", report: "تقارير", program: "مشرف أقسام" },
+  { id: 7, name: "سعيد عبد الله", group: "6", report: "تقارير", program: "مشرف أقسام" },
+  { id: 8, name: "محمود كمال", group: "5", report: "تقارير", program: "مشرف أقسام" },
+  { id: 9, name: "Ali Omar", group: "4", report: "تقارير", program: "مشرف أقسام" },
+  { id: 10, name: "Nora Ahmed", group: "3", report: "تقارير", program: "مشرف أقسام" }
+];
+
+export const studentActions = [
+  "الرسوم و المديونية",
+  "حجب نتيجة المتدرب",
+  "حذف البيانات المالية كاملة",
+  "مدفوعات المتدرب",
+  "تغيير سكشن عملي",
+  "تغيير سكشن نظري",
+  "اثبات قيد",
+  "طلبات إدارية",
+  "إفادة للمتدرب",
+  "شهادة فصل",
+  "كارنيه المتدرب",
+  "كارنيه التأمين",
+  "ارشيف المتدرب",
+  "ارشيف المتدرب",
+  "سحب ملف",
+  "الإجراءات العقابية"
+];
+
   

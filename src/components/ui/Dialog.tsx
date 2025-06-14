@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
+import { Button, Dialog, DialogPanel,  } from '@headlessui/react'
 import { ReactNode, useState } from 'react'
 import EditTypeDialog from '../TraineeFees/EditData'
 
@@ -7,7 +7,7 @@ interface DialogReportsProps {
 }
 
 export default function DialogReports({name}: DialogReportsProps) {
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   function open() {
     setIsOpen(true)

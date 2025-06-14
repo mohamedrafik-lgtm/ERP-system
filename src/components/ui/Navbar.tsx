@@ -69,7 +69,7 @@ export const Navbar = () => {
              </svg>
 
            ),
-           url: ""
+           url: "/EmployeeManagement"
          },
           {
             name: "الصلاحيات",
@@ -79,7 +79,7 @@ export const Navbar = () => {
               </svg>
 
             ),
-            url: ""
+            url: "/Roles"
           }
         ]
         const list3: IProps[] =[
