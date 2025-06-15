@@ -1,3 +1,4 @@
+import TraineeFeesModal from "@/components/TraineeFees/Modal";
 import TraineeFeesTable from "@/components/TraineeFees/TraineeFeesTable";
 import FilterButton from "@/components/ui/filterButton";
 import Paginator from "@/components/ui/paginator";
@@ -17,9 +18,10 @@ const TraineeFees = () =>{
                     placeholder=" ابحث عن رسم" 
                     className=" bg-white/20 text-white px-4 py-2 rounded-xl col-span-3"
                 />
-                <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
+                {/* <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
                     اضافه جديد
-                </button>
+                </button> */}
+                <TraineeFeesModal/>
            </div>
            <div>
             <FilterButton

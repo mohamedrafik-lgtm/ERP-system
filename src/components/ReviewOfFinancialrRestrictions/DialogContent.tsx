@@ -1,53 +1,32 @@
 "use client";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { EntryFormData } from "@/interface";
+import { useForm, SubmitHandler } from "react-hook-form"
 
-interface EntryFormData {
-  fromAccount: string;
-  toAccount: string;
-  date: string;
-  amount: string;
-  notes: string;
-  file: File | null;
-}
+
 
 const NewEntryForm = () => {
-  const [form, setForm] = useState<EntryFormData>({
-    fromAccount: "",
-    toAccount: "",
-    date: "",
-    amount: "",
-    notes: "",
-    file: null,
-  });
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, files } = e.target as HTMLInputElement;
-    setForm((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Form Data:", form);
-    // يمكنك إرسال البيانات إلى الباك إند هنا
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EntryFormData>()
+  const onSubmit: SubmitHandler<EntryFormData> = (data) => {
+    console.log(data, errors) 
+    reset()
+  }
 
   return (
     <div className="bg-white/20 text-white p-6 rounded-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-center">ادخل قيد جديد</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-1">من حساب:</label>
             <select
-              name="fromAccount"
               className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
-              value={form.fromAccount}
-              onChange={handleChange}
+              
+              {...register('fromAccount')}
             >
               <option value="">اختر حساب</option>
               <option>حسابات المتدربين</option>
@@ -56,10 +35,10 @@ const NewEntryForm = () => {
           <div>
             <label className="block mb-1">إلى حساب:</label>
             <select
-              name="toAccount"
+              
               className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
-              value={form.toAccount}
-              onChange={handleChange}
+              
+              {...register('toAccount')}
             >
               <option value="">اختر حساب</option>
               <option>حسابات المتدربين</option>
@@ -69,31 +48,26 @@ const NewEntryForm = () => {
             <label className="block mb-1">التاريخ:</label>
             <input
               type="date"
-              name="date"
+              
               className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
-              value={form.date}
-              onChange={handleChange}
+              {...register('date')}
             />
           </div>
           <div>
             <label className="block mb-1">المبلغ:</label>
             <input
               type="number"
-              name="amount"
               className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
-              value={form.amount}
-              onChange={handleChange}
+              {...register('amount')}
             />
           </div>
         </div>
         <div>
           <label className="block mb-1">ملاحظات:</label>
           <textarea
-            name="notes"
             className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
             rows={3}
-            value={form.notes}
-            onChange={handleChange}
+           {...register('notes')}
           ></textarea>
         </div>
         <div>
@@ -101,9 +75,8 @@ const NewEntryForm = () => {
                <input
                  type="file"
                  id="upload"
-                 name="file"
                  className="hidden"
-                 onChange={handleChange}
+                 {...register('file')}
                />
                <label
                  htmlFor="upload"

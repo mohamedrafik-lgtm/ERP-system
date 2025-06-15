@@ -1,7 +1,11 @@
 import { Input } from "../input";
 import { IAddStudent, } from "@/interface";
 
-export const RenderStudentInput = (inputData: IAddStudent[]) => {
+interface IProps {
+    inputData: IAddStudent[]
+}
+
+export const RenderStudentInput = ({inputData}:IProps) => {
    return inputData.map((itm, idx) => (
         <div key={idx} className="flex flex-col space-y-2">
             <label htmlFor={itm.id} className="mb-2">{itm.label}</label>

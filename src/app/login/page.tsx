@@ -3,7 +3,6 @@ import { Input } from "@/components/input";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { LoginSchema } from "@/Schema/lohin";
-import { FormEventHandler } from "react";
 type Inputs = {
   email:string
   password: string
