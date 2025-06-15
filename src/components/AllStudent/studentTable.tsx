@@ -11,49 +11,47 @@ const StudentTable = () => {
   const router = useRouter();
 
   return (
-    <div className="overflow-x-auto p-4" >
-      <div className="rounded-lg overflow-hidden border border-gray-300">
-        <table dir="rtl" className="min-w-full text-sm">
-          <thead className="text-left">
-            <tr className="text-center">
-              <th className="px-4 py-5">الصورة</th>
-              <th className="px-4 py-2">الاسم</th>
-              <th className="px-4 py-2">رقم الملف</th>
-              <th className="px-4 py-2">الهاتف الأرضي</th>
-              <th className="px-4 py-2">الهاتف المحمول</th>
-              <th className="px-4 py-2">التخصص</th>
-              <th className="px-4 py-2">مدين</th>
-              <th className="px-4 py-2">الرقم الثابت</th>
-              <th className="px-4 py-2">الفرقه</th>
-              <th className="px-4 py-2">الإجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
+    <div className="overflow-x-auto p-4 space-y-5" >
+        
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white/20 text-white font-bold text-sm p-4 rounded-xl">
+            <div className="text-center">الصورة</div>
+            <div className="text-center">الاسم</div>
+            <div className="text-center">رقم الملف</div>
+            <div className="text-center">الهاتف الأرضي</div>
+            <div className="text-center">الهاتف المحمول</div>
+            <div className="text-center">التخصص</div>
+            <div className="text-center">مدين</div>
+            <div className="text-center">الفرقه</div>
+            <div className="text-center">الرقم الثابت</div>
+            <div className="text-center col-span-2 ">الاجراءات</div>
+          </div>
+             
             {students.map((student, idx) => (
-              <tr
-                key={idx}
-                // onClick={() => router.push(`/AllStudent/${student.id}`)}
-                className="hover:bg-orange-600 text-white transition duration-200 border-t border-gray-200 cursor-pointer"
-              >
-                <td className="px-4 py-3">
-                  <Image
+              <div
+              key={idx}
+              className="bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+            >
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11  items-center">
+                  <div>
+                    <Image
                     src={img.src}
                     alt={student.name}
                     width={40}
                     height={40}
                     className="rounded-full"
                   />
-                </td>
-                <td className="px-4 py-3 font-medium text-white">{student.name}</td>
-                <td className="px-4 py-3 text-white">{student.fileNumber}</td>
-                <td className="px-4 py-3 text-white">{student.landline}</td>
-                <td className="px-4 py-3 text-white">{student.phone}</td>
-                <td className="px-4 py-3 text-white">{student.specialization}</td>
-                <td className="px-4 py-3 text-white">1543</td>
-                <td className="px-4 py-3 text-white">5451151148884</td>
-                <td className="px-4 py-3 font-semibold text-white">{student.dues}</td>
-                <td
-                  className="px-4 py-3 flex space-x-5 text-sm text-white z-10"
+                  </div>
+                <div className="px-4 py-3 text-center font-medium text-white">{student.name}</div>
+                <div className="px-4 py-3 text-center text-white">{student.fileNumber}</div>
+                <div className="px-4 py-3 text-center text-white">{student.landline}</div>
+                <div className="px-4 py-3 text-center text-white">{student.specialization}</div>
+                <div className="px-4 py-3 text-center text-white">{student.phone}</div>
+                <div className="px-4 py-3 text-center font-semibold text-white">{student.dues}</div>
+                <div className="px-4 py-3 text-center text-white">5451151148884</div>
+                <div className="px-4 py-3 text-center text-white">1543</div>
+
+                <div
+                  className="px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm text-white z-10"
                   onClick={(e) => e.stopPropagation()} 
                 >
                   {/* <button className="bg-slate-500 hover:bg-slate-600 text-white py-1 px-2 rounded-md cursor-pointer">حذف</button>  */}
@@ -70,15 +68,17 @@ const StudentTable = () => {
                          <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                      </svg>
                   </button>
-                  <NavigationButton url="/ExchangeAndPaymentRequests" className="bg-white/20 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer" name="تحديد"/>
-                </td>
-              </tr>
+                  <button className="bg-white/20 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer">
+                     تحديد
+                  </button>
+                </div>
+              </div>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
+          
     </div>
   );
 };
 
 export default StudentTable;
+
