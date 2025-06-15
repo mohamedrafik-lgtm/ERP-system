@@ -1,41 +1,61 @@
+"use client";
 import { Input } from "@/components/input";
-
+import { useForm, SubmitHandler } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { LoginSchema } from "@/Schema/lohin";
+import { FormEventHandler } from "react";
+type Inputs = {
+  email:string
+  password: string
+}
 const LoginPage = () => {
+ const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(LoginSchema),
+  })
+  const onSubmit: SubmitHandler<Inputs> = (data ) => {
+    console.log(data)
+  }
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
-      <form className="w-full max-w-md flex flex-col items-center">
-        <h3 className="text-2xl md:text-3xl font-bold my-6 text-center mb-10">تسجيل الدخول</h3>
-        <div className="w-full space-y-12">
-          {/* 
-          <div className="space-x-5">
-            <button type="button" className="px-4 py-1.5 border-[0.5px] rounded-md hover:bg-gray-200">موظف</button>
-            <button type="button" className="px-4 py-1.5 border-[0.5px] rounded-md hover:bg-gray-200">طالب</button>
-          </div> 
-          */}
-
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col items-center">
+        <h3 className="text-3xl md:text-3xl text-white font-bold my-6 text-center mb-10">تسجيل الدخول</h3>
+        <div className="w-full text-white space-y-12">
          <div className="w-full space-y-5">
-           <div className="space-y-2 w-full">
+           <div className="flex flex-col space-y-2 w-full">
             <label htmlFor="email" className="text-lg">البريد الالكتروني</label>
             <Input
               type="text"
-              name="email"
+              {...register("email")}
               placeholder="tipaAcadmy@test.com"
               id="email"
-              className="w-full bg-gray-200 border-b-gray-400 border-x-0 border-t-0 rounded-0 "
+              className="w-full bg-white/20 text-white rounded-xl "
               required
             />
+            {
+              errors.email?.message ? <p className="text-red-500">{errors.email?.message}</p>
+              : null
+            }
           </div>
 
-          <div className="space-y-2 w-full">
+          <div className="flex flex-col space-y-2 w-full">
             <label htmlFor="password" className="text-lg">كلمه السر</label>
             <Input
               type="password"
+              {...register("password")}
               name="password"
               placeholder="password"
               id="password"
-              className="w-full bg-gray-200 border-b-gray-400 border-x-0 border-t-0 rounded-0 "
+              className="w-full bg-white/20 text-white rounded-xl "
               required
             />
+            {
+              errors.password?.message ? <p className="text-red-500">{errors.password?.message}</p>
+              : null
+            }
           </div>
           <div className="flex items-center space-x-1">
             <input type="checkbox" id="pass"/>
@@ -43,7 +63,7 @@ const LoginPage = () => {
           </div>
          </div>
 
-          <button className="w-full py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600 transition">
+          <button type="submit" className="w-full py-2 rounded-md text-white bg-orange-600 hover:bg-orange-700 transition">
             تسجيل الدخول
           </button>
         </div>

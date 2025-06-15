@@ -1,4 +1,5 @@
 import RolesPermissionsTable from "@/components/Roles/PowersTable";
+import RoleModel from "@/components/Roles/RoleModel";
 import Paginator from "@/components/ui/paginator";
 
 
@@ -11,7 +12,7 @@ import Paginator from "@/components/ui/paginator";
                 <p className="text-lg text-white">يمكنك التحكم في الصلاحيات و انشاء اي صلاحيه تريدها.</p>
           </div>
           <div>
-             <button className="text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl">+ اضافه جديد </button>
+             <RoleModel/>
           </div>
           <div>
              <RolesPermissionsTable/>
