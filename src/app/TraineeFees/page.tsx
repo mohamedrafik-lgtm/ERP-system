@@ -14,7 +14,7 @@ const TraineeFees = () =>{
             <div className="mb-6 grid grid-cols-4 gap-24 px-3">
                 <input 
                     type="text" 
-                    placeholder=" ابحث عن متدرب" 
+                    placeholder=" ابحث عن رسم" 
                     className=" bg-white/20 text-white px-4 py-2 rounded-xl col-span-3"
                 />
                 <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">

@@ -611,5 +611,118 @@ export const ReviewOfFinancialRestrictionsData = [
   // ويمكنك متابعة إدخال باقي الصفوف بنفس النمط...
 ];
 
+export const ExchangeAndPaymentRequestsTransactions = [
+  {
+    id: 337,
+    BeneficiaryName: "ابراهيم عمرو ابراهيم محمد احمد",
+    by: "Raed osman",
+    fromAccount: "[]",
+    toAccount: "حساب رسوم القسط السادس ( FULL STACK ) [3-1648]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: "---",
+    status: "مرفوض"
+  },
+  {
+    id: 336,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط السادس ( FULL STACK ) [3-1648]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 335,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط الخامس ( FULL STACK ) [3-1647]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 334,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط الرابع ( FULL STACK ) [3-1646]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 333,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط الثالث ( FULL STACK ) [3-1645]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 332,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط الثاني ( FULL STACK ) [3-1644]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 331,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم القسط الأول ( FULL STACK ) [3-1643]",
+    date: "2025-05-13",
+    amount: 800,
+    paid: 800,
+    status: "مفعل"
+  },
+  {
+    id: 330,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم مقدم ( FULL STACK ) [3-1642]",
+    date: "2025-05-13",
+    amount: 1900,
+    paid: 1900,
+    status: "مفعل"
+  },
+  {
+    id: 329,
+    BeneficiaryName: "محمد اسامه طه سيد بهنس",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم ملف تقديم [3-1641]",
+    date: "2025-05-13",
+    amount: 500,
+    paid: 500,
+    status: "مفعل"
+  },
+  {
+    id: 328,
+    BeneficiaryName: "فاطمه عطيه محمد محمد بركات",
+    by: "Raed osman",
+    fromAccount: "خزنة عمومية [348-132]",
+    toAccount: "حساب رسوم ملف تقديم [3-1641]",
+    date: "2025-05-13",
+    amount: 500,
+    paid: 500,
+    status: "مفعل"
+  }
+];
+
 
   

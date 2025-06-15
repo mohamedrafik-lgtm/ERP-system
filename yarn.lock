@@ -2275,10 +2275,10 @@ react-dropzone@^14.3.8:
     file-selector "^2.1.0"
     prop-types "^15.8.1"
 
-react-hook-form@^7.57.0:
-  version "7.57.0"
-  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.57.0.tgz"
-  integrity sha512-RbEks3+cbvTP84l/VXGUZ+JMrKOS8ykQCRYdm5aYsxnDquL0vspsyNhGRO7pcH6hsZqWlPOjLye7rJqdtdAmlg==
+react-hook-form@^7.58.0:
+  version "7.58.0"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.58.0.tgz"
+  integrity sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA==
 
 react-is@^16.13.1:
   version "16.13.1"

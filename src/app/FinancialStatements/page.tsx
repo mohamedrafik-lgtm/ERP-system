@@ -26,7 +26,7 @@ const FinancialStatements = () => {
                      </div>
                  </div>
                  <div className="space-y-6 p-3 bg-white/20 rounded-xl">
-                    <h3 dir="ltr" className="text-white text-xl">فلتر</h3>
+                    <h3 dir="ltr" className="text-white text-2xl">فلتر</h3>
                     <div className="flex space-x-5" dir="ltr">
                         <div>
                             <InlineMenu name="رصيد حساب" items={items} />

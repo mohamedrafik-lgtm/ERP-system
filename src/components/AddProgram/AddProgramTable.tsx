@@ -8,9 +8,9 @@ const ProgramTable = () => {
         <table className="min-w-full text-sm text-white">
           <thead className=" text-left">
             <tr>
-              <th className="px-4 py-5">اسم البرنامج</th>
-              <th className="px-4 py-2">الوصف</th>
-              <th className="px-4 py-2">الذمن</th>
+              <th className="px-4 py-5">الاسم باللغة العربية</th>
+              <th className="px-4 py-2">الاسم باللغة الانجليزية</th>
+              <th className="px-4 py-2">المده</th>
               <th className="px-4 py-2">المصاريف</th>
               <th className="px-4 py-2">الإجراءات</th>
             </tr>
