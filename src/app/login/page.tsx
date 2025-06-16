@@ -3,11 +3,16 @@ import { Input } from "@/components/input";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { LoginSchema } from "@/Schema/login";
+import { useLoginMutation } from "@/lip/features/auth/login";
 type Inputs = {
   email:string
   password: string
 }
 const LoginPage = () => {
+  const [login, { data, isLoading, isError, error }] = useLoginMutation();
+
+
+   console.log(data,isLoading,isError,error)
  const {
     register,
     handleSubmit,
@@ -15,8 +20,13 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
-  const onSubmit: SubmitHandler<Inputs> = (data ) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<Inputs>  =async (data ) => {
+    try {
+      const result = await login(data).unwrap();
+      console.log('User logged in:', result.user);
+    } catch (err) {
+      console.error('Login failed:', err);
+    }
   }
   return (
     <div className="flex justify-center items-center min-h-screen px-4">

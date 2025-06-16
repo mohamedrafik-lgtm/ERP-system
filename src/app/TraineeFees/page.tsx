@@ -6,7 +6,7 @@ import Paginator from "@/components/ui/paginator";
 const TraineeFees = () =>{
     return (
         <div>
-           <div className="w-9/12 mx-auto mt-10">
+           <div className="w-10/12 mx-auto mt-10">
            <div dir="ltr" className="">
            <div>
                 <h1 className="text-3xl text-white font-bold mb-4">رسوم المتدرب</h1>

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import ModernForm from './DialogContent'
 
 export default function TraineeFeesModal() {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   function open() {
     setIsOpen(true)

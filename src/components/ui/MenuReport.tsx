@@ -73,10 +73,10 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
                     setIsOpen(false);
                     console.log(`تم اختيار: ${item.name}`);
                   }}
-                  className="px-3 py-2 flex justify-between text-start hover:bg-slate-800 text-sm cursor-pointer"
+                  className="px-3 py-2  flex items-center  justify-between text-start hover:bg-slate-800 text-sm cursor-pointer"
                 >
                   {item.name}
-                  {item.svgIcon}
+                  {!item.svgIcon ? item.svgIcon : null}
                 </li>
               ))}
             </ul>
