@@ -1,8 +1,8 @@
 import { IAddStudent } from "@/interface";
 
 export const BasicDataInput: IAddStudent[] = [
-  { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالكامل", label: "الاسم كامل", id: "full_Name" },
-  { name: "nameEnglish", type: "text", placeholder: "ضع الاسم بالكامل", label: "الاسم كامل", id: "full_Name_En" },
+  { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
+  { name: "nameEnglish", type: "text", placeholder: "ضع الاسم بالأنجليزيه", label: "الاسم انجليزي", id: "EnglishName" },
   { name: "admissionSystem", type: "text", placeholder: "اختر نظام", label: "نظام الإلتحاق", id: "admissionSystem" },
   { name: "maritalState", type: "text", placeholder: "اختر", label: "الحاله الاجتماعيه", id: "maritalState" },
   { name: "marketer", type: "text", placeholder: "ضع اسم المسوق", label: "اسم المسوق", id: "marketerId" },
@@ -59,35 +59,35 @@ export const ContactInformationInput:IAddStudent[] = [
         id: "emailId"
     },
     {
-        name: "Parent's_mobile",
+        name: "ParentMobile",
         type: "text",
         placeholder: "رقم ولي الامر",
         label: "رقم ولي الامر",
         id: "Parent's_mobileId"
     },
     {
-        name: "Parent's_email",
+        name: "ParentEmail",
         type: "text",
         placeholder: "ايميل ولي الامر",
         label: "ايميل ولي الامر",
         id: "Parent's_emailId"
     },
     {
-        name: "Guardian's_job",
+        name: "GuardianJob",
         type: "text",
         placeholder: " وظيفه ولي الامر",
         label: "وظيفه ولي الامر",
         id: "Guardian's_jobId"
     },
     {
-        name: "Relationship_with_the_guardian:",
+        name: "RelationshipWithTheGuardian",
         type: "text",
         placeholder: "صله القرابه مع ولي الامر",
         label: "صله القرابه مع ولي الامر",
         id: "Relationship_with_the_guardianId"
     },
     {
-        name: "National-ID-of-the-guardian",
+        name: "NationalIDOfTheGuardian",
         type: "text",
         placeholder: "الرقم القومي لولي الامر",
         label: "الرقم القومي لولي الامر",
@@ -116,34 +116,34 @@ export const ContactInformationInput:IAddStudent[] = [
 ];
 export const EducationData:IAddStudent[] = [
     {
-        name: "Type-of-education",
+        name: "TypeOfEducation",
         type: "text",
         placeholder: "اختر نوع التعليم",
         label: "نوع التعليم",
         id: "Type-of-educationId"
     },
     {
-        name: "School/Center Name",
+        name: "School_Center_Name",
         type: "text",
         placeholder: "إسم المدرسة/المركز:",
         label: "إسم المدرسة/المركز:",
         id: "School/Center Name:Id"
     },
     {
-        name: "Date-of-obtaining-the-qualification",
+        name: "DateOfObtainingTheQualification",
         type: "date",
         placeholder: "تاريخ الحصول على المؤهل",
         label: "تاريخ الحصول على المؤهل",
         id: "Date-of-obtaining-the-qualificationId"
     },{
-        name: "High-school-total",
+        name: "HighSchoolTotal",
         type: "text",
         placeholder: "مجموع الثانوية ",
         label: "مجموع الثانوية ",
         id: "High-school-totalId"
     },
     {
-        name: "High-school-percentage",
+        name: "HighSchoolPercentage",
         type: "text",
         placeholder: "نسبة الثانوية",
         label: "نسبة الثانوية",
@@ -152,19 +152,19 @@ export const EducationData:IAddStudent[] = [
 ]
 export const AdditionalData:IAddStudent[] = [
     {
-        name: "Sports-activity",
+        name: "SportsActivity",
         type: "text",
         placeholder: "النشاط الرياضي",
         label: "النشاط الرياضي",
         id: "Sports-activityId"
     },{
-        name: "Cultural-and-artistic-activity",
+        name: "CulturalAndArtisticActivity",
         type: "text",
         placeholder: " النشاط الثقافي والفني",
         label: "النشاط الثقافي والفني",
         id: "Cultural-and-artistic-activityId"
     }, {
-        name: "Scientific-activity",
+        name: "ScientificActivity",
         type: "text",
         placeholder: "النشاط العلمي",
         label: "النشاط العلمي",

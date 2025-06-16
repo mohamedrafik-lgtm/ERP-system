@@ -1,3 +1,4 @@
+import AddEmployeeModal from "@/components/EmployeeManagement/EmployeeModal";
 import EmployeeTable from "@/components/EmployeeManagement/EmployeeTable";
 import Paginator from "@/components/ui/paginator";
 
@@ -9,8 +10,8 @@ const EmployeeManagement = () => {
                 <div>
                     <h1 className="text-3xl font-bold text-white ">المستخدمين</h1>
                 </div>
-                <div>
-                  <button className="text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl">اضافه موظف +</button>
+                <div dir="rtl">
+                  <AddEmployeeModal/>
                 </div>
                 <div>
                     <EmployeeTable/>

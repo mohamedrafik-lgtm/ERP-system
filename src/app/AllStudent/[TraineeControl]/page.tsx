@@ -1,13 +1,29 @@
+'use client';
 import Image from "next/image";
 import img from "@/img/454375571_1646661866176465_6149835982982053363_n.jpg";
-import { RenderStudentInput } from "@/components/AddStudent/addSTinput";
 import { AdditionalData, BasicDataInput, ContactInformationInput, EducationData } from "@/data";
 import StudentImageUpload from "@/components/AddStudent/StudentImageUpload";
+import { StudentInformation } from "@/components/AddStudent/RenderInputs/StudentInformation";
+import { yupResolver } from "@hookform/resolvers/yup"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { studentFormSchema } from "@/Schema/AddStudent"
+import { IFormValues } from "@/interface";
 
 const TraineeControl = () => {
+  const {
+          register,
+          handleSubmit,
+          formState: { errors },
+        } = useForm<IFormValues>({
+          resolver: yupResolver(studentFormSchema),
+        });
+      console.log(errors)
+      const onSubmit: SubmitHandler<IFormValues> = (data) => {
+        console.log(data)
+      }
   return (
     <div>
-      <form dir="ltr" className="w-9/12 mx-auto pt-14 space-y-14">
+      <form onSubmit={handleSubmit(onSubmit)} dir="ltr" className="w-9/12 mx-auto pt-14 space-y-14">
         <div>
           <h1 className="text-white text-3xl">التحكم في المتدرب</h1>
         </div>
@@ -49,7 +65,7 @@ const TraineeControl = () => {
             <div className="flex justify-center items-center h-full">
                <h3 className="text-2xl text-white font-bold">مستجد</h3>     
             </div>
-            <div dir="rtl" className="bg-orange-600 p-6 p-3 text-white rounded-b-lg">
+            <div dir="rtl" className="bg-orange-600 p-6  text-white rounded-b-lg">
                 
             </div>
           </div>
@@ -69,7 +85,7 @@ const TraineeControl = () => {
         <div  className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات المتدرب</h2>
             <div className="grid grid-cols-2 gap-4  text-white">
-                {RenderStudentInput(BasicDataInput)}
+                      <StudentInformation errors={errors}  register={register}  data={BasicDataInput}/>
             </div>
         </div>
         <div className="space-y-5 font-bold"> 
@@ -83,21 +99,21 @@ const TraineeControl = () => {
             <h2 className="text-white text-2xl border-b py-4">معلومات التواصل</h2>
              {/* Contact Information */}
            <div className="grid grid-cols-2 gap-4  text-white">
-               {RenderStudentInput(ContactInformationInput)}
+           <StudentInformation errors={errors} register={register}  data={ContactInformationInput}/>
            </div>
         </div>
         <div className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات تعليمية</h2>
             {/* Education Data */}
             <div className="grid grid-cols-2 gap-4  text-white">
-                {RenderStudentInput(EducationData)}
+            <StudentInformation errors={errors} register={register}  data={EducationData}/>
             </div>
         </div>
         <div className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات اضافيه</h2>
             {/* Education Data */}
             <div className="grid grid-cols-2 gap-4  text-white">
-                {RenderStudentInput(AdditionalData)}
+            <StudentInformation errors={errors} register={register}  data={AdditionalData}/>
             </div>
         </div>
         <div className="mb-10">

@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup"
+// import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
 export const LoginSchema = yup
@@ -15,3 +15,5 @@ export const LoginSchema = yup
       .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
   })
   .required()
+
+  

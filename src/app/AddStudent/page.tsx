@@ -4,10 +4,18 @@ import { StudentInformation } from "@/components/AddStudent/RenderInputs/Student
 import StudentImageUpload from "@/components/AddStudent/StudentImageUpload"
 import {AdditionalData, BasicDataInput, ContactInformationInput, EducationData} from "@/data"
 import { IFormValues } from "@/interface"
+import { studentFormSchema } from "@/Schema/AddStudent"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form"
 const AddStudent = () => {
-    const { register, handleSubmit } = useForm<IFormValues>()
-    
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm<IFormValues>({
+        resolver: yupResolver(studentFormSchema),
+      });
+    console.log(errors)
     const onSubmit: SubmitHandler<IFormValues> = (data) => {
       console.log(data)
     }
@@ -19,7 +27,7 @@ const AddStudent = () => {
                     <h2 className="text-2xl text-end">البيانات الاساسيه</h2>
                     <div className="grid grid-cols-2 gap-5">
                       {/* <RenderStudentInput inputData={BasicDataInput}  /> */}
-                      <StudentInformation  register={register}  data={BasicDataInput}/>
+                      <StudentInformation errors={errors}  register={register}  data={BasicDataInput}/>
                     </div>
                 </div>
                 <div>
@@ -28,20 +36,20 @@ const AddStudent = () => {
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات الاتصال</h2>
                     <div className="grid grid-cols-2 gap-5">
-                    <StudentInformation register={register}  data={ContactInformationInput}/>
+                    <StudentInformation errors={errors} register={register}  data={ContactInformationInput}/>
                     </div>
                 </div>
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات التعليم</h2>
                     <div className="grid grid-cols-2 gap-5">
                       {/* <RenderStudentInput inputData={EducationData}/> */}
-                      <StudentInformation register={register}  data={EducationData}/>
+                      <StudentInformation errors={errors} register={register}  data={EducationData}/>
                     </div>
                 </div>
                 <div className="space-y-7">
                     <h2 className="text-2xl text-end">بيانات اضافيه</h2>
                     <div className="grid grid-cols-2 gap-5">
-                    <StudentInformation register={register}  data={AdditionalData}/>
+                    <StudentInformation errors={errors} register={register}  data={AdditionalData}/>
                       {/* <RenderStudentInput inputData={AdditionalData}/> */}
                     </div>
                 </div>

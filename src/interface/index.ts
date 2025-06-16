@@ -18,22 +18,22 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     name: string;
     className?: string;
 }
-export  type IFormValues = {
+export type IFormValues = {
   // BasicDataInput
   nameArabic: string;
   nameEnglish: string;
-  admission_system: string;
-  marital_state: string;
-  markter: string;
-  national_id: string;
-  release_date: string;
-  exprtation_date: string;
-  program_type: string;
+  admissionSystem: string;
+  maritalState: string;
+  marketer: string;
+  nationalId: string;
+  releaseDate: string;
+  expirationDate: string;
+  programType: string;
   gender: string;
-  nationalty: string;
-  dateOf_Birth: string;
+  nationality: string;
+  dateOfBirth: string;
   placeOfBirth: string;
-  Religion: string;
+  religion: string;
   program: string;
 
   // ContactInformationInput
@@ -43,28 +43,29 @@ export  type IFormValues = {
   address: string;
   mobileNumber: string;
   email: string;
-  "Parent's_mobile": string;
-  "Parent's_email": string;
-  "Guardian's_job": string;
-  "Relationship_with_the_guardian:": string;
-  "National-ID-of-the-guardian": string;
-  Landline: string;
-  whatsapp: string;
-  facebook: string;
+  ParentMobile: string;
+  ParentEmail: string;
+  GuardianJob: string;
+  RelationshipWithTheGuardian: string;
+  NationalIDOfTheGuardian: string;
+  Landline?: string | null;
+  whatsapp?: string | null;
+  facebook?: string | null;
 
   // EducationData
-  "Type-of-education": string;
-  "School/Center Name": string;
-  "Date-of-obtaining-the-qualification": string;
-  "High-school-total": string;
-  "High-school-percentage": string;
+  TypeOfEducation: string;
+  School_Center_Name: string;
+  DateOfObtainingTheQualification: string;
+  HighSchoolTotal: string;
+  HighSchoolPercentage: string;
 
   // AdditionalData
-  "Sports-activity": string;
-  "Cultural-and-artistic-activity": string;
-  "Scientific-activity": string;
-  comments: string;
-};
+  SportsActivity?: string | null;
+  CulturalAndArtisticActivity?: string | null;
+  ScientificActivity?: string | null;
+  comments?: string | null;
+}
+
 
 
 export type  BasicData = 
