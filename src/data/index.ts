@@ -641,6 +641,30 @@ export const ExchangeAndPaymentRequestsTransactions = [
     status: "مفعل"
   }
 ];
-
-
-  
+export const Bank = [
+    { 
+        id:1,
+        name: "هندسه البرمجيات",
+        QustionsCount: 12,
+    },
+    {
+        id:2,
+        name: "هندسه البرمجيات",
+        QustionsCount: 12,
+    },
+    {
+        id:3,
+        name: "هندسه البرمجيات",
+        QustionsCount: 12,
+    },
+    {
+        id:4,
+        name: "هندسه البرمجيات",
+        QustionsCount: 12,
+    },
+    {
+        id:5,
+        name: "هندسه البرمجيات",
+        QustionsCount: 12,
+    }
+]
