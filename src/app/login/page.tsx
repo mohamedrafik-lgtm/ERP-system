@@ -28,8 +28,12 @@ const LoginPage = () => {
       console.error('Login failed:', err);
     }
   }
+  
+
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
+      <div className="absolute top-5 left-5">
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col items-center">
         <h3 className="text-3xl md:text-3xl text-white font-bold my-6 text-center mb-10">تسجيل الدخول</h3>
         <div className="w-full text-white space-y-12">

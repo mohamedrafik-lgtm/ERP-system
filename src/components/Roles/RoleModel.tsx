@@ -1,9 +1,15 @@
 "use client";
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Input } from '../input';
 
-export default function RoleModel() {
+interface IProps{
+  btContent:ReactNode,
+  className?:string,
+  title:string
+}
+
+export default function RoleModel({title,btContent,className='text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white'}:IProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   function open() {
@@ -18,9 +24,9 @@ export default function RoleModel() {
     <>
       <Button
         onClick={open}
-        className="text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white"
+        className={className}
       >
-        + اضافه جديد      
+        {btContent}     
      </Button>
 
       <Dialog open={isOpen} as="form" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
@@ -31,7 +37,7 @@ export default function RoleModel() {
               className="w-full max-w-md space-y-7 rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
               <DialogTitle as="h3" className="text-3xl font-medium text-white">
-                  اضافه صلاحيه جديده
+                {title}
               </DialogTitle>
               <div className='flex flex-col space-y-3'>
                  <label htmlFor="RoleNameId" className='text-white text-xl'>الاسم</label>

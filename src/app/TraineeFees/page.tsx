@@ -25,7 +25,7 @@ const TraineeFees = () =>{
            </div>
            <div>
             <FilterButton
-                className="bg-white/20 w-24 flex items-center ml-3 justify-center text-white px-4 py-2 rounded-xl mr-2 mb-4"
+                className="bg-white/20 w-fit inline-flex items-center ml-3 justify-center text-white px-4 py-2 rounded-xl mr-2 mb-4"
                 label="فلتر"
                 paramKey="status"
                 options={[

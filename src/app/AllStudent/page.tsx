@@ -8,7 +8,7 @@ const AllStudent = () => {
         
 
     return(
-        <div className="mb-10 bg-slate-800 text-white">
+        <div className="mb-10 bg-slate-800 text-white ">
             <div className="max-w-10/12 mx-auto pt-10 space-y-3">
                {/* title and add student button */}
                <div className="flex justify-between items-center">
@@ -26,25 +26,25 @@ const AllStudent = () => {
                 {/* filter student */}
                 <div>
                 <div dir="ltr" className="text-2xl mt-10">فلتر</div>  
-                <div className="flex items-center gap-5 flex-row-reverse mt-3">
+                <div className="flex relative items-center gap-5 flex-row-reverse mt-3">
 
                    <FilterButton 
                     label="البرنامج"
                     options={["Frontend", "Backend", "Fullstack"]}
                     paramKey={"program"}
-                    className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"/>
+                    className="inline-flex items-center px-4 py-2 rounded-xl bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"/>
                     
                     <FilterButton
                      label="الحاله"
                      paramKey="status"
                      options={["Active", "Pending", "Completed"]}
-                     className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
+                     className="inline-flex items-center px-4 py-2 rounded-xl bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
                      />
                      <FilterButton
                       label="تاريخ التسجيل"
                       paramKey="date"
                       options={["Newest", "Oldest"]}
-                      className="inline-flex items-center px-4 py-2 rounded-full bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
+                      className="inline-flex items-center px-4 py-2 rounded-xl bg-orange-600 text-sm font-medium text-white transition duration-200 shadow-sm"
                       />
                 </div>
                 </div>

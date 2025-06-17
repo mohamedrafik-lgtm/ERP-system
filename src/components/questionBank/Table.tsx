@@ -16,7 +16,7 @@ const QuestionBankTable = () =>{
         {Bank.map((matial) => (
           <div
             key={matial.id}
-            className="grid grid-cols-3 items-center bg-white/10 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+            className="grid grid-cols-3 items-center bg-white/10 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md hover:bg-orange-600 transition-all duration-200"
           >
             <div className="text-sm text-center">{matial.name}</div>
             <div className="text-sm text-center">{matial.QustionsCount}</div>

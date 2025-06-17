@@ -12,7 +12,7 @@ import Paginator from "@/components/ui/paginator";
                 <p className="text-lg text-white">يمكنك التحكم في الصلاحيات و انشاء اي صلاحيه تريدها.</p>
           </div>
           <div>
-             <RoleModel/>
+             <RoleModel btContent={'+ اضافه جديد'} title="اضافه صلاحيه جديده"/>
           </div>
           <div>
              <RolesPermissionsTable/>

@@ -4,6 +4,7 @@ import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/ui/Navbar";
 import { StoreProvider } from "@/lip/StoreProvider";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,10 +38,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} antialiased bg-slate-800`}
       >
-        <Navbar/>
-        <main>
-           {children}
-        </main>
+         {/* <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light"> */}
+              <Navbar/>
+              <main>      
+                   {children}
+              </main>
+         {/* </ThemeProvider> */}
       </body>
     </html>
     </StoreProvider>
