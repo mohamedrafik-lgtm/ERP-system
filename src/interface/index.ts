@@ -144,3 +144,15 @@ export interface EntryFormData {
   notes: string;
   file: File | null;
 }
+
+export type Account = {
+  id: number;
+  name: string;
+  code: string;
+  debit: number;
+  credit: number;
+  type: string;
+  parentId: number | null;
+  balance: number; 
+  hasChildren?: boolean;
+};

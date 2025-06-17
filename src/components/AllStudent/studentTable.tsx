@@ -16,8 +16,8 @@ const StudentTable = () => {
         <div className="text-center">الاسم</div>
         <div className="text-center">رقم الملف</div>
         <div className="text-center">الهاتف الأرضي</div>
+        <div className="text-center ">التخصص</div>
         <div className="text-center">الهاتف المحمول</div>
-        <div className="text-center">التخصص</div>
         <div className="text-center">مدين</div>
         <div className="text-center">الفرقه</div>
         <div className="text-center">الرقم الثابت</div>

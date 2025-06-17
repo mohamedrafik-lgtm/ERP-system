@@ -1,5 +1,5 @@
 import { IAddStudent } from "@/interface";
-
+import { Account } from "@/interface";
 export const BasicDataInput: IAddStudent[] = [
   { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
   { name: "nameEnglish", type: "text", placeholder: "ضع الاسم بالأنجليزيه", label: "الاسم انجليزي", id: "EnglishName" },
@@ -668,3 +668,44 @@ export const Bank = [
         QustionsCount: 12,
     }
 ]
+
+
+
+
+export const accounts: Account[] = [
+  {
+    id: 1, name: "الأصول", code: "100", debit: 10000, credit: 2000, parentId: null,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 2, name: "الأصول المتداولة", code: "110", debit: 5000, credit: 1000, parentId: 1,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 3, name: "الصندوق", code: "111", debit: 2000, credit: 0, parentId: 2,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 4, name: "البنك", code: "112", debit: 3000, credit: 1000, parentId: 2,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 5, name: "المصروفات", code: "200", debit: 8000, credit: 4000, parentId: null,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 6, name: "رواتب", code: "210", debit: 5000, credit: 2000, parentId: 5,
+    balance: 0,
+    type: ""
+  },
+  {
+    id: 7, name: "إيجار", code: "220", debit: 3000, credit: 2000, parentId: 5,
+    balance: 0,
+    type: ""
+  },
+];

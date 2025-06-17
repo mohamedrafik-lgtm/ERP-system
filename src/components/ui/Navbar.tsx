@@ -100,7 +100,7 @@ export const Navbar = () => {
               </svg>
 
             ),
-            url: ""
+            url: "/FinancialConstraintsTree"
           },
           {
             name: "طلبات الصرف  والدفع",
