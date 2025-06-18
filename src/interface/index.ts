@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export interface IAddStudent {
   name: string;
@@ -156,3 +156,11 @@ export type Account = {
   balance: number; 
   hasChildren?: boolean;
 };
+
+
+export interface NavItem {
+  label: string;
+  url?: string;
+  icon: ReactNode;
+  children?: NavItem[];
+}
