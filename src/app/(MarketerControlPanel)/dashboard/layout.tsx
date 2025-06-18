@@ -23,12 +23,12 @@ const items: NavItem[] = [
       {
         label: "عملاء جدد",
         icon: undefined,
-        url:''
+        url:'/dashboard/NewClients'
       },
       {
         label:'عملاء مسجلين',
         icon:undefined,
-        url:""
+        url:"/dashboard/RegisteredClients"
       }
     ]
   },
