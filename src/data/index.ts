@@ -1,4 +1,4 @@
-import { IAddStudent } from "@/interface";
+import { IAddStudent, IAttendanceAndDeparture } from "@/interface";
 import { Account } from "@/interface";
 export const BasicDataInput: IAddStudent[] = [
   { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
@@ -709,3 +709,42 @@ export const accounts: Account[] = [
     type: ""
   },
 ];
+
+export const AttendanceAndDepartureData :IAttendanceAndDeparture[] = [
+  {
+    id: 1,
+    DateOfAttendance: "2025-06-19",
+    DepartureTime: "04:28:30",
+    day: "الاحد"
+  },
+  {
+    id:2,
+    DateOfAttendance: "2025-06-18",
+    DepartureTime: "04:28:30",
+    day: "السبت"
+  },
+  {
+    id: 3,
+    DateOfAttendance: "2025-06-17",
+    DepartureTime: "04:28:30",
+    day: "الاربع"
+  },
+  {
+    id: 4,
+    DateOfAttendance: "2025-06-16",
+    DepartureTime: "04:28:30",
+    day: "الثلاث"
+  },
+  {
+    id: 5,
+    DateOfAttendance: "2025-06-15",
+    DepartureTime: "04:28:30",
+    day: "الاثنان"
+  },
+  {
+    id: 6,
+    DateOfAttendance: "2025-06-14",
+    DepartureTime: "04:28:30",
+    day: "الخميس"
+  },
+]

@@ -164,3 +164,10 @@ export interface NavItem {
   icon: ReactNode;
   children?: NavItem[];
 }
+
+export interface IAttendanceAndDeparture{
+    id:number,
+    DateOfAttendance:string,
+    DepartureTime:string,
+    day:string
+}

@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import Aside from "@/components/dashboard/Aside";
-import { Home,Users,Headphones,ListTodo} from "lucide-react";
+import { Home,Users,Headphones,ListTodo,Timer ,BookOpen} from "lucide-react";
 import { NavItem } from "@/interface";
 
 const items: NavItem[] = [
@@ -15,6 +15,28 @@ const items: NavItem[] = [
     label: "المهام",
     url: "/dashboard/Tasks",
     icon: <ListTodo />,
+  },
+   {
+    label: "حضور و انصارف",
+    url: "/dashboard/AttendanceAndDeparture",
+    icon: <Timer />,
+  },
+  {
+    icon:<BookOpen/>,
+    label:"الطلبات",
+    children: [
+      {
+        icon:undefined,
+        label:'طلب اجازه',
+        url:'/dashboard/RequestForLeave'
+      },
+      {
+        icon:undefined,
+        label:'طلب سلفه',
+        url:'/dashboard/RequestAnAdvance'
+      },
+      
+    ]
   },
   {
     label:"العملاء",

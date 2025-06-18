@@ -126,6 +126,9 @@ export const Navbar = () => {
         <li className="hidden md:block font-normal py-1 cursor-pointer px-3 text-white hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
           التعليم الالكتروني
         </li>
+        <li className="hidden md:block font-normal py-1 cursor-pointer px-3 text-white hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
+          <Link href={"/dashboard"}>المسوق</Link>
+        </li>
       </div>
 
       {/* Mobile Menu Button */}
