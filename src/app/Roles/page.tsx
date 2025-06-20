@@ -8,8 +8,8 @@ import Paginator from "@/components/ui/paginator";
       <div>
         <div  className="w-9/12 mx-auto mt-14 space-y-10" dir="ltr">
           <div>
-                <h1 className="text-4xl text-white font-bold mb-4">الصلاحيات</h1>
-                <p className="text-lg text-white">يمكنك التحكم في الصلاحيات و انشاء اي صلاحيه تريدها.</p>
+                <h1 className="text-4xl font-bold mb-4">الصلاحيات</h1>
+                <p className="text-lg">يمكنك التحكم في الصلاحيات و انشاء اي صلاحيه تريدها.</p>
           </div>
           <div>
              <RoleModel btContent={'+ اضافه جديد'} title="اضافه صلاحيه جديده"/>

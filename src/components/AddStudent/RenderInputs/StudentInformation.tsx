@@ -11,13 +11,13 @@ type InputProps = {
 export const StudentInformation = ({ register, required, data ,errors}: InputProps) => {
   return data.map((itm, idx) => (
     <div key={idx} className="flex flex-col space-y-2">
-      <label htmlFor={itm.id} className="mb-2 text-white">{itm.label}</label>
+      <label htmlFor={itm.id} className="mb-2 ">{itm.label}</label>
       <input
         type={itm.type}
         id={itm.id}
         placeholder={itm.placeholder}
         {...register(itm.name as Path<IFormValues>, { required })}
-        className="rounded-md p-2 bg-white/20 w-full text-white placeholder-white/70"
+        className="rounded-md p-2 bg-white w-full  placeholder-black/20"
       />
       {errors[itm.name as Path<IFormValues>]?.message && (
         <p className="text-red-400 text-sm">

@@ -9,22 +9,22 @@ const StudentSections = () => {
         <div className="h-screen">
             <form dir="ltr" className="w-9/12 mx-auto mt-14 space-y-30">
                   <div className="space-y-5">
-                    <h1 className="text-3xl text-white font-bold">انشاء سكشن</h1>
-                    <p className="text-white opacity-45">حدد القسم الذي تريد انشاء سكاشن له و حدد العدد المطلوب في كل سكشن</p>
+                    <h1 className="text-3xl  font-bold">انشاء سكشن</h1>
+                    <p className=" opacity-45">حدد القسم الذي تريد انشاء سكاشن له و حدد العدد المطلوب في كل سكشن</p>
                   </div>
 
                   <div className="space-y-15">
-                  <div className="grid gap-3 text-white">
+                  <div className="grid gap-3">
                     {/* <h3 className="text-white text-xl"></h3> */}
                     {/* <FilterButton label={"القسم"} paramKey={"department"} options={['full stack','front-end','back end']} className="w-96 flex flex-col justify-start bg-white rounded-2xl "/> */}
                     <label htmlFor="departmentId">القسم</label>
-                    <Input type="text" name="department" id="departmentId" placeholder="اختر التخصص"  className="w-7/12 rounded-lg border-none bg-white/20"/>
+                    <Input type="text" name="department" id="departmentId" placeholder="اختر التخصص"  className="w-7/12 rounded-lg border-none bg-white"/>
                   </div>
-                  <div className="grid gap-3 text-white">
+                  <div className="grid gap-3 ">
                     {/* <h3 className="text-white text-xl"></h3> */}
                     {/* <FilterButton label={"القسم"} paramKey={"department"} options={['full stack','front-end','back end']} className="w-96 flex flex-col justify-start bg-white rounded-2xl "/> */}
                     <label htmlFor="departmentId">عدد السكاشن</label>
-                    <Input type="text" name="department" id="departmentId" placeholder="ادخل عدد السكاشن"  className="w-7/12 rounded-lg border-none bg-white/20"/>
+                    <Input type="text" name="department" id="departmentId" placeholder="ادخل عدد السكاشن"  className="w-7/12 rounded-lg border-none bg-white"/>
                   </div>
                   </div>
                   <div>

@@ -48,7 +48,7 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="bg-white/20 flex space-x-3 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer transition"
+        className="bg-white/20 flex space-x-3 hover:bg-white/50 py-1 px-2 rounded-md cursor-pointer transition"
       >
         {name}
         {svg}
@@ -58,7 +58,7 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
         createPortal(
           <div
             ref={menuRef}
-            className="absolute w-60 bg-slate-700 text-white rounded-md shadow z-[9999]"
+            className="absolute w-60 bg-white  rounded-md shadow z-[9999]"
             style={{
               top: position.top,
               left: position.left,
@@ -73,7 +73,7 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
                     setIsOpen(false);
                     console.log(`تم اختيار: ${item.name}`);
                   }}
-                  className="px-3 py-2  flex items-center  justify-between text-start hover:bg-slate-800 text-sm cursor-pointer"
+                  className="px-3 py-2  flex items-center  justify-between text-start hover:bg-black/20 text-sm cursor-pointer"
                 >
                   {item.name}
                   {!item.svgIcon ? item.svgIcon : null}

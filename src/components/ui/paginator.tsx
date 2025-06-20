@@ -15,7 +15,7 @@ const Paginator = ({ totalPages = 3 }) => {
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
-        className="text-white disabled:opacity-30"
+        className="disabled:opacity-30"
       >
         <ChevronRight />
       </button>
@@ -28,7 +28,7 @@ const Paginator = ({ totalPages = 3 }) => {
             key={page}
             onClick={() => goToPage(page)}
             className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-              isActive ? "bg-orange-600 text-white" : "text-white"
+              isActive ? "bg-orange-600 text-white" : ""
             }`}
           >
             {page}
@@ -39,7 +39,7 @@ const Paginator = ({ totalPages = 3 }) => {
       <button
         onClick={() => goToPage(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="text-white disabled:opacity-30"
+        className=" disabled:opacity-30"
       >
         <ChevronLeft />
       </button>

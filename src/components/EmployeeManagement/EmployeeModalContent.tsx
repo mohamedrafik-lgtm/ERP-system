@@ -14,26 +14,26 @@ const AddUserForm: React.FC<Props> = ({ groups }) => {
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="name" className="text-white">الاسم:</label>
+        <label htmlFor="name" className="">الاسم:</label>
         <input
           id="name"
           name="name"
           type="text"
-          className="p-2 rounded-md bg-white/20 text-white placeholder-white/70"
+          className="p-2 rounded-md bg-white placeholder-black/20"
           placeholder="ادخل الاسم"
         />
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="group" className="text-white">المجموعة:</label>
+        <label htmlFor="group" className="">المجموعة:</label>
         <select
           id="group"
           name="group"
-          className="p-2 rounded-md bg-white/20 text-white"
+          className="p-2 rounded-md bg-white"
         >
           <option className="text-black">-- بدون تحديد --</option>
           {groups.map((group, index) => (
-            <option key={index} value={group} className="text-black">
+            <option key={index} value={group} className="text-black/20">
               {group}
             </option>
           ))}
@@ -41,23 +41,23 @@ const AddUserForm: React.FC<Props> = ({ groups }) => {
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="password" className="text-white">الباسورد:</label>
+        <label htmlFor="password" className="">الباسورد:</label>
         <input
           id="password"
           name="password"
           type="password"
-          className="p-2 rounded-md bg-white/20 text-white placeholder-white/70"
+          className="p-2 rounded-md bg-white placeholder-black/20"
           placeholder="ادخل الباسورد"
         />
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="mobile" className="text-white">الموبايل:</label>
+        <label htmlFor="mobile" className="">الموبايل:</label>
         <input
           id="mobile"
           name="mobile"
           type="text"
-          className="p-2 rounded-md bg-white/20 text-white placeholder-white/70"
+          className="p-2 rounded-md bg-white placeholder-black/20"
           placeholder="ادخل رقم الموبايل"
         />
       </div>

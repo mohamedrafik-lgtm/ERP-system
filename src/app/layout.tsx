@@ -37,13 +37,15 @@ export default function RootLayout({
     <StoreProvider>
     <html lang="ar" dir="rtl">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} antialiased bg-slate-800`}
+        className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} antialiased bg-gray-100`}
       >
-         {/* <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light"> */}
+        <StoreProvider>
               <Navbar/>
               <main>      
                    {children}
               </main>
+        </StoreProvider>
+         {/* <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light"> */}
          {/* </ThemeProvider> */}
       </body>
     </html>

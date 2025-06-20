@@ -20,7 +20,7 @@ const AddStudent = () => {
       console.log(data)
     }
     return (
-        <div className="pb-16 bg-slate-800 text-white">
+        <div className="pb-16">
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-9/12 mx-auto space-y-5 pt-5">
                 <h1 className="text-3xl font-bold">اضافه طالب</h1>
                 <div className="space-y-7">

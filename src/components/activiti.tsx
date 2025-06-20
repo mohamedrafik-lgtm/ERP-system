@@ -9,9 +9,9 @@ type ActivityRowProps = {
 const ActivityRow: React.FC<ActivityRowProps> = ({ date, activity, details }) => {
   return (
     <tr className="border-t border-gray-200 rounded-xl">
-      <td className="px-6 py-4 text-white">{date}</td>
-      <td className="px-6 py-4 text-white font-medium">{activity}</td>
-      <td className="px-6 py-4 text-white">{details}</td>
+      <td className="px-6 py-4 ">{date}</td>
+      <td className="px-6 py-4  font-medium">{activity}</td>
+      <td className="px-6 py-4 ">{details}</td>
     </tr>
   );
 };

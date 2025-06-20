@@ -21,7 +21,7 @@ export default function DialogReports({name}: DialogReportsProps) {
     <>
       <Button
         onClick={open}
-        className="bg-white/20 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer"
+        className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded-md cursor-pointer"
       >
         {name}
       </Button>

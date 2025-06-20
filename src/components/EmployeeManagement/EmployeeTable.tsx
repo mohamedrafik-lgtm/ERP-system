@@ -5,7 +5,7 @@ const EmployeeTable = () => {
   return (
     <div className=" space-y-2">
       {/* عنوان الأعمدة */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 bg-white/20 text-white font-bold text-sm p-2 rounded-md">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 bg-white font-bold text-sm p-2 rounded-md">
         <div>م</div>
         <div>الاسم</div>
         <div>المجموعة</div>
@@ -18,7 +18,7 @@ const EmployeeTable = () => {
       {users.map((user, idx) => (
         <div
           key={idx}
-          className="bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+          className="bg-white hover:bg-black/10 backdrop-blur-md rounded-xl p-2 shadow-sm hover:shadow-md transition-all duration-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 items-center">
             <div className="text-sm font-semibold">{user.id}</div>
@@ -34,12 +34,12 @@ const EmployeeTable = () => {
 
             {/* زر البرامج التدريبية */}
             <div>
-              <NavigationButton className="bg-white/20 hover:bg-white/50 text-white text-xs px-3 py-1 rounded-md" url={`/EmployeeManagement/${user.id}`} name={"عرض البرامج"} />
+              <NavigationButton className="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded-md" url={`/EmployeeManagement/${user.id}`} name={"عرض البرامج"} />
             </div>
 
             {/* أزرار التحكم */}
             <div className="flex gap-2 justify-center">
-              <button className="bg-white/20 hover:bg-white/40 text-white p-1.5 rounded-md">
+              <button className=" hover:bg-white/40  p-1.5 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zM16.862 4.487L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                 </svg>

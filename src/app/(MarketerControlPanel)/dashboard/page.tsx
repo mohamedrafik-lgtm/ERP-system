@@ -26,7 +26,7 @@ const Dashboard = () => {
       <Card
         title="التواصل"
         content={
-          <div className="text-white space-y-2 pl-8 relative">
+          <div className=" space-y-2 pl-8 relative">
             <Users className="text-blue-500 absolute top-0 left-0" />
             <p>عدد التواصلات اليوم : 0</p>
             <p>العملاء المهتمين اليوم : 0</p>
@@ -39,7 +39,7 @@ const Dashboard = () => {
       <Card
         title="المهام اليومية"
         content={
-          <div className="text-white space-y-2 pl-8 relative">
+          <div className="space-y-2 pl-8 relative">
             <ListTodo className="text-blue-500 absolute top-0 left-0" />
             <p>عدد المهام الكلي : 8</p>
             <p>عدد المهام المتبقية : 8</p>
@@ -51,12 +51,12 @@ const Dashboard = () => {
       <Card
         title="احصائيات الشهر"
         content={
-          <div className="text-white space-y-4">
+          <div className=" space-y-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="text-blue-500" />
               <p>متوسط تنفيذ المهام : 25.00%</p>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full rounded-full h-2">
               <div className="bg-blue-500 h-2 rounded-full" style={{ width: '25%' }} />
             </div>
           </div>
@@ -67,7 +67,7 @@ const Dashboard = () => {
       <Card
         title="حالة الحملات"
         content={
-          <div className="text-white space-y-2 pl-8 relative">
+          <div className=" space-y-2 pl-8 relative">
             <Megaphone className="text-blue-500 absolute top-0 left-0" />
             <p>
               حملات WhatsApp:

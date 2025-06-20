@@ -7,7 +7,7 @@ const ExchangeAndPaymentRequests = ()  =>{
     <div>
           <div className="w-10/12 mx-auto mt-14 space-y-10">
               <div dir="ltr">
-                <h1 className="text-white text-3xl font-semibold">طلبات الصرف  / الدفع</h1>
+                <h1 className="text-3xl font-semibold">طلبات الصرف  / الدفع</h1>
               </div>
                  
               <div>

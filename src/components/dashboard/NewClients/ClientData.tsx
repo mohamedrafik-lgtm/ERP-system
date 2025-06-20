@@ -10,13 +10,13 @@ interface IProps{
 export const ClientData =({name,phone}:IProps) => {
     return (
         <div>
-             <div className="text-white flex space-x-5 p-5">
+             <div className=" flex space-x-5 p-5">
                 <div>
                    <span className="text-xl font-semibold">اسم العميل :</span>
                 </div>
                 <p className="text-xl font-semibold">{name}</p>
              </div>
-             <div className="text-white flex space-x-5 p-5">
+             <div className=" flex space-x-5 p-5">
                 <div>
                    <span className="text-xl font-semibold">رقم الهاتف :</span>
                 </div>
@@ -31,18 +31,18 @@ export const ClientData =({name,phone}:IProps) => {
              </div>
              <div className="flex flex-col space-y-5">
                <FilterButton label="حاله العميل" options={['متزوج','اعزب']}
-                className="w-full px-5 flex items-center py-1 text-white bg-white/20 rounded-md" 
+                className="w-full px-5 flex items-center py-1  bg-black/10 rounded-md" 
                 paramKey={"state"}/>
 
                 <FilterButton label="طريقة التواصل" options={['اعلان ممول','داتا','وتساب']}
-                className="w-full px-5 flex items-center py-1 text-white bg-white/20 rounded-md" 
+                className="w-full px-5 flex items-center py-1 bg-black/10 rounded-md" 
                 paramKey={"state"}/>
 
                 <FilterButton label="القسم" options={['مساعد خدمات صحيه','تكنولوجيا معلومات']}
-                className="w-full px-5 flex items-center py-1 text-white bg-white/20 rounded-md" 
+                className="w-full px-5 flex items-center py-1 bg-black/10 rounded-md" 
                 paramKey={"state"}/>
              </div>
-             <div className="text-white space-y-2 mt-5">
+             <div className=" space-y-2 mt-5">
                <label htmlFor="Notes">التفاصيل الإضافية</label>
                <textarea
                   id={'Notes'}

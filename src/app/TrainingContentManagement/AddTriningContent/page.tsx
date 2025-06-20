@@ -8,15 +8,15 @@ const AddTriningContent = () => {
         { value: 'fullstack', label: 'Full-Stack Development' },
       ];  
       return (
-        <div className="text-white">
+        <div className="">
              <div className="max-w-9/12 mx-auto pt-10">
                 <div>
                     <h1 dir="ltr" className="text-2xl font-bold">اضافه محتوي تدريبي</h1>
                 </div>
                 <form className="space-y-5 grid grid-cols-2  gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">عنوان المحتوي</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عنوان المحتوي" />
+                        <label className="block text-sm font-medium  mb-2">عنوان المحتوي</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عنوان المحتوي" />
                     </div>
                     <div>
                         <Menu options={programOptions} />
@@ -31,36 +31,36 @@ const AddTriningContent = () => {
                       <Menu options={programOptions} label="أستاذ المحتوى التدريبي" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">عدد الاسابيع</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عدد الاسابيع" />
+                        <label className="block text-sm font-medium  mb-2">عدد الاسابيع</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عدد الاسابيع" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">جدارات / اسبوعي</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل الجدارات " />
+                        <label className="block text-sm font-medium  mb-2">جدارات / اسبوعي</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل الجدارات " />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">سكاشن / اسبوع</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل  عدد السكاشن في الاسبوع" />
+                        <label className="block text-sm font-medium  mb-2">سكاشن / اسبوع</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل  عدد السكاشن في الاسبوع" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">عدد الفصول / Chapter</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عنوان المحتوي" />
+                        <label className="block text-sm font-medium  mb-2">عدد الفصول / Chapter</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل عنوان المحتوي" />
                     </div>
 
-                    <div className="col-span-2"> <h2 dir="ltr" className="text-white text-2xl font-bold">درجات المقرر</h2></div>
+                    <div className="col-span-2"> <h2 dir="ltr" className=" text-2xl font-bold">درجات المقرر</h2></div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">اعمال السنه</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه اعمال السنه" />
+                        <label className="block text-sm font-medium  mb-2">اعمال السنه</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه اعمال السنه" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">عملي</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه العملي " />
+                        <label className="block text-sm font-medium mb-2">عملي</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه العملي " />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-white mb-2">التحريري</label>
-                        <input type="text" className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه التحريري" />
+                        <label className="block text-sm font-medium  mb-2">التحريري</label>
+                        <input type="text" className="w-full p-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="ادخل قيمه التحريري" />
                     </div>
-                    <div className="col-span-2"> <h2 dir="ltr" className="text-white text-2xl font-bold">مسؤولية تسجيل الحضور</h2></div>
+                    <div className="col-span-2"> <h2 dir="ltr" className=" text-2xl font-bold">مسؤولية تسجيل الحضور</h2></div>
                     <div>
                         <Menu options={programOptions} />
                     </div>

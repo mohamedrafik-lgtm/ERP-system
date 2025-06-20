@@ -11,7 +11,7 @@ const StudentTable = () => {
 
   return (
     <div className="relative overflow-visible p-4 space-y-5">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white/20 text-white font-bold text-sm p-4 rounded-xl">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white font-bold text-sm p-4 rounded-xl">
         <div className="text-center">الصورة</div>
         <div className="text-center">الاسم</div>
         <div className="text-center">رقم الملف</div>
@@ -27,7 +27,7 @@ const StudentTable = () => {
       {students.map((student, idx) => (
         <div
           key={idx}
-          className="relative z-[100] bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+          className="relative z-[100] bg-white backdrop-blur-md rounded-xl  p-2 shadow-sm hover:shadow-md transition-all duration-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 items-center">
             <div>
@@ -39,17 +39,17 @@ const StudentTable = () => {
                 className="rounded-full"
               />
             </div>
-            <div className="px-4 py-3 text-center font-medium text-white">{student.name}</div>
-            <div className="px-4 py-3 text-center text-white">{student.fileNumber}</div>
-            <div className="px-4 py-3 text-center text-white">{student.landline}</div>
-            <div className="px-4 py-3 text-center text-white">{student.specialization}</div>
-            <div className="px-4 py-3 text-center text-white">{student.phone}</div>
-            <div className="px-4 py-3 text-center font-semibold text-white">{student.dues}</div>
-            <div className="px-4 py-3 text-center text-white">5451151148884</div>
-            <div className="px-4 py-3 text-center text-white">1543</div>
+            <div className="px-4 py-3 text-center font-medium ">{student.name}</div>
+            <div className="px-4 py-3 text-center ">{student.fileNumber}</div>
+            <div className="px-4 py-3 text-center ">{student.landline}</div>
+            <div className="px-4 py-3 text-center ">{student.specialization}</div>
+            <div className="px-4 py-3 text-center ">{student.phone}</div>
+            <div className="px-4 py-3 text-center font-semibold ">{student.dues}</div>
+            <div className="px-4 py-3 text-center ">5451151148884</div>
+            <div className="px-4 py-3 text-center ">1543</div>
 
             <div
-              className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm text-white"
+              className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm "
               onClick={(e) => e.stopPropagation()}
             >
               <InlineMenu
@@ -82,7 +82,7 @@ const StudentTable = () => {
               />
               <button
                 onClick={() => router.push(`/AllStudent/${student.id}`)}
-                className="bg-white/20 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer"
+                className="bg-white/20 hover:bg-white/50  py-1 px-2 rounded-md cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ const StudentTable = () => {
                   />
                 </svg>
               </button>
-              <button className="bg-white/20 hover:bg-white/50 text-white py-1 px-2 rounded-md cursor-pointer">
+              <button className=" hover:bg-white/50 py-1 px-2 rounded-md cursor-pointer">
                 تحديد
               </button>
             </div>

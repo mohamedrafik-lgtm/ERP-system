@@ -65,7 +65,7 @@ const Aside = ({ items }: AsideProps) => {
 
       {/* سايدبار للديسكتوب */}
       <aside
-        className={`hidden space-y-7 md:flex flex-col bg-gray-900 text-white transition-all duration-300 h-full ${
+        className={`hidden space-y-7 md:flex flex-col bg-white transition-all duration-300 h-full ${
           isCollapsed ? "w-20" : "w-64"
         }`}
       >
@@ -90,7 +90,7 @@ const Aside = ({ items }: AsideProps) => {
                 {hasChildren ? (
                   <div
                     onClick={() => toggleOpen(index)}
-                    className={`flex items-center justify-between cursor-pointer p-2 hover:bg-gray-700 rounded ${
+                    className={`flex items-center justify-between cursor-pointer p-2 hover:bg-black/10 rounded ${
                       isCollapsed ? "justify-center" : ""
                     }`}
                   >
@@ -111,7 +111,7 @@ const Aside = ({ items }: AsideProps) => {
                 ) : (
                   <Link href={item.url || "#"}>
                     <div
-                      className={`flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-700 rounded ${
+                      className={`flex items-center gap-2 cursor-pointer p-2 hover:bg-black/10 rounded ${
                         isCollapsed ? "justify-center" : ""
                       }`}
                     >

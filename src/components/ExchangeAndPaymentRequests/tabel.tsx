@@ -5,7 +5,7 @@ export const ExchangeAndPaymentRequestsTabel = ()=>{
      return (
         <div className=" space-y-2">
           {/* عنوان الأعمدة */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white/20 text-white font-bold text-sm p-2 rounded-md">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white font-bold text-sm p-2 rounded-md">
             <div className="text-center">رقم</div>
             <div className="text-center">اسم المستفيد</div>
             <div className="text-center">بواسطه</div>
@@ -22,7 +22,7 @@ export const ExchangeAndPaymentRequestsTabel = ()=>{
           {ExchangeAndPaymentRequestsTransactions.map((user, idx) => (
             <div
               key={idx}
-              className="bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+              className="bg-white hover:bg-white/30 backdrop-blur-md rounded-xl p-2 shadow-sm hover:shadow-md transition-all duration-200"
             >
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 gap-2 items-center">
                 <div className="text-sm font-semibold text-center">{user.id}</div>
@@ -33,7 +33,7 @@ export const ExchangeAndPaymentRequestsTabel = ()=>{
                 <div className="text-sm text-center">{user.date}</div>
                 <div className="text-sm text-center">{user.amount}</div>
                 <div className="text-sm text-center">{user.paid}</div>
-                <div className={`text-sm text-center px-4 py-1 rounded-lg ${user.status == 'مفعل' ? "bg-green-400" : 'bg-red-500'}`} >{user.status}</div>
+                <div className={`text-sm text-center px-4 py-1 text-white rounded-lg ${user.status == 'مفعل' ? "bg-green-400" : 'bg-red-500'}`} >{user.status}</div>
                 <div className="text-sm text-center flex items-center justify-center">
                     <button className=" bg-white/20 px-4 py-1 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

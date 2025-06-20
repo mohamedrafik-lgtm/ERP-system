@@ -31,9 +31,9 @@ export default function AddQuestionModal({ButtonContent}:IProps) {
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
               transition
-              className="w-full max-w-4xl rounded-xl bg-white/20 p-6 space-y-3 backdrop-blur-xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+              className="w-full max-w-4xl border-gray-600 rounded-xl bg-white/20 p-6 space-y-3 backdrop-blur-xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
-              <DialogTitle as="h3" className="text-2xl font-medium text-white">
+              <DialogTitle as="h3" className="text-2xl font-medium">
                   اضافة سؤال جديد
               </DialogTitle>
                  <AddQuestionForm

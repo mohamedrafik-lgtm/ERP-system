@@ -30,7 +30,7 @@ export default function TraineeFeesModal() {
               transition
               className="w-full max-w-4xl rounded-xl bg-white/5 p-6 space-y-3 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
-              <DialogTitle as="h3" className="text-2xl font-medium text-white">
+              <DialogTitle as="h3" className="text-2xl font-medium">
                   اضافة رسوم جديدة
               </DialogTitle>
                  <ModernForm/>

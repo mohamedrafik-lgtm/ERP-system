@@ -33,13 +33,13 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm text-white mb-1">عنوان السؤال</label>
+        <label className="block text-sm mb-1">عنوان السؤال</label>
         <input
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           required
-          className="w-full border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border bg-white border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>
 
@@ -58,7 +58,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({ onSubmit }) => {
               placeholder={`الإجابة ${label}`}
               value={answers[index]}
               onChange={(e) => handleAnswerChange(index, e.target.value)}
-              className="flex-1 border rounded-xl text-white border-gray-300  px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+              className="flex-1 border bg-white rounded-xl placeholder:text-black/50 border-gray-300  px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
         ))}

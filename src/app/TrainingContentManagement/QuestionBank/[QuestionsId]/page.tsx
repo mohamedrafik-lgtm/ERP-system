@@ -8,8 +8,8 @@ const Questions = () =>{
                 {/* title */}
                 <div className="flex justify-between items-center">
                     <div className="space-y-2">
-                         <h1 className="text-white text-3xl">اسأله الماده</h1>
-                         <span className="text-white/20 text-sm">جميع الاسأله الخاصه بماده تحليل النظم</span>
+                         <h1 className=" text-3xl">اسأله الماده</h1>
+                         <span className="text-black/20 text-sm">جميع الاسأله الخاصه بماده تحليل النظم</span>
                     </div>
                     <div>
                         <AddQuestionModal ButtonContent="اضافه سؤال"/>
@@ -18,7 +18,7 @@ const Questions = () =>{
 
                 {/* content */}
                 <div className="space-y-5">
-                 <h3 className="text-2xl text-white">الاسأله</h3>
+                 <h3 className="text-2xl">الاسأله</h3>
                  <QuesionCard/>
                  <QuesionCard/>
                  <QuesionCard/>

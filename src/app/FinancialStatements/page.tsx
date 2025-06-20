@@ -21,12 +21,12 @@ const FinancialStatements = () => {
                         <FinancialModel/>
                      </div>
                      <div className="space-y-5">
-                        <h1 className="text-3xl text-white font-bold">القيوم الماليه</h1>
-                        <p className="text-sm text-white/20">هذه الصفحه خاصه بعرض جميع القيود الماليه و انشاء قيد جديد</p>
+                        <h1 className="text-3xl font-bold">القيوم الماليه</h1>
+                        <p className="text-sm text-black/20">هذه الصفحه خاصه بعرض جميع القيود الماليه و انشاء قيد جديد</p>
                      </div>
                  </div>
-                 <div className="space-y-6 p-3 bg-white/20 rounded-xl">
-                    <h3 dir="ltr" className="text-white text-2xl">فلتر</h3>
+                 <div className="space-y-6 p-3 bg-white rounded-xl">
+                    <h3 dir="ltr" className="text-2xl">فلتر</h3>
                     <div className="flex space-x-5" dir="ltr">
                         <div>
                             <InlineMenu name="رصيد حساب" items={items} />

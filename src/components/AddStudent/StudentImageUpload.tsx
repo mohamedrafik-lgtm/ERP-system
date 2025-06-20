@@ -21,7 +21,7 @@ export default function StudentImageUpload() {
   return (
     <div
       {...getRootProps()}
-      className="border-2 border-dashed border-gray-300 rounded-2xl bg-gray-50/20 p-10 text-center cursor-pointer transition hover:border-orange-600"
+      className="border-2 border-dashed border-gray-300 rounded-2xl bg-white p-10 text-center cursor-pointer transition hover:border-orange-600"
     >
       <input {...getInputProps()} />
 
@@ -42,7 +42,7 @@ export default function StudentImageUpload() {
           </p>
           <button
             type="button"
-            className="bg-gray-100/20 text-white font-semibold px-6 py-2 rounded-full hover:bg-orange-600 transition"
+            className="bg-gray-100/20 font-semibold px-6 py-2 rounded-full hover:bg-orange-600 hover:text-white transition"
           >
             تحميل الصورة
           </button>

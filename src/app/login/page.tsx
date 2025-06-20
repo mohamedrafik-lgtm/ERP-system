@@ -22,21 +22,11 @@ const LoginPage = () => {
   })
   const onSubmit: SubmitHandler<Inputs>  =async (data ) => {
     try {
-      const result = await login(data).unwrap();
-      console.log('User logged in:', result.user);
+      await login(data);
     } catch (err) {
       console.error('Login failed:', err);
     }
   }
-  // function toggleTheme() {
-  //   if(document.documentElement.getAttribute('data-theme') === 'dark'){
-  //     document.documentElement.setAttribute('data-theme', 'light');
-  //   } else {
-  //     document.documentElement.setAttribute('data-theme', 'dark');
-  //   }
-  // }
-  
-  
 
   return (
     <div className="flex justify-center  items-center min-h-screen px-4">
@@ -44,8 +34,8 @@ const LoginPage = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col items-center">
         {/* <button onClick={toggleTheme}>toggle</button> */}
-        <h3 className="text-3xl md:text-3xl text-white font-bold my-6 text-center mb-10">تسجيل الدخول</h3>
-        <div className="w-full text-white space-y-12">
+        <h3 className="text-3xl md:text-3xl  font-bold my-6 text-center mb-10">تسجيل الدخول</h3>
+        <div className="w-full space-y-12">
          <div className="w-full space-y-5">
            <div className="flex flex-col space-y-2 w-full">
             <label htmlFor="email" className="text-lg">البريد الالكتروني</label>
@@ -54,7 +44,7 @@ const LoginPage = () => {
               {...register("email")}
               placeholder="tipaAcadmy@test.com"
               id="email"
-              className="w-full bg-white/20 text-white rounded-xl "
+              className="w-full bg-white rounded-xl "
               required
             />
             {
@@ -71,7 +61,7 @@ const LoginPage = () => {
               name="password"
               placeholder="password"
               id="password"
-              className="w-full bg-white/20 text-white rounded-xl "
+              className="w-full bg-white rounded-xl "
               required
             />
             {

@@ -58,7 +58,7 @@ const Aside = ({ items }: AsideProps) => {
 
       {/* سايدبار للديسكتوب */}
       <aside
-        className={`hidden space-y-7 md:flex flex-col bg-gray-900 text-white transition-all duration-300 h-full
+        className={`hidden space-y-7 md:flex flex-col bg-white transition-all duration-300 h-full
         ${isCollapsed ? "w-20" : "w-64"}`}
       >
         <div className={`p-2 py-4  flex  ${isCollapsed ? "justify-center" : 'justify-between border-b'}`}>
@@ -72,7 +72,7 @@ const Aside = ({ items }: AsideProps) => {
           {items.map((item, index) => (
             <li key={index}>
               <Link href={item.url}>
-                <div className={`flex ${isCollapsed ? 'justify-center' : ' justify-between'}  items-center gap-2 p-2 hover:bg-gray-700 rounded`}>
+                <div className={`flex ${isCollapsed ? 'justify-center' : ' justify-between'}  items-center gap-2 p-2 hover:bg-black/20 rounded`}>
                   {!isCollapsed && <span>{item.label}</span>}
                   {item.icon}
                 </div>

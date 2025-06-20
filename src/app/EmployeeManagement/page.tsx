@@ -8,7 +8,7 @@ const EmployeeManagement = () => {
               <div className="w-9/12 mx-auto mt-14 space-y-10">
                 {/* title */}
                 <div>
-                    <h1 className="text-3xl font-bold text-white ">المستخدمين</h1>
+                    <h1 className="text-3xl font-bold  ">المستخدمين</h1>
                 </div>
                 <div dir="rtl">
                   <AddEmployeeModal/>

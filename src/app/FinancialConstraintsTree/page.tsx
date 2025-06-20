@@ -41,7 +41,7 @@ export default function AccountTree() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-12 items-center px-4 py-3 border-b dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 transition-all text-sm"
+              className="grid grid-cols-12 items-center px-4 py-3 border-b border-gray-300 hover:bg-gray-50 bg-white transition-all text-sm"
               style={{ paddingRight: `${level * 1.5}rem` }}
             >
               <div className="col-span-4 flex items-center gap-2">
@@ -64,7 +64,7 @@ export default function AccountTree() {
               <div className="col-span-1 text-center font-semibold">{total.toLocaleString()}</div>
 
               <div className="col-span-1 flex items-center justify-center">
-                <button className="text-gray-500 hover:text-black dark:hover:text-white" title="طباعة">
+                <button className="text-gray-500 hover:text-black" title="طباعة">
                   <FaPrint />
                 </button>
               </div>
@@ -86,10 +86,10 @@ export default function AccountTree() {
   };
 
   return (
-    <div className="p-6 bg-white dark:bg-slate-800 rounded-xl text-gray-900 dark:text-white shadow-xl">
+    <div className="p-6   rounded-xl  shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center">شجرة الحسابات</h2>
 
-      <div className="grid grid-cols-12 px-4 py-3 font-bold bg-gray-100 dark:bg-white/10 rounded-t-md text-sm">
+      <div className="grid grid-cols-12 px-4 py-3 font-bold bg-white  rounded-t-md text-sm">
         <div className="col-span-4">الحساب</div>
         <div className="col-span-2 text-center">مدين</div>
         <div className="col-span-2 text-center">دائن</div>

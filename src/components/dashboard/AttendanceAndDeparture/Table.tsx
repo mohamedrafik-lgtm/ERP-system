@@ -8,7 +8,7 @@ export const AttendanceAndDepartureTable = ({data,isPresence}:IProps) => {
     return (
         <div className=" space-y-2">
           {/* عنوان الأعمدة */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-white/40 text-white font-bold text-sm p-2 rounded-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-white text-sm p-2 rounded-md">
             <div className="text-md text-center font-semibold">رقم العمليه</div>
             <div className="text-md text-center font-semibold">
                 {isPresence ? "تاريخ الحضور" : "تاريخ الانصارف"}
@@ -23,7 +23,7 @@ export const AttendanceAndDepartureTable = ({data,isPresence}:IProps) => {
           {data.map((itm, idx) => (
             <div
               key={idx}
-              className="bg-white/10 hover:bg-white/30 backdrop-blur-md rounded-xl text-white p-2 shadow-sm hover:shadow-md transition-all duration-200"
+              className="bg-white hover:bg-white/30 backdrop-blur-md rounded-xl  p-2 shadow-sm hover:shadow-md transition-all duration-200"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 items-center">
                 <div className="text-sm text-center font-semibold">{itm.id}</div>

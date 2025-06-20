@@ -2,12 +2,12 @@ import AddQuestionModal from "./AddQuestionModal"
 
 export const QuesionCard = () => {
     return (
-        <div className="bg-white/20 grid grid-cols-1 md:grid-cols-4 gap-4 justify-between items-center hover:bg-white/40 transition-all duration-300 rounded-xl p-4">
+        <div className="bg-white grid grid-cols-1 md:grid-cols-4 gap-4 justify-between items-center hover:bg-black/10 transition-all duration-300 rounded-xl p-4">
             <div className="space-y-2 md:col-span-3">
                 {/* the Quesion */}
-                <h3 className="text-lg md:text-xl text-white">احسب ترتيب العمليات حسب نظام الداخل اولا خارج اخيرا</h3>
+                <h3 className="text-lg md:text-xl ">احسب ترتيب العمليات حسب نظام الداخل اولا خارج اخيرا</h3>
                 {/* the Answer */}
-                <div className="text-white flex flex-wrap gap-2 justify-start md:justify-between items-center text-sm md:text-base">
+                <div className=" flex flex-wrap gap-2 justify-start md:justify-between items-center text-sm md:text-base">
                     <span>ا- دخول العمليه 1</span>
                     <span>ب- دخول العمليه 1</span>
                     <span>ج- دخول العمليه 1</span>

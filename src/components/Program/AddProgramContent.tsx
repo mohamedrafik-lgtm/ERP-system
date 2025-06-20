@@ -36,49 +36,49 @@ const AddProgramForm: React.FC<AddProgramFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm text-white mb-1">اسم البرنامج (بالعربي)</label>
+        <label className="block text-sm  mb-1">اسم البرنامج (بالعربي)</label>
         <Input
           type="text"
           name="nameAr"
           value={formData.nameAr}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-white mb-1">اسم البرنامج (بالإنجليزي)</label>
+        <label className="block text-sm  mb-1">اسم البرنامج (بالإنجليزي)</label>
         <Input
           type="text"
           name="nameEn"
           value={formData.nameEn}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-white mb-1">سعر البرنامج</label>
+        <label className="block text-sm mb-1">سعر البرنامج</label>
         <Input
           type="number"
           name="price"
           value={formData.price}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-white mb-1">وصف قصير</label>
+        <label className="block text-sm mb-1">وصف قصير</label>
         <textarea
           name="description"
           value={formData.description}
           onChange={handleChange}
           rows={3}
-          className="w-full border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border border-gray-300 bg-white rounded px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-200"
         />
       </div>
 

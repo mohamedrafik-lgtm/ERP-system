@@ -17,14 +17,14 @@ const NewEntryForm = () => {
   }
 
   return (
-    <div className="bg-white/20 text-white p-6 rounded-xl mx-auto">
+    <div className="bg-white/20p-6 rounded-xl mx-auto">
       <h2 className="text-xl font-bold mb-4 text-center">ادخل قيد جديد</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block mb-1">من حساب:</label>
             <select
-              className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
+              className="w-full bg-white border border-gray-300 rounded px-3 py-2"
               
               {...register('fromAccount')}
             >
@@ -36,7 +36,7 @@ const NewEntryForm = () => {
             <label className="block mb-1">إلى حساب:</label>
             <select
               
-              className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
+              className="w-full bg-white border border-gray-300 rounded px-3 py-2"
               
               {...register('toAccount')}
             >
@@ -49,7 +49,7 @@ const NewEntryForm = () => {
             <input
               type="date"
               
-              className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
+              className="w-full bg-white border border-gray-300 rounded px-3 py-2"
               {...register('date')}
             />
           </div>
@@ -57,7 +57,7 @@ const NewEntryForm = () => {
             <label className="block mb-1">المبلغ:</label>
             <input
               type="number"
-              className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
+              className="w-full bg-white border border-gray-300 rounded px-3 py-2"
               {...register('amount')}
             />
           </div>
@@ -65,7 +65,7 @@ const NewEntryForm = () => {
         <div>
           <label className="block mb-1">ملاحظات:</label>
           <textarea
-            className="w-full bg-transparent border border-white/50 rounded px-3 py-2"
+            className="w-full bg-white border border-gray-300 rounded px-3 py-2"
             rows={3}
            {...register('notes')}
           ></textarea>
@@ -75,12 +75,12 @@ const NewEntryForm = () => {
                <input
                  type="file"
                  id="upload"
-                 className="hidden"
+                 className="hidden bordre-gray-300"
                  {...register('file')}
                />
                <label
                  htmlFor="upload"
-                              className="block w-full text-white border text-center rounded-xl px-5 py-2 cursor-pointer"
+                              className="block w-full border bordre-gray-300 text-center rounded-xl px-5 py-2 cursor-pointer"
                >
                  اختر صورة أو ملف
                </label>

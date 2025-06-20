@@ -10,7 +10,7 @@ const AddProgram = () => {
                <div className="flex justify-between items-center">
                     {/* <button className="bg-orange-600 font-bold text-white px-8 py-2 rounded-3xl mt-2 hover:bg-orange-700 transition-all duration-300 hover:text-white">إضافة برنامج</button> */}
                     <AddProgramContetModel/>
-                    <h1 className="text-2xl text-white font-bold">البرامج التدريبيه</h1>
+                    <h1 className="text-2xl font-bold">البرامج التدريبيه</h1>
                </div>
                 <ProgramTable/>
                 <Paginator totalPages={2} />

@@ -30,7 +30,7 @@ export default function AddProgramContetModel() {
               transition
               className="w-full max-w-2xl space-y-7 rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
-              <DialogTitle as="h3" className="text-3xl font-medium text-white">
+              <DialogTitle as="h3" className="text-3xl font-medium ">
                   اضافه برنامج تدريبي
               </DialogTitle>
                 
@@ -46,7 +46,7 @@ export default function AddProgramContetModel() {
                   اغلاق
                 </Button>
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-white/20 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-500 data-open:bg-white/40"
+                  className="inline-flex items-center gap-2 rounded-md bg-green-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-white/40"
                   onClick={close}
                 >
                   حفظ

@@ -7,7 +7,7 @@ const EmployeePage = () => {
       {/* Employee details will be displayed here */}
       <div className="w-9/12 mx-auto mt-14 space-y-15"dir="ltr">
         <div>
-            <h1 className="text-white text-3xl font-bold">تفاصيل الموظف</h1>
+            <h1 className="text-3xl font-bold">تفاصيل الموظف</h1>
         </div>
         <div>
             <EmployeeDetailsTable/>

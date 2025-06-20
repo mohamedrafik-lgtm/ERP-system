@@ -116,17 +116,17 @@ export const Navbar = () => {
         
 // 
   return (
-    <nav className="py-2 px-4 bg-white/20 shadow-md flex items-center justify-between">
+    <nav className="py-2 px-4 bg-white shadow-md flex items-center justify-between">
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6">
         <img src={img1.src} alt="User" className="w-10 h-10 rounded-full" />
         <Dropmenu key={'accountant'} name="الحسابات" list={list3} />
         <Dropmenu key={"users"} name="المستخدمين" list={list2} />
         <Dropmenu key={"trainers"} name="شؤون المتدربين" list={list1} />
-        <li className="hidden md:block font-normal py-1 cursor-pointer px-3 text-white hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
+        <li className="hidden md:block font-normal py-1 cursor-pointer px-3  hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
           التعليم الالكتروني
         </li>
-        <li className="hidden md:block font-normal py-1 cursor-pointer px-3 text-white hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
+        <li className="hidden md:block font-normal py-1 cursor-pointer px-3 hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
           <Link href={"/dashboard"}>المسوق</Link>
         </li>
       </div>
@@ -153,7 +153,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="absolute top-20 right-4 bg-white border rounded-md p-4 shadow-lg z-50 w-64 flex flex-col space-y-3 md:hidden">
+        <div className="absolute top-20 right-4  border rounded-md p-4 shadow-lg z-50 w-64 flex flex-col space-y-3 md:hidden">
           <Dropmenu key={1} name="شؤون المتدربين" list={list1} />
           <Dropmenu key={2} name="المستخدمين" list={list2} />
           <Dropmenu key={3} name="الحسابات" list={list3} />
