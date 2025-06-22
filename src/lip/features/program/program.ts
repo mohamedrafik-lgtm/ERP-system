@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
-import { Program, ProgramData } from '@/interface';
+import { IProgram, UpdateProgramPayload, Program, ProgramData } from '@/interface';
 
 export const programApi = createApi({
   reducerPath: 'programApi',
@@ -20,11 +20,22 @@ export const programApi = createApi({
       query: () => `/api/programs`,
       providesTags: ['Programs'],
     }),
-    addProgram: build.mutation<Program, ProgramData>({
+    addProgram: build.mutation<Program, IProgram>({
       query: (body) => ({
         url: `/api/programs`,
         method: 'POST',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      invalidatesTags: ['Programs'],
+    }),
+    UpdateProgram: build.mutation<unknown, UpdateProgramPayload>({
+      query: ({data,id}) => ({
+        url: `/api/programs/${id}`,
+        method: 'PATCH',
+        body : data,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -41,4 +52,4 @@ export const programApi = createApi({
   }),
 });
 
-export const { useGetProgramsQuery, useAddProgramMutation ,useDeleteProgramMutation} = programApi;
+export const { useGetProgramsQuery, useAddProgramMutation ,useDeleteProgramMutation,useUpdateProgramMutation} = programApi;

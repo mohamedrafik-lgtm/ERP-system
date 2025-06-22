@@ -179,7 +179,7 @@ export interface IAttendanceAndDeparture{
 export interface ProgramData {
   nameAr: string;
   nameEn: string;
-  price: string;
+  price: number;
   description: string;
 }
 
@@ -187,9 +187,72 @@ export interface Program {
   id: number;
   nameAr: string;
   nameEn: string;
-  price: string;
+  price: number;
   description: string;
   _count: {
     trainees:number
   }
+}
+export interface UpdateProgramPayload {
+  id: number; // ID من الباث
+  data: {
+    nameAr: string;
+    nameEn: string;
+    price: number;
+    description: string;
+  };
+}
+export interface IProgram {
+  id: number;
+  nameAr: string;
+  nameEn: string;
+  price: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IStudentResponce {
+  id: number;
+  nameAr: string;
+  nameEn: string;
+  enrollmentType: string;
+  maritalStatus: string;
+  nationalId: string;
+  idIssueDate: string;
+  idExpiryDate: string;
+  programType: string;
+  nationality: string;
+  gender: string;
+  birthDate: string;
+  residenceAddress: string;
+  photoUrl: string;
+  religion: string;
+  programId: number;
+  country: string;
+  governorate: string;
+  city: string;
+  address: string;
+  phone: string;
+  email: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  guardianJob: string;
+  guardianRelation: string;
+  guardianNationalId: string;
+  landline: string;
+  whatsapp: string;
+  facebook: string;
+  educationType: string;
+  schoolName: string;
+  graduationDate: string;
+  totalGrade: number;
+  gradePercentage: number;
+  sportsActivity: string;
+  culturalActivity: string;
+  educationalActivity: string;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  program: IProgram;
 }

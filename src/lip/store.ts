@@ -3,12 +3,14 @@ import { loginApi } from './features/auth/login';
 import authReducer from './features/auth/authSlice';
 import { traineesApi } from './features/trainees/traineesApi';
 import { programApi } from './features/program/program';
+import addStudentApi from './features/student/addStudent';
 
 export const store = configureStore({
   reducer: {
     [loginApi.reducerPath]: loginApi.reducer,
     [traineesApi.reducerPath]: traineesApi.reducer,
     [programApi.reducerPath]: programApi.reducer,
+    [addStudentApi.reducerPath] : addStudentApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -16,6 +18,7 @@ export const store = configureStore({
       loginApi.middleware,
       traineesApi.middleware,
       programApi.middleware,
+      addStudentApi.middleware
     ),
 })
 

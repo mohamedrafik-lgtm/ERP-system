@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
+import toast from "react-hot-toast";
 
 interface LoginInputs {
   email: string;
@@ -58,7 +59,7 @@ const LoginPage = () => {
       if (response.access_token) {
         // إذا كان المستخدم قد اختار "تذكرني"، فقم بتعيين مدة صلاحية أطول للكوكيز
         const expiresIn = formData.remember ? 30 : 1; // 30 يوم أو 1 يوم
-        
+        toast.success('تم تسجيل الدخول بنجاح');
         // تخزين التوكن باسم access_token
         Cookies.set('access_token', response.access_token, { 
           expires: expiresIn,

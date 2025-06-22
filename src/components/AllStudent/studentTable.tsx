@@ -5,10 +5,12 @@ import img from "@/img/454375571_1646661866176465_6149835982982053363_n.jpg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import InlineMenu from "../ui/MenuReport";
+import { useGetStudentsQuery } from "@/lip/features/student/addStudent";
 
 const StudentTable = () => {
   const router = useRouter();
-
+const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
+         console.log(data)
   return (
     <div className="relative overflow-visible p-4 space-y-5">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white font-bold text-sm p-4 rounded-xl">
@@ -24,7 +26,7 @@ const StudentTable = () => {
         <div className="text-center col-span-2">الاجراءات</div>
       </div>
 
-      {students.map((student, idx) => (
+      {data?.map((student, idx) => (
         <div
           key={idx}
           className="relative z-[100] bg-white backdrop-blur-md rounded-xl  p-2 shadow-sm hover:shadow-md transition-all duration-200"
@@ -32,21 +34,21 @@ const StudentTable = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 items-center">
             <div>
               <Image
-                src={img.src}
-                alt={student.name}
+                src={student.photoUrl}
+                alt={student.nameEn}
                 width={40}
                 height={40}
                 className="rounded-full"
               />
             </div>
-            <div className="px-4 py-3 text-center font-medium ">{student.name}</div>
-            <div className="px-4 py-3 text-center ">{student.fileNumber}</div>
+            <div className="px-4 py-3 text-center font-medium ">{student.nameAr}</div>
+            <div className="px-4 py-3 text-center ">{student.id}</div>
             <div className="px-4 py-3 text-center ">{student.landline}</div>
-            <div className="px-4 py-3 text-center ">{student.specialization}</div>
+            <div className="px-4 py-3 text-center ">{student.program.nameAr}</div>
             <div className="px-4 py-3 text-center ">{student.phone}</div>
-            <div className="px-4 py-3 text-center font-semibold ">{student.dues}</div>
-            <div className="px-4 py-3 text-center ">5451151148884</div>
-            <div className="px-4 py-3 text-center ">1543</div>
+            <div className="px-4 py-3 text-center font-semibold ">1</div>
+            <div className="px-4 py-3 text-center ">1</div>
+            <div className="px-4 py-3 text-center ">{student.guardianNationalId}</div>
 
             <div
               className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm "

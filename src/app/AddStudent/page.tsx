@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
 import { selectIsAuthenticated, selectToken } from "@/lip/features/auth/authSlice"
 import Cookies from 'js-cookie'
+import toast from "react-hot-toast"
 
 const AddStudent = () => {
     const [addTrainee, { isLoading, isError }] = useAddTraineeMutation();
@@ -142,11 +143,11 @@ const AddStudent = () => {
         
         // عرض رسالة نجاح
         setSuccessMessage('تم إضافة الطالب بنجاح');
-        
+        toast.success('تم اضافه متدرب بنجاح');
         // الانتقال إلى صفحة قائمة الطلاب بعد إضافة الطالب بنجاح
-        setTimeout(() => {
-          router.push('/AllStudent');
-        }, 2000);
+        // setTimeout(() => {
+        //   router.push('/AllStudent');
+        // }, 2000);
       } catch (err: unknown) {
         console.error('Failed to add student:', err);
         

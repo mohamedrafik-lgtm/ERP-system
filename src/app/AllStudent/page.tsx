@@ -5,8 +5,7 @@ import Paginator from "@/components/ui/paginator";
 import { NavigationButton } from "@/components/ui/NavigationButton";
 
 const AllStudent = () => {
-        
-
+         
     return(
         <div className="mb-10">
             <div className="max-w-10/12 mx-auto pt-10 space-y-3">

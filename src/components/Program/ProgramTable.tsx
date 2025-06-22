@@ -1,6 +1,7 @@
 "use client";
 import { useGetProgramsQuery, useDeleteProgramMutation } from "@/lip/features/program/program";
 import ProgramTableSkeleton from "./ProgramTableSkeleton";
+import UpdateProgramContentModel from "./UpdateModle";
 
 const ProgramTable = () => {
   const { data: programs, error, isLoading } = useGetProgramsQuery();
@@ -46,9 +47,15 @@ const ProgramTable = () => {
                     >
                       {isDeleting ? "جارٍ الحذف..." : "حذف"}
                     </button>
-                    <button className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded-md cursor-pointer">
+                    <UpdateProgramContentModel data={{
+    nameAr: program.nameAr,
+    nameEn: program.nameEn,
+    price: program.price,
+    description: program.description,
+  }} id={program.id}/>
+                    {/* <button className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded-md cursor-pointer">
                       تعديل
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))
