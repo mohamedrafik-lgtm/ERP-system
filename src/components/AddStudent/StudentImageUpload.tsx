@@ -3,15 +3,27 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-export default function StudentImageUpload() {
+interface StudentImageUploadProps {
+  onImageUpload?: (file: File, preview: string) => void;
+}
+
+export default function StudentImageUpload({ onImageUpload }: StudentImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
+    const uploadedFile = acceptedFiles[0];
+    if (uploadedFile) {
+      const previewUrl = URL.createObjectURL(uploadedFile);
+      // setFile(uploadedFile);
+      setPreview(previewUrl);
+      
+      // إرسال الملف والصورة المعاينة إلى المكون الأب
+      if (onImageUpload) {
+        onImageUpload(uploadedFile, previewUrl);
+      }
     }
-  }, []);
+  }, [onImageUpload]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

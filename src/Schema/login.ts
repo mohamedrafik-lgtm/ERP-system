@@ -13,6 +13,9 @@ export const LoginSchema = yup
       .string()
       .required("كلمة المرور مطلوبة")
       .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+    remember: yup
+      .boolean()
+      .default(true)
   })
   .required()
 

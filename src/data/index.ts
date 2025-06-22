@@ -3,14 +3,58 @@ import { Account } from "@/interface";
 export const BasicDataInput: IAddStudent[] = [
   { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
   { name: "nameEnglish", type: "text", placeholder: "ضع الاسم بالأنجليزيه", label: "الاسم انجليزي", id: "EnglishName" },
-  { name: "admissionSystem", type: "text", placeholder: "اختر نظام", label: "نظام الإلتحاق", id: "admissionSystem" },
-  { name: "maritalState", type: "text", placeholder: "اختر", label: "الحاله الاجتماعيه", id: "maritalState" },
+  { 
+    name: "admissionSystem", 
+    type: "select", 
+    placeholder: "اختر نظام", 
+    label: "نظام الإلتحاق", 
+    id: "admissionSystem",
+    options: [
+      { value: "REGULAR", label: "منتظم" },
+      { value: "DISTANCE", label: "عن بعد" },
+      { value: "BOTH", label: "الاثنان معاً" }
+    ]
+  },
+  { 
+    name: "maritalState", 
+    type: "select", 
+    placeholder: "اختر", 
+    label: "الحاله الاجتماعيه", 
+    id: "maritalState",
+    options: [
+      { value: "SINGLE", label: "أعزب" },
+      { value: "MARRIED", label: "متزوج" },
+      { value: "DIVORCED", label: "مطلق" },
+      { value: "WIDOWED", label: "أرمل" }
+    ]
+  },
   { name: "marketer", type: "text", placeholder: "ضع اسم المسوق", label: "اسم المسوق", id: "marketerId" },
   { name: "nationalId", type: "text", placeholder: "ضع الرقم القومي", label: "الرقم القومي", id: "nationalId" },
   { name: "releaseDate", type: "date", placeholder: "", label: "تاريخ الاصدار", id: "releaseDate" },
   { name: "expirationDate", type: "date", placeholder: "", label: "تاريخ الانتهاء", id: "expirationDate" },
-  { name: "programType", type: "text", placeholder: "اختار نوع البرنامج", label: "نوع البرنامج", id: "programType" },
-  { name: "gender", type: "text", placeholder: "ذكر ام انثي؟", label: "الجنس", id: "genderId" },
+  { 
+    name: "programType", 
+    type: "select", 
+    placeholder: "اختار نوع البرنامج", 
+    label: "نوع البرنامج", 
+    id: "programType",
+    options: [
+      { value: "SUMMER", label: "صيفي" },
+      { value: "WINTER", label: "شتوي" },
+      { value: "ANNUAL", label: "سنوي" }
+    ]
+  },
+  { 
+    name: "gender", 
+    type: "select", 
+    placeholder: "ذكر ام انثي؟", 
+    label: "الجنس", 
+    id: "genderId",
+    options: [
+      { value: "MALE", label: "ذكر" },
+      { value: "FEMALE", label: "أنثى" }
+    ]
+  },
   { name: "nationality", type: "text", placeholder: "اختر جنسيه الطالب", label: "الجنسيه", id: "nationalityId" },
   { name: "dateOfBirth", type: "date", placeholder: "", label: "تاريخ الميلاد", id: "dateOfBirth" },
   { name: "placeOfBirth", type: "text", placeholder: "محل الميلاد", label: "محل الميلاد", id: "placeOfBirth" },
@@ -117,10 +161,20 @@ export const ContactInformationInput:IAddStudent[] = [
 export const EducationData:IAddStudent[] = [
     {
         name: "TypeOfEducation",
-        type: "text",
+        type: "select",
         placeholder: "اختر نوع التعليم",
         label: "نوع التعليم",
-        id: "Type-of-educationId"
+        id: "Type-of-educationId",
+        options: [
+            { value: "PREPARATORY", label: "إعدادي" },
+            { value: "INDUSTRIAL_SECONDARY", label: "ثانوي صناعي" },
+            { value: "COMMERCIAL_SECONDARY", label: "ثانوي تجاري" },
+            { value: "AGRICULTURAL_SECONDARY", label: "ثانوي زراعي" },
+            { value: "AZHAR_SECONDARY", label: "ثانوي أزهري" },
+            { value: "GENERAL_SECONDARY", label: "ثانوية عامة" },
+            { value: "UNIVERSITY", label: "جامعي" },
+            { value: "INDUSTRIAL_APPRENTICESHIP", label: "تلمذة صناعية" }
+        ]
     },
     {
         name: "School_Center_Name",

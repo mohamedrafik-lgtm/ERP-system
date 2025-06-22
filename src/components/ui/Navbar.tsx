@@ -3,9 +3,13 @@ import img from "@/img/502585454_122235753458244801_413190920156398012_n-removeb
 import img1 from "@/img/454375571_1646661866176465_6149835982982053363_n.jpg";
 import { Dropmenu } from "./Dropmenu";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ReactNode } from "react";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectCurrentUser } from "@/lip/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+
 interface IProps{
   name:string,
   svg:ReactNode,
@@ -13,6 +17,37 @@ interface IProps{
 }
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const currentUser = useSelector(selectCurrentUser);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // إغلاق القائمة عند النقر خارجها
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    // الانتقال إلى صفحة تسجيل الدخول
+    router.push("/login");
+    // إعادة تحميل الصفحة للتأكد من تطبيق التغييرات
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+  };
 
       const list1: IProps[] = [
           {
@@ -28,7 +63,7 @@ export const Navbar = () => {
           {
             name: "البحث في المتدربين", svg: (
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198 .001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
               </svg>
             ),
             url: "/AllStudent"
@@ -45,7 +80,7 @@ export const Navbar = () => {
           {
             name: "السكاشن", svg: (
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198 .001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
               </svg>
             ),
             url: "/StudentSections"
@@ -56,7 +91,7 @@ export const Navbar = () => {
            name: "المستخدمين",
            svg: (
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-               <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+               <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198 .001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
              </svg>
 
            ),
@@ -119,11 +154,69 @@ export const Navbar = () => {
     <nav className="py-2 px-4 bg-white shadow-md flex items-center justify-between">
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6">
-        <img src={img1.src} alt="User" className="w-10 h-10 rounded-full" />
+        <div className="relative" ref={userMenuRef}>
+          {/* صورة المستخدم كزر للقائمة المنسدلة */}
+          <div 
+            className="cursor-pointer relative"
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+          >
+            <img 
+              src={img1.src} 
+              alt="User" 
+              className="w-10 h-10 rounded-full border-2 border-orange-500 hover:border-orange-600 transition-all duration-200 shadow-md" 
+            />
+            {/* مؤشر الحالة (النقطة الخضراء) */}
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+          </div>
+
+          {/* User Menu Dropdown */}
+          {userMenuOpen && (
+            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl z-50 overflow-hidden">
+              {/* رأس القائمة مع معلومات المستخدم */}
+              <div className="px-4 py-3 bg-gray-50 border-b">
+                <div className="flex items-center">
+                  <img src={img1.src} alt="User" className="w-12 h-12 rounded-full border-2 border-orange-500" />
+                  <div className="mr-3">
+                    <p className="text-sm font-semibold">{currentUser?.name}</p>
+                    <p className="text-xs text-gray-600">{currentUser?.email}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* خيارات القائمة */}
+              <div className="py-1">
+                <Link href="/profile" className="flex items-center px-4 py-2 text-sm hover:bg-gray-100">
+                  <svg className="ml-2 h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  الملف الشخصي
+                </Link>
+                <Link href="/settings" className="flex items-center px-4 py-2 text-sm hover:bg-gray-100">
+                  <svg className="ml-2 h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  الإعدادات
+                </Link>
+                <hr className="my-1" />
+                <button 
+                  onClick={handleLogout} 
+                  className="flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >
+                  <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  تسجيل الخروج
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <Dropmenu key={'accountant'} name="الحسابات" list={list3} />
         <Dropmenu key={"users"} name="المستخدمين" list={list2} />
         <Dropmenu key={"trainers"} name="شؤون المتدربين" list={list1} />
-        <li className="hidden md:block font-normal py-1 cursor-pointer px-3  hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
+        <li className="hidden md:block font-normal py-1 cursor-pointer px-3 hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
           التعليم الالكتروني
         </li>
         <li className="hidden md:block font-normal py-1 cursor-pointer px-3 hover:bg-orange-600 hover:text-white transition-all duration-300 rounded-md">
@@ -153,20 +246,43 @@ export const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="absolute top-20 right-4  border rounded-md p-4 shadow-lg z-50 w-64 flex flex-col space-y-3 md:hidden">
+        <div className="absolute top-20 right-4 border rounded-md p-4 shadow-lg z-50 w-64 flex flex-col space-y-3 md:hidden bg-white">
           <Dropmenu key={1} name="شؤون المتدربين" list={list1} />
           <Dropmenu key={2} name="المستخدمين" list={list2} />
           <Dropmenu key={3} name="الحسابات" list={list3} />
           <li className="font-normal py-1 px-3 hover:bg-orange-600 cursor-pointer hover:text-white transition-all duration-300 rounded-md">
-          التعليم الالكتروني
-
+            التعليم الالكتروني
           </li>
-          <Image src={img1.src} alt="User" width={40} height={40} className="rounded-full self-end" />
+          
+          {/* User Profile in Mobile Menu */}
+          <div className="border-t pt-3 mt-2">
+            <div className="flex items-center pb-2">
+              <Image src={img1.src} alt="User" width={40} height={40} className="rounded-full border-2 border-orange-500" />
+              <div className="mr-3">
+                <p className="text-sm font-medium">{currentUser?.name}</p>
+                <p className="text-xs text-gray-600">{currentUser?.email}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <Link href="/profile" className="bg-gray-100 text-center text-sm py-1 px-2 rounded hover:bg-gray-200">
+                الملف الشخصي
+              </Link>
+              <Link href="/settings" className="bg-gray-100 text-center text-sm py-1 px-2 rounded hover:bg-gray-200">
+                الإعدادات
+              </Link>
+              <button 
+                onClick={handleLogout}
+                className="col-span-2 bg-red-50 text-center text-sm py-1 px-2 rounded text-red-600 hover:bg-red-100"
+              >
+                تسجيل الخروج
+              </button>
+            </div>
+          </div>
         </div>
       )}
       <div className="flex items-center space-x-4">
        <Link href={"/"}>
-           <Image src={img.src} width={100} height={100}  alt="Logo" />
+           <Image src={img.src} width={100} height={100} alt="Logo" />
        </Link>
       </div>
     </nav>

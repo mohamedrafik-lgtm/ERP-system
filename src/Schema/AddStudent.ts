@@ -21,6 +21,7 @@ export const studentFormSchema: yup.ObjectSchema<IFormValues> = yup.object({
   placeOfBirth: yup.string().required("مكان الميلاد مطلوب"),
   religion: yup.string().required("الديانة مطلوبة"),
   program: yup.string().required("البرنامج مطلوب"),
+  photoUrl: yup.string().nullable(),
 
   The_state: yup.string().required("الدولة مطلوبة"),
   Governorate: yup.string().required("المحافظة مطلوبة"),

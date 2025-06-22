@@ -6,6 +6,7 @@ export interface IAddStudent {
   placeholder: string;
   label: string;
   id: string;
+  options?: { value: string; label: string }[];
 }
 
 export interface FilterButtonProps {
@@ -35,6 +36,9 @@ export type IFormValues = {
   placeOfBirth: string;
   religion: string;
   program: string;
+  
+  // صورة الطالب
+  photoUrl?: string | null;
 
   // ContactInformationInput
   The_state: string;
@@ -170,4 +174,22 @@ export interface IAttendanceAndDeparture{
     DateOfAttendance:string,
     DepartureTime:string,
     day:string
+}
+
+export interface ProgramData {
+  nameAr: string;
+  nameEn: string;
+  price: string;
+  description: string;
+}
+
+export interface Program {
+  id: number;
+  nameAr: string;
+  nameEn: string;
+  price: string;
+  description: string;
+  _count: {
+    trainees:number
+  }
 }

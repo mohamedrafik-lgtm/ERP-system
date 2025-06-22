@@ -13,14 +13,28 @@ const TraineeControl = () => {
   const {
           register,
           handleSubmit,
+          setValue,
           formState: { errors },
         } = useForm<IFormValues>({
           resolver: yupResolver(studentFormSchema),
+          mode: 'onBlur', // تفعيل التحقق عند فقدان التركيز
         });
-      console.log(errors)
+      
+      console.log(errors);
+      
       const onSubmit: SubmitHandler<IFormValues> = (data) => {
-        console.log(data)
+        // الآن جميع البيانات بما فيها الصورة متوفرة في كائن data
+        console.log("جميع بيانات النموذج:", data);
+        
+        // هنا يمكنك إرسال البيانات إلى الخادم
+        // مثال: sendDataToServer(data);
       }
+
+  const handleImageUpload = (file: File, preview: string) => {
+    // تعيين قيمة photoUrl في النموذج مباشرة
+    setValue('photoUrl', preview);
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} dir="ltr" className="w-9/12 mx-auto pt-14 space-y-14">
@@ -85,39 +99,46 @@ const TraineeControl = () => {
         <div  className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات المتدرب</h2>
             <div className="grid grid-cols-2 gap-4  text-white">
-                      <StudentInformation errors={errors}  register={register}  data={BasicDataInput}/>
+                      <StudentInformation errors={errors}  register={register}  data={BasicDataInput} required={true}/>
             </div>
         </div>
         <div className="space-y-5 font-bold"> 
-            <h2 className="text-white text-2xl border-b py-4">رفع صورة المتدرب</h2>
+            <h2 className="text-white text-2xl border-b py-4">رفع صورة المتدرب <span className="text-red-500">*</span></h2>
              {/* Upload Image */}
              <div className="text-white">
-                 <StudentImageUpload/>
+                 <StudentImageUpload onImageUpload={handleImageUpload} />
+                 {/* حقل مخفي لتخزين قيمة الصورة */}
+                 <input type="hidden" {...register('photoUrl', { required: "صورة الطالب مطلوبة" })} />
+                 {errors.photoUrl?.message && (
+                   <p className="text-red-400 text-sm mt-2">
+                     {errors.photoUrl.message.toString()}
+                   </p>
+                 )}
              </div>
         </div>
         <div className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">معلومات التواصل</h2>
              {/* Contact Information */}
            <div className="grid grid-cols-2 gap-4  text-white">
-           <StudentInformation errors={errors} register={register}  data={ContactInformationInput}/>
+           <StudentInformation errors={errors} register={register}  data={ContactInformationInput} required={true}/>
            </div>
         </div>
         <div className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات تعليمية</h2>
             {/* Education Data */}
             <div className="grid grid-cols-2 gap-4  text-white">
-            <StudentInformation errors={errors} register={register}  data={EducationData}/>
+            <StudentInformation errors={errors} register={register}  data={EducationData} required={true}/>
             </div>
         </div>
         <div className="space-y-5 font-bold">
             <h2 className="text-white text-2xl border-b py-4">بيانات اضافيه</h2>
             {/* Education Data */}
             <div className="grid grid-cols-2 gap-4  text-white">
-            <StudentInformation errors={errors} register={register}  data={AdditionalData}/>
+            <StudentInformation errors={errors} register={register}  data={AdditionalData} required={false}/>
             </div>
         </div>
         <div className="mb-10">
-          <button className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition duration-300">
+          <button type="submit" className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition duration-300">
             حفظ التعديلات
           </button>
 

@@ -3,8 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 
-import { Navbar } from "@/components/ui/Navbar";
+// import { Navbar } from "@/components/ui/Navbar";
 import { StoreProvider } from "@/lip/StoreProvider";
+import ProtectedLayout from "./protected-layout";
 // import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
@@ -34,21 +35,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <StoreProvider>
     <html lang="ar" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} antialiased bg-gray-100`}
       >
         <StoreProvider>
-              <Navbar/>
-              <main>      
-                   {children}
-              </main>
+          <ProtectedLayout>
+            {children}
+          </ProtectedLayout>
         </StoreProvider>
-         {/* <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light"> */}
-         {/* </ThemeProvider> */}
       </body>
     </html>
-    </StoreProvider>
   );
 }

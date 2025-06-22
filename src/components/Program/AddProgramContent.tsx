@@ -1,96 +1,56 @@
-'use client'
-import React, { useState } from "react";
-import { Input } from '../input';
+import { ProgramData } from "@/interface";
+import { Input } from "../input";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-interface AddProgramFormProps {
-  onSubmit: (data: ProgramData) => void;
-}
+type InputProps = {
+  register: UseFormRegister<ProgramData>;
+  required?: boolean;
+  errors: FieldErrors<ProgramData>;
+};
 
-export interface ProgramData {
-  nameAr: string;
-  nameEn: string;
-  price: string;
-  description: string;
-}
-
-const AddProgramForm: React.FC<AddProgramFormProps> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState<ProgramData>({
-    nameAr: "",
-    nameEn: "",
-    price: "",
-    description: "",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
-
+const AddProgramForm = ({ register, errors }: InputProps) => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="space-y-4">
       <div>
-        <label className="block text-sm  mb-1">اسم البرنامج (بالعربي)</label>
+        <label className="block text-sm mb-1">اسم البرنامج (بالعربي)</label>
         <Input
           type="text"
-          name="nameAr"
-          value={formData.nameAr}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          {...register("nameAr", { required: "اسم البرنامج بالعربي مطلوب" })}
+          className="w-full border border-gray-300 rounded px-3 py-2"
         />
+        {errors.nameAr && <p className="text-red-500 text-sm">{errors.nameAr.message}</p>}
       </div>
 
       <div>
-        <label className="block text-sm  mb-1">اسم البرنامج (بالإنجليزي)</label>
+        <label className="block text-sm mb-1 ">اسم البرنامج (بالإنجليزي)</label>
         <Input
           type="text"
-          name="nameEn"
-          value={formData.nameEn}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          {...register("nameEn", { required: "اسم البرنامج بالإنجليزي مطلوب" })}
+          className="w-full border border-gray-300 rounded px-3 py-2"
         />
+        {errors.nameEn && <p className="text-red-500 text-sm">{errors.nameEn.message}</p>}
       </div>
 
       <div>
-        <label className="block text-sm mb-1">سعر البرنامج</label>
+        <label className="block text-sm mb-1 ">سعر البرنامج</label>
         <Input
           type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 bg-white rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+          {...register("price", { required: "سعر البرنامج مطلوب" })}
+          className="w-full border border-gray-300 rounded px-3 py-2"
         />
+        {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
       </div>
 
       <div>
-        <label className="block text-sm mb-1">وصف قصير</label>
+        <label className="block text-sm mb-1 ">وصف قصير</label>
         <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
+          {...register("description", { required: "وصف البرنامج مطلوب" })}
           rows={3}
-          className="w-full border border-gray-300 bg-white rounded px-3 py-2 resize-none focus:outline-none focus:ring focus:ring-blue-200"
+          className="w-full border border-gray-300 rounded px-3 py-2 resize-none"
         />
+        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
       </div>
-
-      {/* <div className="text-end">
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          حفظ البرنامج
-        </button>
-      </div> */}
-    </form>
+    </div>
   );
 };
 

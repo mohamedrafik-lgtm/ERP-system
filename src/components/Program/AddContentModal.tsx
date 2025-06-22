@@ -1,61 +1,89 @@
 "use client";
-import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import { useState } from 'react'
-import AddProgramForm from './AddProgramContent';
 
-export default function AddProgramContetModel() {
-  const [isOpen, setIsOpen] = useState(false)
+import { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  Button,
+} from "@headlessui/react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { ProgramData } from "@/interface";
+import AddProgramForm from "./AddProgramContent";
+import { useAddProgramMutation } from "@/lip/features/program/program"; // تأكد من المسار الصحيح
 
-  function open() {
-    setIsOpen(true)
-  }
+export default function AddProgramContentModel() {
+  const [isOpen, setIsOpen] = useState(false);
 
-  function close() {
-    setIsOpen(false)
-  }
+
+  const [addProgram, { isLoading, isError, isSuccess }] = useAddProgramMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset, 
+  } = useForm<ProgramData>();
+
+  const onSubmit: SubmitHandler<ProgramData> = async (data) => {
+    try {
+      await addProgram(data).unwrap();
+      console.log("تم الإضافة بنجاح");
+      setIsOpen(false);
+      reset(); 
+    } catch (err) {
+      console.error("فشل في إضافة البرنامج:", err);
+    }
+  };
 
   return (
     <>
       <Button
-        onClick={open}
-        className="text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white"
+        onClick={() => setIsOpen(true)}
+        className="text-white px-7 py-2 bg-orange-600 hover:bg-orange-700 rounded-xl"
       >
-        اضاهف برنامج     
-     </Button>
+        اضف برنامج
+      </Button>
 
-      <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
+      <Dialog open={isOpen} as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel
-              transition
-              className="w-full max-w-2xl space-y-7 rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full max-w-2xl space-y-7 rounded-xl bg-white/5 p-6 backdrop-blur-2xl"
             >
-              <DialogTitle as="h3" className="text-3xl font-medium ">
-                  اضافه برنامج تدريبي
+              <DialogTitle as="h3" className="text-3xl font-medium">
+                اضافه برنامج تدريبي
               </DialogTitle>
-                
-              <AddProgramForm onSubmit={(data) => {
-                  console.log("Program submitted:", data)
-              }}/>
+
+              <AddProgramForm register={register} errors={errors} />
+
+              {isError && (
+                <p className="text-red-500 text-sm">حدث خطأ أثناء حفظ البرنامج.</p>
+              )}
+              {isSuccess && (
+                <p className="text-green-500 text-sm">تم حفظ البرنامج بنجاح.</p>
+              )}
 
               <div className="mt-4 space-x-5">
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-red-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-red-600 data-open:bg-red-700"
-                  onClick={close}
+                  type="button"
+                  className="bg-red-500 text-white px-3 py-1.5 rounded"
+                  onClick={() => setIsOpen(false)}
                 >
                   اغلاق
                 </Button>
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-green-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-white/40"
-                  onClick={close}
+                  type="submit"
+                  className="bg-green-500 text-white px-3 py-1.5 rounded"
+                  disabled={isLoading}
                 >
-                  حفظ
+                  {isLoading ? "جاري الحفظ..." : "حفظ"}
                 </Button>
               </div>
-            </DialogPanel>
+            </form>
           </div>
         </div>
       </Dialog>
     </>
-  )
+  );
 }
