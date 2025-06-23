@@ -63,20 +63,10 @@ const AddStudent = () => {
     
     const onSubmit: SubmitHandler<IFormValues> = async (data) => {
       try {
-        setErrorMessage(null);
-        setSuccessMessage(null);
-        
-        // طباعة البيانات المرسلة للتحقق من القيم
-        console.log('Form data being submitted:', {
-          enrollmentType: data.admissionSystem,
-          maritalStatus: data.maritalState,
-          programType: data.programType,
-          gender: data.gender,
-          educationType: data.TypeOfEducation
-        });
         
         // التحقق من وجود التوكن قبل إرسال الطلب
         const authToken = token || Cookies.get('auth_token');
+
         console.log('Token before submission:', authToken);
         
         if (!authToken) {
@@ -141,13 +131,11 @@ const AddStudent = () => {
         const response = await addTrainee(traineeData).unwrap();
         console.log('API response:', response);
         
-        // عرض رسالة نجاح
+        
         setSuccessMessage('تم إضافة الطالب بنجاح');
         toast.success('تم اضافه متدرب بنجاح');
-        // الانتقال إلى صفحة قائمة الطلاب بعد إضافة الطالب بنجاح
-        // setTimeout(() => {
-        //   router.push('/AllStudent');
-        // }, 2000);
+       
+
       } catch (err: unknown) {
         console.error('Failed to add student:', err);
         
@@ -160,7 +148,7 @@ const AddStudent = () => {
           
           // إذا كان الخطأ 401 (Unauthorized)، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
           if (errorData.status === 401) {
-            setErrorMessage('انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.');
+            toast.success('انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.');
             setTimeout(() => {
               router.push('/login');
             }, 2000);

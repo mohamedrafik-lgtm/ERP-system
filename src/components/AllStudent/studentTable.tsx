@@ -5,7 +5,7 @@ import img from "@/img/454375571_1646661866176465_6149835982982053363_n.jpg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import InlineMenu from "../ui/MenuReport";
-import { useGetStudentsQuery } from "@/lip/features/student/addStudent";
+import { useGetStudentsQuery } from "@/lip/features/student/student";
 
 const StudentTable = () => {
   const router = useRouter();
@@ -82,6 +82,7 @@ const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
                   </svg>
                 }
               />
+              {/* update button */}
               <button
                 onClick={() => router.push(`/AllStudent/${student.id}`)}
                 className="bg-white/20 hover:bg-white/50  py-1 px-2 rounded-md cursor-pointer"

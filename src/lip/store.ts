@@ -3,7 +3,7 @@ import { loginApi } from './features/auth/login';
 import authReducer from './features/auth/authSlice';
 import { traineesApi } from './features/trainees/traineesApi';
 import { programApi } from './features/program/program';
-import addStudentApi from './features/student/addStudent';
+import addStudentApi from './features/student/student';
 
 export const store = configureStore({
   reducer: {

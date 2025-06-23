@@ -20,6 +20,7 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     className?: string;
 }
 export type IFormValues = {
+  id:number;
   // BasicDataInput
   nameArabic: string;
   nameEnglish: string;
@@ -203,6 +204,7 @@ export interface UpdateProgramPayload {
   };
 }
 export interface IProgram {
+  name: string;
   id: number;
   nameAr: string;
   nameEn: string;

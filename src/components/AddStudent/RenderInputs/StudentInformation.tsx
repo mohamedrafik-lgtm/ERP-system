@@ -1,5 +1,5 @@
 import { UseFormRegister, Path, FieldErrors } from "react-hook-form";
-import { IAddStudent, IFormValues } from "@/interface";
+import { IAddStudent, IFormValues, IStudentResponce } from "@/interface";
 
 type InputProps = {
   register: UseFormRegister<IFormValues>;
