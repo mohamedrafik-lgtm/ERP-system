@@ -1,14 +1,16 @@
 import { IAddStudent, IAttendanceAndDeparture } from "@/interface";
 import { Account } from "@/interface";
+
+
 export const BasicDataInput: IAddStudent[] = [
-  { name: "nameArabic", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
-  { name: "nameEnglish", type: "text", placeholder: "ضع الاسم بالأنجليزيه", label: "الاسم انجليزي", id: "EnglishName" },
+  { name: "nameAr", type: "text", placeholder: "ضع الاسم بالعربيه", label: "الاسم عربي", id: "arabicName" },
+  { name: "nameEn", type: "text", placeholder: "ضع الاسم بالأنجليزيه", label: "الاسم انجليزي", id: "EnglishName" },
   { 
-    name: "admissionSystem", 
+    name: "enrollmentType", 
     type: "select", 
     placeholder: "اختر نظام", 
     label: "نظام الإلتحاق", 
-    id: "admissionSystem",
+    id: "enrollmentTypeid",
     options: [
       { value: "REGULAR", label: "منتظم" },
       { value: "DISTANCE", label: "عن بعد" },
@@ -16,11 +18,11 @@ export const BasicDataInput: IAddStudent[] = [
     ]
   },
   { 
-    name: "maritalState", 
+    name: "maritalStatus", 
     type: "select", 
     placeholder: "اختر", 
     label: "الحاله الاجتماعيه", 
-    id: "maritalState",
+    id: "maritalStatus",
     options: [
       { value: "SINGLE", label: "أعزب" },
       { value: "MARRIED", label: "متزوج" },
@@ -30,8 +32,8 @@ export const BasicDataInput: IAddStudent[] = [
   },
   { name: "marketer", type: "text", placeholder: "ضع اسم المسوق", label: "اسم المسوق", id: "marketerId" },
   { name: "nationalId", type: "text", placeholder: "ضع الرقم القومي", label: "الرقم القومي", id: "nationalId" },
-  { name: "releaseDate", type: "date", placeholder: "", label: "تاريخ الاصدار", id: "releaseDate" },
-  { name: "expirationDate", type: "date", placeholder: "", label: "تاريخ الانتهاء", id: "expirationDate" },
+  { name: "idIssueDate", type: "date", placeholder: "", label: "تاريخ الاصدار", id: "idIssueDate" },
+  { name: "idExpiryDate", type: "date", placeholder: "", label: "تاريخ الانتهاء", id: "idExpiryDate" },
   { 
     name: "programType", 
     type: "select", 
@@ -56,22 +58,30 @@ export const BasicDataInput: IAddStudent[] = [
     ]
   },
   { name: "nationality", type: "text", placeholder: "اختر جنسيه الطالب", label: "الجنسيه", id: "nationalityId" },
-  { name: "dateOfBirth", type: "date", placeholder: "", label: "تاريخ الميلاد", id: "dateOfBirth" },
-  { name: "placeOfBirth", type: "text", placeholder: "محل الميلاد", label: "محل الميلاد", id: "placeOfBirth" },
+  { name: "birthDate", type: "date", placeholder: "", label: "تاريخ الميلاد", id: "dateOfBirth" },
+  { name: "birthDate", type: "date", placeholder: "", label: "تاريخ الميلاد", id: "dateOfBirth" },
+  { name: "createdAt", type: "date", placeholder: "", label: "تاريخ الانشأ", id: "dateOfBirth" },
+  { name: "updatedAt", type: "date", placeholder: "", label: "تاريخ التعديل", id: "dateOfBirth" },
+  { name: "residenceAddress", type: "text", placeholder: "محل الميلاد", label: "محل الميلاد", id: "residenceAddress" },
   { name: "religion", type: "text", placeholder: "حدد ديانه الطالب", label: "الديانه", id: "religionId" },
-  { name: "program", type: "text", placeholder: "اختار البرنامج", label: "البرنامج", id: "programId" }
+  { name: "program", type: "select", placeholder: "اختار البرنامج", label: "البرنامج", id: "programId" ,
+    options: [
+      { value: 1, label: "ذكاء اصطناعي" },
+      { value: 2, label: "هندسه برمجيات" }
+    ]
+  }
 ];
 
 export const ContactInformationInput:IAddStudent[] = [
     {
-        name: "The_state",
+        name: "country",
         type: "text",
         placeholder: "الدوله",
         label: "الدوله",
         id: "TheState"
     },
     {
-        name: "Governorate",
+        name: "governorate",
         type: "text",
         placeholder: "المحافظه",
         label: "المحافظه",
@@ -89,11 +99,11 @@ export const ContactInformationInput:IAddStudent[] = [
         label: "العنوان",
         id: "addressId"
     },{
-        name: "mobileNumber",
+        name: "phone",
         type: "text",
         placeholder: "رقم الهاتف",
         label: "رقم الهاتف",
-        id: "mobileNumberId"
+        id: "phoneId"
     },
     {
         name: "email",
@@ -103,42 +113,42 @@ export const ContactInformationInput:IAddStudent[] = [
         id: "emailId"
     },
     {
-        name: "ParentMobile",
+        name: "guardianPhone",
         type: "text",
         placeholder: "رقم ولي الامر",
         label: "رقم ولي الامر",
         id: "Parent's_mobileId"
     },
     {
-        name: "ParentEmail",
+        name: "guardianEmail",
         type: "text",
         placeholder: "ايميل ولي الامر",
         label: "ايميل ولي الامر",
         id: "Parent's_emailId"
     },
     {
-        name: "GuardianJob",
+        name: "guardianJob",
         type: "text",
         placeholder: " وظيفه ولي الامر",
         label: "وظيفه ولي الامر",
         id: "Guardian's_jobId"
     },
     {
-        name: "RelationshipWithTheGuardian",
+        name: "guardianRelation",
         type: "text",
         placeholder: "صله القرابه مع ولي الامر",
         label: "صله القرابه مع ولي الامر",
-        id: "Relationship_with_the_guardianId"
+        id: "guardianRelationId"
     },
     {
-        name: "NationalIDOfTheGuardian",
+        name: "guardianNationalId",
         type: "text",
         placeholder: "الرقم القومي لولي الامر",
         label: "الرقم القومي لولي الامر",
         id: "National-ID-of-the-guardianId"
     },
     {
-        name: "Landline",
+        name: "landline",
         type: "text",
         placeholder: "رقم الهاتف الارضى",
         label: "رقم الهاتف الارضى",
@@ -160,11 +170,11 @@ export const ContactInformationInput:IAddStudent[] = [
 ];
 export const EducationData:IAddStudent[] = [
     {
-        name: "TypeOfEducation",
+        name: "educationType",
         type: "select",
         placeholder: "اختر نوع التعليم",
         label: "نوع التعليم",
-        id: "Type-of-educationId",
+        id: "educationTypeId",
         options: [
             { value: "PREPARATORY", label: "إعدادي" },
             { value: "INDUSTRIAL_SECONDARY", label: "ثانوي صناعي" },
@@ -177,27 +187,27 @@ export const EducationData:IAddStudent[] = [
         ]
     },
     {
-        name: "School_Center_Name",
+        name: "schoolName",
         type: "text",
         placeholder: "إسم المدرسة/المركز:",
         label: "إسم المدرسة/المركز:",
         id: "School/Center Name:Id"
     },
     {
-        name: "DateOfObtainingTheQualification",
+        name: "graduationDate",
         type: "date",
         placeholder: "تاريخ الحصول على المؤهل",
         label: "تاريخ الحصول على المؤهل",
         id: "Date-of-obtaining-the-qualificationId"
     },{
-        name: "HighSchoolTotal",
+        name: "totalGrade",
         type: "text",
         placeholder: "مجموع الثانوية ",
         label: "مجموع الثانوية ",
         id: "High-school-totalId"
     },
     {
-        name: "HighSchoolPercentage",
+        name: "gradePercentage",
         type: "text",
         placeholder: "نسبة الثانوية",
         label: "نسبة الثانوية",
@@ -206,29 +216,29 @@ export const EducationData:IAddStudent[] = [
 ]
 export const AdditionalData:IAddStudent[] = [
     {
-        name: "SportsActivity",
+        name: "sportsActivity",
         type: "text",
         placeholder: "النشاط الرياضي",
         label: "النشاط الرياضي",
         id: "Sports-activityId"
     },{
-        name: "CulturalAndArtisticActivity",
+        name: "culturalActivity",
         type: "text",
         placeholder: " النشاط الثقافي والفني",
         label: "النشاط الثقافي والفني",
         id: "Cultural-and-artistic-activityId"
     }, {
-        name: "ScientificActivity",
+        name: "educationalActivity",
         type: "text",
         placeholder: "النشاط العلمي",
         label: "النشاط العلمي",
         id: "Scientific-activityId"
     },{
-        name: "comments",
+        name: "notes",
         type: "text",
         placeholder: "الملاحظات",
         label: "الملاحظات",
-        id: "commentsId"
+        id: "notesId"
     }
 ]
 
@@ -802,3 +812,53 @@ export const AttendanceAndDepartureData :IAttendanceAndDeparture[] = [
     day: "الخميس"
   },
 ]
+
+export const enumOptions = {
+  enrollmentType: {
+    REGULAR: 'منتظم',
+    DISTANCE: 'عن بعد',
+    BOTH: 'كلاهما'
+  },
+  maritalStatus: {
+    SINGLE: 'أعزب',
+    MARRIED: 'متزوج',
+    DIVORCED: 'مطلق',
+    WIDOWED: 'أرمل'
+  },
+  programType: {
+    SUMMER: 'صيفي',
+    WINTER: 'شتوي',
+    ANNUAL: 'سنوي'
+  },
+  Gender: {
+    MALE: 'ذكر',
+    FEMALE: 'أنثى'
+  },
+  Religion: {
+    ISLAM: 'الإسلام',
+    CHRISTIANITY: 'المسيحية',
+    JUDAISM: 'اليهودية'
+  },
+  IEducationType: {
+    PREPARATORY: 'إعدادي',
+    INDUSTRIAL_SECONDARY: 'ثانوي صناعي',
+    COMMERCIAL_SECONDARY: 'ثانوي تجاري',
+    AGRICULTURAL_SECONDARY: 'ثانوي زراعي',
+    AZHAR_SECONDARY: 'ثانوي أزهري',
+    GENERAL_SECONDARY: 'ثانوي عام',
+    UNIVERSITY: 'جامعي',
+    INDUSTRIAL_APPRENTICESHIP: 'تدريب صناعي'
+  },
+  ITraineeStatus: {
+    NEW: 'جديد',
+    CURRENT: 'حالي',
+    GRADUATE: 'خريج',
+    WITHDRAWN: 'منسحب'
+  },
+  IClassLevel: {
+    FIRST: 'الأول',
+    SECOND: 'الثاني',
+    THIRD: 'الثالث',
+    FOURTH: 'الرابع'
+  }
+};

@@ -1,11 +1,11 @@
 import { UseFormRegister, Path, FieldErrors } from "react-hook-form";
-import { IAddStudent, IFormValues, IStudentResponce } from "@/interface";
+import { IAddStudent, IRequist } from "@/interface";
 
 type InputProps = {
-  register: UseFormRegister<IFormValues>;
+  register: UseFormRegister<IRequist>;
   required?: boolean;
   data: IAddStudent[];
-  errors: FieldErrors<IFormValues>;
+  errors: FieldErrors<IRequist>;
 };
 
 export const StudentInformation = ({ register, required = true, data, errors }: InputProps) => {
@@ -16,11 +16,11 @@ export const StudentInformation = ({ register, required = true, data, errors }: 
       {itm.type === "select" && itm.options ? (
         <select
           id={itm.id}
-          {...register(itm.name as Path<IFormValues>, { 
+          {...register(itm.name as Path<IRequist>, { 
             required: required ? `${itm.label} مطلوب` : false,
           })}
           className="rounded-md p-2 bg-white w-full placeholder-black/20"
-          defaultValue=""
+          defaultValue={1}
         >
           <option value="">{itm.placeholder}</option>
           {itm.options.map((option) => (
@@ -34,14 +34,14 @@ export const StudentInformation = ({ register, required = true, data, errors }: 
           type={itm.type}
           id={itm.id}
           placeholder={itm.placeholder}
-          {...register(itm.name as Path<IFormValues>, { required: required ? `${itm.label} مطلوب` : false })}
+          {...register(itm.name as Path<IRequist>, { required: required ? `${itm.label} مطلوب` : false })}
           className="rounded-md p-2 bg-white w-full placeholder-black/20"
         />
       )}
       
-      {errors[itm.name as Path<IFormValues>]?.message && (
+      {errors[itm.name as Path<IRequist>]?.message && (
         <p className="text-red-400 text-sm">
-          {errors[itm.name as Path<IFormValues>]?.message?.toString()}
+          {errors[itm.name as Path<IRequist>]?.message?.toString()}
         </p>
       )}
     </div>

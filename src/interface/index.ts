@@ -6,7 +6,7 @@ export interface IAddStudent {
   placeholder: string;
   label: string;
   id: string;
-  options?: { value: string; label: string }[];
+  options?: { value: string | number; label: string }[];
 }
 
 export interface FilterButtonProps {
@@ -20,7 +20,7 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     className?: string;
 }
 export type IFormValues = {
-  id:number;
+  // id:number;
   // BasicDataInput
   nameArabic: string;
   nameEnglish: string;
@@ -256,5 +256,183 @@ export interface IStudentResponce {
   notes: string;
   createdAt: string;
   updatedAt: string;
-  program: IProgram;
+  program:IProgram
+}
+export interface IRequist{
+  nameAr: string;
+  nameEn: string;
+  enrollmentType: string;
+  maritalStatus: string;
+  nationalId: string;
+  idIssueDate: string;
+  idExpiryDate: string;
+  programType: string;
+  nationality: string;
+  gender: string;
+  birthDate: string;
+  residenceAddress: string;
+  photoUrl: string;
+  religion: string;
+  programId: number;
+  country: string;
+  governorate: string;
+  city: string;
+  address: string;
+  phone: string;
+  email: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  guardianJob: string;
+  guardianRelation: string;
+  guardianNationalId: string;
+  landline: string;
+  whatsapp: string;
+  facebook: string;
+  educationType: string;
+  schoolName: string;
+  graduationDate: string;
+  totalGrade: number;
+  gradePercentage: number;
+  sportsActivity: string;
+  culturalActivity: string;
+  educationalActivity: string;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  program: string;
+}
+
+// البرنامج لما تختار اختيار يرجع id الاختيار دا عشان هستقبل الاختيارات من الباك اند 
+// المسوق-المحافظه - الجيندر -enrollmentType-city-
+export enum enrollmentType  {
+  REGULAR= 'REGULAR',
+  DISTANCE='DISTANCE',
+  BOTH='BOTH',
+}
+export enum maritalStatus  {
+  SINGLE= 'SINGLE',
+  MARRIED='MARRIED',
+  DIVORCED='DIVORCED',
+  WIDOWED='WIDOWED',
+}
+//  SUMMER, WINTER, ANNUAL
+export enum programType  {
+  SUMMER= 'SUMMER',
+  WINTER='MARRIED',
+  ANNUAL='ANNUAL',
+}
+export enum Gender  {
+  MALE= 'MALE',
+  FEMALE ='FEMALE ',
+}
+export enum Religion{
+  //  ISLAM, CHRISTIANITY, JUDAISM
+  ISLAM= "ISLAM",
+ CHRISTIANITY = 'CHRISTIANITY',
+ JUDAISM= 'JUDAISM'
+}
+export enum IEducationType{
+  // PREPARATORY, INDUSTRIAL_SECONDARY, COMMERCIAL_SECONDARY, AGRICULTURAL_SECONDARY, AZHAR_SECONDARY,
+//  GENERAL_SECONDARY, UNIVERSITY, INDUSTRIAL_APPRENTICESHIP 
+  PREPARATORY = 'PREPARATORY',
+  INDUSTRIAL_SECONDARY='INDUSTRIAL_SECONDARY',
+  COMMERCIAL_SECONDARY='COMMERCIAL_SECONDARY',
+  AGRICULTURAL_SECONDARY='AGRICULTURAL_SECONDARY',
+  AZHAR_SECONDARY='AZHAR_SECONDARY',
+  GENERAL_SECONDARY='GENERAL_SECONDARY',
+  UNIVERSITY='UNIVERSITY',
+  INDUSTRIAL_APPRENTICESHIP='INDUSTRIAL_APPRENTICESHIP',
+  SECONDARY = "SECONDARY",
+}
+
+// NEW, CURRENT, GRADUATE, WITHDRAWN
+export enum ITraineeStatus{
+NEW='NEW',
+CURRENT='CURRENT',
+GRADUATE='GRADUATE',
+WITHDRAWN='WITHDRAWN',
+CONTINUING = "CONTINUING"
+}
+export enum IClassLevel{
+  FIRST='FIRST',
+   SECOND='SECOND',
+    THIRD='THIRD',
+     FOURTH='FOURTH'
+}
+// length 41
+export interface IStudentRequest {
+  nameAr: string;
+  nameEn: string;
+  enrollmentType: enrollmentType;
+  maritalStatus: maritalStatus;
+  nationalId: string;
+  idIssueDate: string; // ISO Date
+  idExpiryDate: string; // ISO Date
+  programType: programType;
+  nationality: string;
+  gender: Gender;
+  birthDate: string;
+  residenceAddress: string;
+  photoUrl: string;
+  religion: Religion;
+  programId: number;
+  country: string;
+  governorate: string;
+  city: string;
+  address: string;
+  phone: string;
+  email: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  guardianJob: string;
+  guardianRelation: string;
+  guardianNationalId: string;
+  landline: string;
+  whatsapp: string;
+  facebook: string;
+  educationType: IEducationType;
+  schoolName: string;
+  graduationDate: string;
+  totalGrade: number;
+  gradePercentage: number;
+  sportsActivity: string;
+  culturalActivity: string;
+  educationalActivity: string;
+  traineeStatus:ITraineeStatus;
+  classLevel:IClassLevel;
+  notes: string;
+}
+
+
+export enum Semester {
+  FIRST = "FIRST",
+  SECOND = "SECOND",
+}
+
+export enum Year {
+  FIRST = "FIRST",
+  SECOND = "SECOND",
+  THIRD = "THIRD",
+  FOURTH = "FOURTH",
+}
+
+export interface ITrainingContentRequest {
+  code: string;
+  name: string;
+  semester: Semester;
+  year: Year;
+  programIds?: number[];
+  instructorId: string;
+  theoryAttendanceRecorderId?: string;
+  practicalAttendanceRecorderId?: string;
+  durationMonths: number;
+  theorySessionsPerWeek: number;
+  practicalSessionsPerWeek: number;
+  chaptersCount: number;
+  yearWorkMarks: number;
+  practicalMarks: number;
+  writtenMarks: number;
+  attendanceMarks: number;
+  quizzesMarks: number;
+  finalExamMarks: number;
 }

@@ -1,67 +1,96 @@
-import * as yup from "yup";
-import { IFormValues } from "@/interface";
+import * as yup from 'yup';
+import {
+  Gender,
+  maritalStatus,
+  enrollmentType,
+  programType,
+  Religion,
+  IEducationType,
+  ITraineeStatus,
+  IClassLevel,
+  IStudentRequest
+} from '@/interface';
 
-export const studentFormSchema: yup.ObjectSchema<IFormValues> = yup.object({
-  id: yup.number().required(),
+export const studentSchema: yup.ObjectSchema<IStudentRequest> = yup.object({
+  nameAr: yup.string().required("الاسم بالعربية مطلوب"),
+  nameEn: yup.string().required("الاسم بالإنجليزية مطلوب"),
+  gender: yup.mixed<Gender>().oneOf([Gender.MALE, Gender.FEMALE]).required("النوع مطلوب"),
+  maritalStatus: yup
+    .mixed<maritalStatus>()
+    .oneOf([
+      maritalStatus.SINGLE,
+      maritalStatus.MARRIED,
+      maritalStatus.DIVORCED,
+      maritalStatus.WIDOWED
+    ])
+    .required("الحالة الاجتماعية مطلوبة"),
+  enrollmentType: yup
+    .mixed<enrollmentType>()
+    .oneOf([
+      enrollmentType.REGULAR,
+      enrollmentType.DISTANCE,
+      enrollmentType.BOTH
+    ])
+    .required("نوع القيد مطلوب"),
+  programType: yup
+    .mixed<programType>()
+    .oneOf([programType.SUMMER, programType.WINTER, programType.ANNUAL])
+    .required("نوع البرنامج مطلوب"),
+  religion: yup.mixed<Religion>().oneOf([Religion.ISLAM, Religion.CHRISTIANITY]).required("الديانة مطلوبة"),
+  educationType: yup
+  .mixed<IEducationType>()
+  .oneOf(Object.values(IEducationType))
+  .required('نوع التعليم مطلوب'),
 
-  // BasicDataInput
-  nameArabic: yup.string().required("الاسم بالعربية مطلوب"),
-  nameEnglish: yup.string().required("الاسم بالإنجليزية مطلوب"),
-  admissionSystem: yup.string().required("نظام القبول مطلوب"),
-  maritalState: yup.string().required("الحالة الاجتماعية مطلوبة"),
-  marketer: yup.string().required("اسم المسوق مطلوب"),
-  nationalId: yup
-    .string()
-    .required("الرقم القومي مطلوب")
-    .matches(/^\d{14}$/, "يجب أن يكون الرقم القومي مكونًا من 14 رقمًا"),
-  releaseDate: yup.string().required("تاريخ الإصدار مطلوب"),
-  expirationDate: yup.string().required("تاريخ الانتهاء مطلوب"),
-  programType: yup.string().required("نوع البرنامج مطلوب"),
-  gender: yup.string().required("النوع مطلوب"),
-  nationality: yup.string().required("الجنسية مطلوبة"),
-  dateOfBirth: yup.string().required("تاريخ الميلاد مطلوب"),
-  placeOfBirth: yup.string().required("مكان الميلاد مطلوب"),
-  religion: yup.string().required("الديانة مطلوبة"),
-  program: yup.string().required("البرنامج مطلوب"),
+  traineeStatus: yup
+    .mixed<ITraineeStatus>()
+    .oneOf([ITraineeStatus.NEW, ITraineeStatus.CONTINUING, ITraineeStatus.GRADUATE])
+    .required("حالة المتدرب مطلوبة"),
+  classLevel: yup
+    .mixed<IClassLevel>()
+    .oneOf([
+      IClassLevel.FIRST,
+      IClassLevel.SECOND,
+      IClassLevel.THIRD,
+      IClassLevel.FOURTH
+    ])
+    .required("الصف الدراسي مطلوب"),
 
-  photoUrl: yup.string().nullable(),
+  // بقية الحقول اللي مش enums
+  programId: yup.number().typeError("رقم البرنامج مطلوب").required(),
+  totalGrade: yup.number().typeError("المجموع الكلي مطلوب").required(),
+  gradePercentage: yup.number().typeError("النسبة المئوية مطلوبة").required(),
+  nationalId: yup.string().min(14).max(14).required(),
+  nationality: yup.string().required(),
+  birthDate: yup.string().required(),
+  idIssueDate: yup.string().required(),
+  idExpiryDate: yup.string().required(),
 
-  // ContactInformationInput
-  The_state: yup.string().required("الدولة مطلوبة"),
-  Governorate: yup.string().required("المحافظة مطلوبة"),
-  city: yup.string().required("المدينة مطلوبة"),
-  address: yup.string().required("العنوان مفصل مطلوب"),
-  mobileNumber: yup
-    .string()
-    .required("رقم الجوال مطلوب")
-    .matches(/^01[0125][0-9]{8}$/, "رقم الجوال غير صالح"),
-  email: yup.string().required("البريد الإلكتروني مطلوب").email("البريد غير صالح"),
-  ParentMobile: yup
-    .string()
-    .required("رقم ولي الأمر مطلوب")
-    .matches(/^01[0125][0-9]{8}$/, "رقم ولي الأمر غير صالح"),
-  ParentEmail: yup.string().required("بريد ولي الأمر مطلوب").email("بريد ولي الأمر غير صالح"),
-  GuardianJob: yup.string().required("وظيفة ولي الأمر مطلوبة"),
-  RelationshipWithTheGuardian: yup.string().required("العلاقة مع ولي الأمر مطلوبة"),
-  NationalIDOfTheGuardian: yup
-    .string()
-    .required("الرقم القومي لولي الأمر مطلوب")
-    .matches(/^\d{14}$/, "يجب أن يكون الرقم مكونًا من 14 رقمًا"),
+  country: yup.string().required(),
+  city: yup.string().required(),
+  governorate: yup.string().required(),
+  address: yup.string().required(),
+  residenceAddress: yup.string().required(),
 
-  Landline: yup.string().nullable(),
-  whatsapp: yup.string().nullable(),
-  facebook: yup.string().nullable(),
+  phone: yup.string().required(),
+  email: yup.string().required(),
+  landline: yup.string().required(),
+  whatsapp: yup.string().required(),
+  facebook: yup.string().required(),
 
-  // EducationData
-  TypeOfEducation: yup.string().required("نوع التعليم مطلوب"),
-  School_Center_Name: yup.string().required("اسم المدرسة/المركز مطلوب"),
-  DateOfObtainingTheQualification: yup.string().required("تاريخ الحصول على المؤهل مطلوب"),
-  HighSchoolTotal: yup.string().required("مجموع الثانوية مطلوب"),
-  HighSchoolPercentage: yup.string().required("نسبة الثانوية مطلوبة"),
+  guardianPhone: yup.string().required(),
+  guardianEmail: yup.string().required(),
+  guardianJob: yup.string().required(),
+  guardianRelation: yup.string().required(),
+  guardianNationalId: yup.string().min(14).max(14).required(),
 
-  // AdditionalData
-  SportsActivity: yup.string().nullable(),
-  CulturalAndArtisticActivity: yup.string().nullable(),
-  ScientificActivity: yup.string().nullable(),
-  comments: yup.string().nullable(),
+  schoolName: yup.string().required(),
+  graduationDate: yup.string().required(),
+
+  sportsActivity: yup.string().required(),
+  culturalActivity: yup.string().required(),
+  educationalActivity: yup.string().required(),
+  photoUrl: yup.string().required(),
+
+  notes: yup.string().required(),
 });

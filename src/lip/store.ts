@@ -4,6 +4,8 @@ import authReducer from './features/auth/authSlice';
 import { traineesApi } from './features/trainees/traineesApi';
 import { programApi } from './features/program/program';
 import addStudentApi from './features/student/student';
+import { TraningContetnApi } from './features/TraningContetn/Traning';
+import { UserAPI } from './features/users/user';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ export const store = configureStore({
     [traineesApi.reducerPath]: traineesApi.reducer,
     [programApi.reducerPath]: programApi.reducer,
     [addStudentApi.reducerPath] : addStudentApi.reducer,
+    [TraningContetnApi.reducerPath]: TraningContetnApi.reducer,
+    [UserAPI.reducerPath]:UserAPI.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -18,7 +22,9 @@ export const store = configureStore({
       loginApi.middleware,
       traineesApi.middleware,
       programApi.middleware,
-      addStudentApi.middleware
+      addStudentApi.middleware,
+      TraningContetnApi.middleware,
+      UserAPI.middleware
     ),
 })
 

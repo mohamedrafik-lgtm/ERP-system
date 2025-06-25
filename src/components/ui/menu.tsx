@@ -1,11 +1,11 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
 interface Option {
-  value: string;
+  value: string | number;
   label: string;
 }
 
@@ -13,8 +13,13 @@ interface MenuProps {
   label?: string;
   options?: Option[];
   placeholder?: string;
-  field: any;
-  multiple?: boolean;
+  field: {
+    value: any;
+    onChange: (value: any) => void;
+    onBlur?: () => void;
+    name: string;
+  };
+  isMulti?: boolean;
 }
 
 export default function Menu({
@@ -22,27 +27,37 @@ export default function Menu({
   options = [],
   placeholder = 'اختر من القائمة',
   field,
-  multiple = false,
+  isMulti = false,
 }: MenuProps) {
-  const [selected, setSelected] = useState<any>(field.value || (multiple ? [] : null));
+  const [selected, setSelected] = useState<any>(field.value || (isMulti ? [] : ''));
+
+  // تحديث القيمة إذا تغيّرت من خارج المكون
+  useEffect(() => {
+    setSelected(field.value || (isMulti ? [] : ''));
+  }, [field.value, isMulti]);
 
   const handleChange = (value: any) => {
     setSelected(value);
     field.onChange(value);
   };
 
-  const renderLabel = (value: string | string[]) => {
-    if (multiple && Array.isArray(value)) {
-      if (value.length === 0) return placeholder;
-      return options.filter((opt) => value.includes(opt.value)).map((o) => o.label).join(', ');
+  const renderLabel = (value: any) => {
+    if (isMulti && Array.isArray(value)) {
+      if (!value.length) return placeholder;
+      return options
+        .filter((opt) => value.includes(opt.value))
+        .map((o) => o.label)
+        .join(', ');
     }
+
     return options.find((opt) => opt.value === value)?.label || placeholder;
   };
 
   return (
     <div className="mb-4">
       {label && <label className="block text-sm font-medium mb-2">{label}</label>}
-      <Listbox value={selected} onChange={handleChange} multiple={multiple}>
+
+      <Listbox value={selected} onChange={handleChange} multiple={isMulti}>
         <div className="relative">
           <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-2 pl-3 pr-10 text-left shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 sm:text-sm">
             <span className="block truncate text-black">{renderLabel(selected)}</span>

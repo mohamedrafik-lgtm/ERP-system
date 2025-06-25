@@ -15,3 +15,7 @@
     color: var(--text-color);
   } */
   
+
+  .input {
+  @apply w-full px-3 py-2 border rounded bg-white dark:bg-slate-800 text-sm;
+}

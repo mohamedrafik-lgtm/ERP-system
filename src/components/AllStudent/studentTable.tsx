@@ -1,18 +1,40 @@
 "use client";
 
-import { studentActions, students } from "@/data";
-import img from "@/img/454375571_1646661866176465_6149835982982053363_n.jpg";
+import { studentActions } from "@/data";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import InlineMenu from "../ui/MenuReport";
 import { useGetStudentsQuery } from "@/lip/features/student/student";
+import { useState } from "react";
+import { Input } from "../input";
 
 const StudentTable = () => {
   const router = useRouter();
-const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
-         console.log(data)
+  const { data, isError, isLoading, isSuccess } = useGetStudentsQuery();
+  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
+
   return (
     <div className="relative overflow-visible p-4 space-y-5">
+      {/* input دفع قسط */}
+      {selectedStudentId && (
+        <form className="flex justify-end mb-6">
+          
+          <div className="flex justify-center items-center space-x-5 w-full">
+            <button type="submit" className='text-md text-white px-5 py-1 bg-orange-600 rounded-xl'>دفع</button>
+            <Input
+              id="installmentAmount"
+              type="number"
+              placeholder="أدخل قيمة القسط"
+              className="p-2 border max-w-md border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 w-full text-end"
+            />
+             <label htmlFor="installmentAmount" className="mb-1 text-md w-24 font-medium text-gray-700">
+              دفع قسط
+            </label>
+          </div>
+          
+        </form>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white font-bold text-sm p-4 rounded-xl">
         <div className="text-center">الصورة</div>
         <div className="text-center">الاسم</div>
@@ -34,7 +56,7 @@ const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 items-center">
             <div>
               <Image
-                src={student.photoUrl}
+                src={`/${student.photoUrl}`}
                 alt={student.nameEn}
                 width={40}
                 height={40}
@@ -44,14 +66,14 @@ const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
             <div className="px-4 py-3 text-center font-medium ">{student.nameAr}</div>
             <div className="px-4 py-3 text-center ">{student.id}</div>
             <div className="px-4 py-3 text-center ">{student.landline}</div>
-            <div className="px-4 py-3 text-center ">{student.program.nameAr}</div>
+            <div className="px-4 py-3 text-center ">{student.program?.nameAr}</div>
             <div className="px-4 py-3 text-center ">{student.phone}</div>
             <div className="px-4 py-3 text-center font-semibold ">1</div>
             <div className="px-4 py-3 text-center ">1</div>
             <div className="px-4 py-3 text-center ">{student.guardianNationalId}</div>
 
             <div
-              className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm "
+              className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm"
               onClick={(e) => e.stopPropagation()}
             >
               <InlineMenu
@@ -82,10 +104,11 @@ const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
                   </svg>
                 }
               />
-              {/* update button */}
+
+              {/* زر التحديث */}
               <button
                 onClick={() => router.push(`/AllStudent/${student.id}`)}
-                className="bg-white/20 hover:bg-white/50  py-1 px-2 rounded-md cursor-pointer"
+                className="bg-white/20 hover:bg-white/50 py-1 px-2 rounded-md cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +125,25 @@ const {data,isError,isLoading,isSuccess} = useGetStudentsQuery()
                   />
                 </svg>
               </button>
-              <button className=" hover:bg-white/50 py-1 px-2 rounded-md cursor-pointer">
-                تحديد
+
+              {/* زر التحديد */}
+              <button
+                onClick={() => {
+                  if (selectedStudentId === student.id) {
+                    setSelectedStudentId(null); // إلغاء التحديد
+                  } else if (selectedStudentId === null) {
+                    setSelectedStudentId(student.id); // تحديد الطالب
+                  } else {
+                    alert("يجب إلغاء التحديد الحالي أولاً قبل اختيار طالب آخر.");
+                  }
+                }}
+                className={`py-1 px-2 rounded-md cursor-pointer transition ${
+                  selectedStudentId === student.id
+                    ? "bg-green-500 text-white"
+                    : "hover:bg-white/50"
+                }`}
+              >
+                {selectedStudentId === student.id ? "تم التحديد" : "تحديد"}
               </button>
             </div>
           </div>

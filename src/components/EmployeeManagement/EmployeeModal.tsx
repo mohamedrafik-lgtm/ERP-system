@@ -1,7 +1,10 @@
 'use client';
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
-import AddUserForm from './EmployeeModalContent'
+import AddUserForm, { FormValues } from './EmployeeModalContent'
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAddEmployeeMutation } from '@/lip/features/Employee/EmployeeApi';
+import toast from 'react-hot-toast';
 
 export default function AddEmployeeModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,6 +17,21 @@ export default function AddEmployeeModal() {
     setIsOpen(false)
   }
 
+ 
+const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+   const [AddEmployee,{isLoading,isError,isSuccess}] = useAddEmployeeMutation()
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+
+    AddEmployee(data);
+    if(isSuccess){
+      toast.success('تم اضافه مستخدم بنجاح');
+    }
+  };
   return (
     <>
       <Button
@@ -23,7 +41,7 @@ export default function AddEmployeeModal() {
         
       </Button>
 
-      <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
+      <Dialog open={isOpen} as="form" onSubmit={handleSubmit(onSubmit)} className="relative z-10 focus:outline-none" onClose={close} __demoMode>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
@@ -35,15 +53,17 @@ export default function AddEmployeeModal() {
               </DialogTitle>
                 
 
-                <AddUserForm groups={['السلامه و الصحه','اشراف طلاب','محاضر']}/>
+                <AddUserForm groups={['ADMIN','USER']}register={register} errors={errors} />
               <div className="mt-4 flex space-x-6">
                 <Button
+                  type='button'
                   className="inline-flex items-center gap-2 rounded-md bg-red-500 px-5 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700"
                   onClick={close}
                 >
                   اغلاق
                 </Button>
                 <Button
+                  type='submit'
                   className="inline-flex items-center gap-2 rounded-md bg-green-500 px-5 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700"
                   onClick={close}
                 >
