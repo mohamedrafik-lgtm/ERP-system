@@ -22,6 +22,8 @@ import toast from 'react-hot-toast';
 import { Card } from '@/components/AddStudent/Card';
 import InputField from '@/components/AddStudent/RenderInputs/inputFild';
 import InputDate from '@/components/AddStudent/RenderInputs/InputDate';
+import { useGetProgramsQuery } from '@/lip/features/program/program';
+import ProgramSelect from '@/components/Program/SelectProgram';
 
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
@@ -57,6 +59,8 @@ export default function AddStudent() {
     value: key,
   }));
 };
+const {data}= useGetProgramsQuery()
+console.log(data)
   const [addTrainee,{isLoading,isSuccess,isError}] = useAddTraineeMutation();
 
   const onSubmit = (data: IStudentRequest) => {
@@ -178,7 +182,13 @@ export default function AddStudent() {
               options={mapEnumToOptions(enumOptions.IClassLevel)}
               error={errors.classLevel?.message}
             />
-            <InputField label="رقم البرنامج" name="programId" register={register} type="number" error={errors.programId?.message} />
+            <ProgramSelect
+              label="اختر البرنامج"
+              value={watch("programId")}
+              onChange={(val) => setValue("programId", val)}
+              programs={data || []} // جاي من الريدوكس أو الفetch
+              error={errors.programId?.message}
+            />
           </Grid>
         </Card>
 
