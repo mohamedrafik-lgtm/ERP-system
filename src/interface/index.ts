@@ -436,3 +436,34 @@ export interface ITrainingContentRequest {
   quizzesMarks: number;
   finalExamMarks: number;
 }
+
+
+// add traineng contetn types
+
+
+export enum ISemester{
+  // semester
+  FIRST = 'FIRST',
+  SECOND="SECOND"
+}
+
+export interface IAddTrainengContent{
+  code:string;
+  name:string;
+  semester:ISemester;
+  year:Year;
+  programIds:number[];
+  instructorId:string;
+  theoryAttendanceRecorderId:string;
+  practicalAttendanceRecorderId:string;
+  durationMonths:number;
+  theorySessionsPerWeek:number;
+  practicalSessionsPerWeek:number;
+  chaptersCount:number;
+  yearWorkMarks:number;
+  practicalMarks:number;
+  writtenMarks:number;
+  attendanceMarks:number;
+  quizzesMarks:number;
+  finalExamMarks:number
+}

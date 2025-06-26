@@ -11,6 +11,12 @@ interface IProps{
     creditBalance:number;
     totalBalance:number;
 }
+interface IUserOption {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 export const UserAPI = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
@@ -25,7 +31,7 @@ export const UserAPI = createApi({
   }),
   tagTypes: ['user'],
   endpoints: (build) => ({
-    GetUserEmployee: build.query< IProps[],void>({
+    GetUserEmployee: build.query< IUserOption[],void>({
         query: () => ({
            url: `/api/users`,
            providesTags:['user']

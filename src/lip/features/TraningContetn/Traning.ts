@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
-import { IProgram, UpdateProgramPayload, Program, ProgramData, ITrainingContentRequest } from '@/interface';
+import { IProgram, UpdateProgramPayload, Program, ProgramData, ITrainingContentRequest, IAddTrainengContent } from '@/interface';
 
 interface ICode{
     code:string
@@ -31,7 +31,15 @@ export const TraningContetnApi = createApi({
       }),
       invalidatesTags: ['TraningContent'],
     }),
+    AddTrainingContent: build.mutation<any, IAddTrainengContent>({
+      query: (data) => ({
+        url: '/api/training-contents',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['TraningContent'],
+    }),
   }),
 });
 
-export const {useGetCodeQuery, useCreateTrainingContentMutation} = TraningContetnApi;
+export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation} = TraningContetnApi;
