@@ -6,6 +6,7 @@ import { programApi } from './features/program/program';
 import addStudentApi from './features/student/student';
 import { TraningContetnApi } from './features/TraningContetn/Traning';
 import { UserAPI } from './features/users/user';
+import { QuestionAPI } from './features/question/question';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     [addStudentApi.reducerPath] : addStudentApi.reducer,
     [TraningContetnApi.reducerPath]: TraningContetnApi.reducer,
     [UserAPI.reducerPath]:UserAPI.reducer,
+    [QuestionAPI.reducerPath]:QuestionAPI.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -24,7 +26,8 @@ export const store = configureStore({
       programApi.middleware,
       addStudentApi.middleware,
       TraningContetnApi.middleware,
-      UserAPI.middleware
+      UserAPI.middleware,
+      QuestionAPI.middleware
     ),
 })
 

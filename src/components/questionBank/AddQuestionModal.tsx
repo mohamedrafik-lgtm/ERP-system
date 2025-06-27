@@ -2,13 +2,41 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ReactNode, useState } from 'react'
 import AddQuestionForm from './AddQuestionContetn';
+import { IAddQuestions, IDifficulty, IType , ISkill} from '@/interface';
+import { useForm } from 'react-hook-form';
+import { useAddQuestionMutation } from '@/lip/features/question/question';
+import toast from 'react-hot-toast';
 
 interface IProps{
-  ButtonContent  : ReactNode
+  ButtonContent  : ReactNode;
+  className?:string;
+  contentId:number
 }
-export default function AddQuestionModal({ButtonContent}:IProps) {
+export default function AddQuestionModal({contentId,ButtonContent,className="bg-orange-600 text-white px-5 py-2 rounded hover:bg-orange-700 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-orange-800"}:IProps) {
   const [isOpen, setIsOpen] = useState(false)
-
+  const [AddQuestion,{isLoading,isSuccess}] = useAddQuestionMutation()
+ const {
+    register,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IAddQuestions>({
+    defaultValues: {
+      text: "",
+      type: IType.MULTIPLE_CHOICE,
+      skill: ISkill.RECALL,
+      difficulty: IDifficulty.EASY,
+      chapter: 1,
+      contentId: 1,
+      options: [
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+      ],
+    },
+  });
   function open() {
     setIsOpen(true)
   }
@@ -17,16 +45,28 @@ export default function AddQuestionModal({ButtonContent}:IProps) {
     setIsOpen(false)
   }
 
+ const onSubmit = (data: IAddQuestions) => {
+
+   try{
+     AddQuestion(data);
+      toast.success('تم تسجيل الدخول بنجاح');
+    }catch{
+
+    }
+  };
+
+  const values = watch();
+
   return (
     <>
       <Button
         onClick={open}
-        className="bg-orange-600 text-white px-5 py-2 rounded hover:bg-orange-700 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-orange-800"
+        className={className}
       >
             {ButtonContent}
       </Button>
 
-      <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
+      <Dialog open={isOpen} onSubmit={handleSubmit(onSubmit)} as="form" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
@@ -36,22 +76,21 @@ export default function AddQuestionModal({ButtonContent}:IProps) {
               <DialogTitle as="h3" className="text-2xl font-medium">
                   اضافة سؤال جديد
               </DialogTitle>
-                 <AddQuestionForm
-                 onSubmit={(data) => {
-                 console.log("Question:", data);
-                 }}/>
+                 <AddQuestionForm register={register} setValue={setValue} values={values} />
               <div className="mt-4 space-x-5 mr-10">
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-red-500 px-8 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-red-600 data-open:bg-red-700"
                   onClick={close}
+                  type='button'
                 >
                   اغلاق
                 </Button>
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-green-500 px-8 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700"
                   onClick={close}
+                  type='submit'
                 >
-                  حفظ
+                  اضافه
                 </Button>
               </div>
             </DialogPanel>

@@ -467,3 +467,73 @@ export interface IAddTrainengContent{
   quizzesMarks:number;
   finalExamMarks:number
 }
+
+
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+}
+export interface ITrainingContent {
+  id: number;
+  code: string;
+  name: string;
+  semester: Semester;
+  year: Year;
+  programId: number;
+  programIds: number[];
+  instructorId: string;
+  instructor: IUser;
+  theoryAttendanceRecorderId: string;
+  theoryAttendanceRecorder: IUser;
+  practicalAttendanceRecorderId: string;
+  practicalAttendanceRecorder: IUser;
+  durationMonths: number;
+  theorySessionsPerWeek: number;
+  practicalSessionsPerWeek: number;
+  chaptersCount: number;
+  yearWorkMarks: number;
+  practicalMarks: number;
+  writtenMarks: number;
+  attendanceMarks: number;
+  quizzesMarks: number;
+  finalExamMarks: number;
+  _count: {
+      questions: number
+    }
+}
+
+
+export enum IType {
+   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+   TRUE_FALSE = 'TRUE_FALSE'
+}
+
+export enum ISkill {
+   RECALL = 'RECALL',
+   COMPREHENSION = 'COMPREHENSION',
+   DEDUCTION = 'DEDUCTION'
+}
+
+export enum IDifficulty {
+   EASY = 'EASY',
+   MEDIUM = 'MEDIUM',
+   HARD = 'HARD',
+   VERY_HARD = 'VERY_HARD'
+}
+
+export interface IOptions{
+  text:string;
+  isCorrect:boolean
+}
+
+export interface IAddQuestions{
+  text:string;
+  type: IType;
+  skill:ISkill;
+  difficulty:IDifficulty;
+  chapter:number;
+  contentId:number;
+  options:IOptions[]
+}
