@@ -47,7 +47,11 @@ export const TraningContetnApi = createApi({
       query: () => '/api/training-contents?includeQuestionCount=true',
       providesTags: ['TraningContent'],
     }),
+     getContent: build.query<ITrainingContent, {id:number}>({
+      query: ({id}) => `/api/training-contents/${id}`,
+      providesTags: ['TraningContent'],
+    }),
   }),
 });
 
-export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery} = TraningContetnApi;
+export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery,useGetContentQuery} = TraningContetnApi;

@@ -537,3 +537,9 @@ export interface IAddQuestions{
   contentId:number;
   options:IOptions[]
 }
+
+export interface IQuestionsResponce extends  IAddQuestions{
+  id:number;
+  createdById:string;
+  createdAt:string
+}

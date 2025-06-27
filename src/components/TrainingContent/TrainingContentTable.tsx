@@ -2,11 +2,14 @@
 import { useGetTrainingContentsWithCountQuery } from "@/lip/features/TraningContetn/Traning";
 import ProgramTableSkeleton from "../Program/ProgramTableSkeleton";
 import AddQuestionModal from "../questionBank/AddQuestionModal";
+import { useGetQuestionsInTrainengContentQuery } from "@/lip/features/question/question";
+import { useRouter } from "next/navigation";
+
 
 export const TrainingContentTable = () => {
   const { data, isLoading, isError } = useGetTrainingContentsWithCountQuery();
-
   // استخراج القائمة الحقيقية من المحتوى التدريبي
+  const router = useRouter();
   const trainingList = Array.isArray(data) ? data : [];
 
   return (
@@ -47,8 +50,10 @@ export const TrainingContentTable = () => {
             <button className=" text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md">
               المحاضرات
             </button>
-            <button className=" text-indigo-500 transition-all duration-300 hover:bg-indigo-500 hover:text-white py-1 border border-indigo-500 px-2 rounded-md">
-              الاسأله
+            <button 
+            className=" text-indigo-500 transition-all duration-300 hover:bg-indigo-500 hover:text-white py-1 border border-indigo-500 px-2 rounded-md"
+            onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}`)}>
+               الاسأله  ({content._count?.questions})
             </button>
             <AddQuestionModal ButtonContent={'اضافه سؤال'}
             contentId={content.id}
