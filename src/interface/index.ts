@@ -543,3 +543,25 @@ export interface IQuestionsResponce extends  IAddQuestions{
   createdById:string;
   createdAt:string
 }
+
+
+export enum ITypeLecture{
+  VIDEO = 'VIDEO',
+  PDF = 'PDF',
+  BOTH = 'BOTH'
+}
+export interface ILecture{
+  title:string;
+  description:string;
+  // نوع المحاضره (فيديو - PDF - BOTH)
+  type:ITypeLecture;
+  chapter:number;
+  youtubeUrl:string;
+  pdfFile:string;
+  // (order) هي رقم ترتيب المحاضره
+  order:number;
+  contentId:number; //id الماده ادراسيه
+}
+export interface IResponseLecture extends ILecture{
+  id:number
+}

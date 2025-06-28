@@ -33,9 +33,9 @@ export default function QuestionsPage() {
 
   const [DeleteQuestion, { isLoading: Loading }] = useDeleteQuestionMutation();
 
-  // للتحكم في المودال
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState<IAddQuestions | null>(null);
+  // // للتحكم في المودال
+  // const [isEditOpen, setIsEditOpen] = useState(false);
+  // const [selectedQuestion, setSelectedQuestion] = useState<IAddQuestions | null>(null);
 
   if (isLoading) return <p>جارٍ تحميل الأسئلة...</p>;
   if (isError) return <p>حدث خطأ أثناء التحميل.</p>;

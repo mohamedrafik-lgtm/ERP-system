@@ -71,11 +71,7 @@ console.log(data)
       gradePercentage: Number(data.gradePercentage),
     };
     addTrainee(finalData);
-      if(isSuccess){
-        toast.success('تم اضافه المتدرب بنجاح');
-      }  else if (isError){
-        toast.error('حدث خطأ في ارسال البيانات');
-      }    
+    toast.success('تم اضافه المتدرب بنجاح');   
     reset()
   };
 
@@ -224,8 +220,3 @@ console.log(data)
     </div>
   );
 }
-
-
-
-
-
