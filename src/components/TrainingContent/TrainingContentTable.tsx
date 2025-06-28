@@ -1,13 +1,14 @@
 "use client";
-import { useGetTrainingContentsWithCountQuery } from "@/lip/features/TraningContetn/Traning";
+import { useDeleteTrainingContentMutation, useGetTrainingContentsWithCountQuery } from "@/lip/features/TraningContetn/Traning";
 import ProgramTableSkeleton from "../Program/ProgramTableSkeleton";
 import AddQuestionModal from "../questionBank/AddQuestionModal";
-import { useGetQuestionsInTrainengContentQuery } from "@/lip/features/question/question";
 import { useRouter } from "next/navigation";
+import Spinner from "../ui/Spinner";
 
 
 export const TrainingContentTable = () => {
   const { data, isLoading, isError } = useGetTrainingContentsWithCountQuery();
+  const [deleteTrainengContent,{isLoading:Loading,isSuccess}] = useDeleteTrainingContentMutation()
   // استخراج القائمة الحقيقية من المحتوى التدريبي
   const router = useRouter();
   const trainingList = Array.isArray(data) ? data : [];
@@ -59,8 +60,12 @@ export const TrainingContentTable = () => {
             <AddQuestionModal ButtonContent={'اضافه سؤال'}
             contentId={content.id}
             className="text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md"/>
-            <button className=" text-red-500 transition-all duration-300 hover:bg-red-500 hover:text-white py-1 border border-red-500 px-2 rounded-md">
-              حذف
+            <button
+            onClick={() => deleteTrainengContent({id:content.id})}
+            className= {`text-red-500 ${Loading ? 'cursor-not-allowed' : 'hover:bg-red-500'} transition-all duration-300  hover:text-white py-1 border border-red-500 px-2 rounded-md`}
+            >
+              {Loading ? <Spinner Color="text-red-500"/> :"حذف"}
+              
             </button>
           </div>
         </div>

@@ -103,7 +103,7 @@ export default function LecturePage() {
                       <button
                       onClick={()=> DeleteLecture({id:lecture.id})}
                       className="bg-red-500 hover:bg-red-600 transition-all duration-300 text-white px-3 py-1 rounded-md text-sm">
-                            {Loading ? <Spinner/>:'حذف'}
+                            {Loading ? <Spinner Color="text-white"/>:'حذف'}
                       </button>
                       <button className="bg-green-500 hover:bg-green-600 transition-all duration-300 text-white px-3 py-1 rounded-md text-sm">
                         تعديل

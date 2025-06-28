@@ -39,6 +39,13 @@ export const TraningContetnApi = createApi({
       }),
       invalidatesTags: ['TraningContent']
     }),
+    DeleteTrainingContent: build.mutation<void, {id:number}>({
+      query: ({id}) => ({
+        url: `/api/training-contents/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['TraningContent']
+    }),
     getTrainengContent: build.query<ITrainingContent[], void>({
       query: () => `/api/training-contents`,
       providesTags: ['TraningContent']
@@ -54,4 +61,4 @@ export const TraningContetnApi = createApi({
   }),
 });
 
-export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery,useGetContentQuery} = TraningContetnApi;
+export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery,useGetContentQuery,useDeleteTrainingContentMutation} = TraningContetnApi;
