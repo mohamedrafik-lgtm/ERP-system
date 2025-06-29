@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
-import { ITrainingContent, ITrainingContentRequest, IAddTrainengContent } from '@/interface/index';
+import { ITrainingContent, ITrainingContentRequest, IAddTrainengContent, IUpdateTrainingContentRequest } from '@/interface/index';
 
 interface ICode{
     code:string
@@ -46,6 +46,14 @@ export const TraningContetnApi = createApi({
       }),
       invalidatesTags: ['TraningContent']
     }),
+    UpdateTrainingContent: build.mutation<void, {data : IUpdateTrainingContentRequest, id:number}>({
+      query: ({data,id}) => ({
+        url: `/api/training-contents/${id}`,
+        method: 'PATCH',
+        body:data
+      }),
+      invalidatesTags: ['TraningContent']
+    }),
     getTrainengContent: build.query<ITrainingContent[], void>({
       query: () => `/api/training-contents`,
       providesTags: ['TraningContent']
@@ -54,11 +62,11 @@ export const TraningContetnApi = createApi({
       query: () => '/api/training-contents?includeQuestionCount=true',
       providesTags: ['TraningContent']
     }),
-     getContent: build.query<ITrainingContent, {id:number}>({
+     getContent: build.query<IUpdateTrainingContentRequest, {id:number}>({
       query: ({id}) => `/api/training-contents/${id}`,
       providesTags: ['TraningContent']
     }),
   }),
 });
 
-export const {useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery,useGetContentQuery,useDeleteTrainingContentMutation} = TraningContetnApi;
+export const {useUpdateTrainingContentMutation,useGetCodeQuery, useCreateTrainingContentMutation,useAddTrainingContentMutation,useGetTrainengContentQuery,useGetTrainingContentsWithCountQuery,useGetContentQuery,useDeleteTrainingContentMutation} = TraningContetnApi;

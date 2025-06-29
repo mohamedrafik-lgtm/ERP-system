@@ -565,3 +565,25 @@ export interface ILecture{
 export interface IResponseLecture extends ILecture{
   id:number
 }
+
+
+export interface IUpdateTrainingContentRequest {
+  code: string;
+  name: string;
+  semester: Semester;
+  year: Year;
+  programIds: number[];
+  instructorId: string;
+  theoryAttendanceRecorderId: string;
+  practicalAttendanceRecorderId: string;
+  durationMonths: number;
+  theorySessionsPerWeek: number;
+  practicalSessionsPerWeek: number;
+  chaptersCount: number;
+  yearWorkMarks: number;
+  practicalMarks: number;
+  writtenMarks: number;
+  attendanceMarks: number;
+  quizzesMarks: number;
+  finalExamMarks: number;
+}

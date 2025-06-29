@@ -45,8 +45,11 @@ export const TrainingContentTable = () => {
           <div className="text-center">{content.instructor?.name || "غير محدد"}</div>
           <div className="text-center">{content._count?.questions}</div>
           <div className="flex  justify-between col-span-3">
-            <button className=" text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white py-1 border border-blue-500 px-2 rounded-md">
-              تعديل
+            <button
+            onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}/UpdateTrainengContent`)}
+            className=" text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white py-1 border border-blue-500 px-2 rounded-md">
+              تعديل  
+              {/* UpdateTrainengContent */}
             </button>
             <button className=" text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md"
             onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}/Lecture`)}>

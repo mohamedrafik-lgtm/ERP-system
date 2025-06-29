@@ -1,12 +1,10 @@
 "use client";
-
 import { useState } from "react";
-import { ILecture, IResponseLecture, ITypeLecture } from "@/interface";
+import { IResponseLecture, ITypeLecture } from "@/interface";
 import { ChevronDown } from "lucide-react";
-import { useDeleteLectureMutation, useGetLectureQuery } from "@/lip/features/Lecture/lecture";
+import {useGetLectureQuery } from "@/lip/features/Lecture/lecture";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Spinner from "@/components/ui/Spinner";
 import ConfirmationDeleteLecture from "@/components/Lecre/Confirmation";
 import UpdateLectureModale from "@/components/Lecre/UpdateLectureModale";
 
@@ -15,7 +13,6 @@ export default function LecturePage() {
   const params = useParams();
   const contentId = Number(params.id);
   const router = useRouter();
-  const [DeleteLecture, {isLoading:Loading,isError:Error}] = useDeleteLectureMutation()
   const {
     data: lecturesData,
     isLoading,
