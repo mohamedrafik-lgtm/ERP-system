@@ -32,7 +32,7 @@ const Aside = ({ items }: AsideProps) => {
       {/* سايدبار للموبايل */}
       {isOpenMobile && (
         <>
-          <div className="fixed h-screen  inset-0 bg-black/50 z-30" onClick={() => setIsOpenMobile(false)} />
+          <div className="fixed h-screen   inset-0 bg-black/50 z-30" onClick={() => setIsOpenMobile(false)} />
           <div className="fixed top-0 right-0 w-64 h-full bg-gray-900 text-white z-40 p-4">
             <div className="flex justify-between items-center mb-4">
               <span className="text-lg text-white font-bold">القائمة</span>

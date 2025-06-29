@@ -35,7 +35,14 @@ DeleteLecture: build.mutation<void, { id: number }>({
   }),
   invalidatesTags: ['Lecture'],
 }),
-
+UpdateLecture: build.mutation<void, IResponseLecture>({
+  query: ({ chapter,contentId,description,id,order,pdfFile, title,type,youtubeUrl}) => ({
+    method: 'PATCH',
+    url: `/api/lectures/${id}`,
+    body:{ chapter,contentId,description,order,pdfFile, title,type,youtubeUrl}
+  }),
+  invalidatesTags: ['Lecture'],
+}),
     GetLecture: build.query< IResponseLecture,{id:number}>({
         query: ({id}) =>  `/api/lectures/content/${id}`,
           providesTags: ['Lecture'],
@@ -43,4 +50,4 @@ DeleteLecture: build.mutation<void, { id: number }>({
   }),
 });
 
-export const {useAddLectureMutation,useGetLectureQuery,useDeleteLectureMutation } = LectureAPI;
+export const {useAddLectureMutation,useGetLectureQuery,useDeleteLectureMutation ,useUpdateLectureMutation} = LectureAPI;

@@ -7,6 +7,8 @@ import { useDeleteLectureMutation, useGetLectureQuery } from "@/lip/features/Lec
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/Spinner";
+import ConfirmationDeleteLecture from "@/components/Lecre/Confirmation";
+import UpdateLectureModale from "@/components/Lecre/UpdateLectureModale";
 
 
 export default function LecturePage() {
@@ -91,23 +93,21 @@ export default function LecturePage() {
           </div>
 
           {expandedChapters.includes(Number(chapter)) && (
-            <div className="p-4">
+            <div className={`p-4 grid ${chapterLectures.length > 1 ? " md:grid-cols-2" : 'grid-cols-1'}   gap-6`}>
               {chapterLectures.map((lecture) => (
                 <div
                   key={lecture.id}
-                  className="p-4 rounded-md mb-10 border border-gray-300 bg-white flex flex-col gap-2"
+                  className="p-4 rounded-md mb-10 border flex border-gray-300 bg-white  flex-col gap-2"
                 >
                   <div className="flex justify-between items-center">
                     <h3 className="text-md font-semibold">{lecture.title}</h3>
                     <div className="space-x-2">
-                      <button
-                      onClick={()=> DeleteLecture({id:lecture.id})}
-                      className="bg-red-500 hover:bg-red-600 transition-all duration-300 text-white px-3 py-1 rounded-md text-sm">
-                            {Loading ? <Spinner Color="text-white"/>:'حذف'}
-                      </button>
-                      <button className="bg-green-500 hover:bg-green-600 transition-all duration-300 text-white px-3 py-1 rounded-md text-sm">
-                        تعديل
-                      </button>
+
+                      <ConfirmationDeleteLecture id={lecture.id} name={lecture.title}/>
+
+                      <UpdateLectureModale chapter={lecture.chapter}contentId={lecture.contentId} description={lecture.description} pdfFile={lecture.pdfFile}
+                      id={ lecture.id} title={lecture.title}
+                      youtubeUrl={lecture.youtubeUrl}type={lecture.type}order={lecture.order}/>
                     </div>
                   </div>
 
@@ -122,7 +122,7 @@ export default function LecturePage() {
                         rel="noopener noreferrer"
                         className="bg-red-100 text-red-600 px-3 py-1 rounded-md text-sm"
                       >
-                        مشاهدة الفيديو 🎥
+                        مشاهدة الفيديو
                       </a>
                     )}
 
@@ -134,14 +134,14 @@ export default function LecturePage() {
                           rel="noopener noreferrer"
                           className="bg-blue-100 text-blue-600 px-3 py-1 rounded-md text-sm"
                         >
-                          عرض PDF 📄
+                          عرض PDF 
                         </a>
                         <a
                           href={lecture.pdfFile}
                           download
                           className="bg-green-100 text-green-600 px-3 py-1 rounded-md text-sm"
                         >
-                          تحميل PDF ⬇️
+                          تحميل PDF 
                         </a>
                       </>
                     )}
@@ -155,7 +155,7 @@ export default function LecturePage() {
                             rel="noopener noreferrer"
                             className="bg-red-100 text-red-600 px-3 py-1 rounded-md text-sm"
                           >
-                            مشاهدة الفيديو 🎥
+                            مشاهدة الفيديو 
                           </a>
                         )}
                         {lecture.pdfFile && (
@@ -166,14 +166,14 @@ export default function LecturePage() {
                               rel="noopener noreferrer"
                               className="bg-blue-100 text-blue-600 px-3 py-1 rounded-md text-sm"
                             >
-                              عرض PDF 📄
+                              عرض PDF 
                             </a>
                             <a
                               href={lecture.pdfFile}
                               download
                               className="bg-green-100 text-green-600 px-3 py-1 rounded-md text-sm"
                             >
-                              تحميل PDF ⬇️
+                              تحميل PDF 
                             </a>
                           </>
                         )}
