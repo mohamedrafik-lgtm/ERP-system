@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 interface IProps{
     data:IAddQuestions
-    id:Number
+    id:number
 }
 
 export const QuestionAPI = createApi({
