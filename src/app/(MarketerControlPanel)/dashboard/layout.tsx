@@ -12,6 +12,11 @@ const items: NavItem[] = [
     url:'/dashboard'
   },
   {
+    label:'المسوقين',
+    icon: <Users />,
+    url: '/dashboard/Marketer'
+  },
+  {
     label: "المهام",
     url: "/dashboard/Tasks",
     icon: <ListTodo />,

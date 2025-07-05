@@ -401,6 +401,7 @@ export interface IStudentRequest {
   traineeStatus:ITraineeStatus;
   classLevel:IClassLevel;
   notes: string;
+  marketerId:number
 }
 
 
@@ -586,4 +587,22 @@ export interface IUpdateTrainingContentRequest {
   attendanceMarks: number;
   quizzesMarks: number;
   finalExamMarks: number;
+}
+
+export interface CreateMarketerDto {
+  name: string;          
+  primaryPhone: string;  
+  secondaryPhone?: string; 
+  photoUrl?: string;
+}
+
+
+export interface Marketer {
+  id: number;
+  name: string;
+  primaryPhone: string;
+  secondaryPhone?: string | null;
+  photoUrl?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }

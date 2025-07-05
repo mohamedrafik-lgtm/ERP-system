@@ -8,6 +8,7 @@ import { TraningContetnApi } from './features/TraningContetn/Traning';
 import { UserAPI } from './features/users/user';
 import { QuestionAPI } from './features/question/question';
 import { LectureAPI } from './features/Lecture/lecture';
+import { MarketerAPI } from './features/Marketer/Marketer';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [UserAPI.reducerPath]:UserAPI.reducer,
     [QuestionAPI.reducerPath]:QuestionAPI.reducer,
     [LectureAPI.reducerPath]:LectureAPI.reducer,
+    [MarketerAPI.reducerPath]: MarketerAPI.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -30,6 +32,7 @@ export const store = configureStore({
       TraningContetnApi.middleware,
       UserAPI.middleware,
       QuestionAPI.middleware,
+      MarketerAPI.middleware,
       LectureAPI.middleware
     ),
 })

@@ -67,6 +67,7 @@ console.log(data)
     const finalData: IStudentRequest = {
       ...data,
       programId: Number(data.programId),
+      marketerId:1,
       totalGrade: Number(data.totalGrade),
       gradePercentage: Number(data.gradePercentage),
     };
