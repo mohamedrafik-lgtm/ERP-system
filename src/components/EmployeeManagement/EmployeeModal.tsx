@@ -3,7 +3,7 @@ import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
 import AddUserForm, { FormValues } from './EmployeeModalContent'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAddEmployeeMutation } from '@/lip/features/Employee/EmployeeApi';
+import { useAddEmployeeMutation } from '@/lip/features/users/user';
 import toast from 'react-hot-toast';
 
 export default function AddEmployeeModal() {
@@ -21,17 +21,17 @@ export default function AddEmployeeModal() {
 const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
 
    const [AddEmployee,{isLoading,isError,isSuccess}] = useAddEmployeeMutation()
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-
-    AddEmployee(data);
-    if(isSuccess){
-      toast.success('تم اضافه مستخدم بنجاح');
-    }
-  };
+        AddEmployee(data);
+        close()
+        reset()
+        if(isSuccess) return toast.success('تم اضافه الموظف بنجاح');
+    };
   return (
     <>
       <Button
@@ -64,8 +64,7 @@ const {
                 </Button>
                 <Button
                   type='submit'
-                  className="inline-flex items-center gap-2 rounded-md bg-green-500 px-5 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700"
-                  onClick={close}
+                  className={`inline-flex items-center ${isLoading ? "cursor-not-allowed":''} gap-2 rounded-md bg-green-500 px-5 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700`}
                 >
                   اضافه
                 </Button>

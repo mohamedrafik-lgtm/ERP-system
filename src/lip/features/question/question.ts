@@ -1,4 +1,4 @@
-import { IAddQuestions } from '@/interface';
+import { IAddQuestions, IQuestionsResponce } from '@/interface';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
@@ -19,17 +19,41 @@ export const QuestionAPI = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Question'],
+  tagTypes: ['Questions'],
   endpoints: (build) => ({
-    AddQuestion: build.mutation< void,IAddQuestions>({
-        query: (body) => ({
-           method:'POST',
-           body,
-           url: `/api/questions`,
-           providesTags:['Question']
+    AddQuestion: build.mutation<void, IAddQuestions>({
+      query: (body) => ({
+        method: 'POST',
+        body,
+        url: `/api/questions`,
       }),
-    })
+      invalidatesTags: [{ type: 'Questions', id: 'LIST' }],
+    }),
+
+    GetQuestionsInTrainengContent: build.query<IQuestionsResponce[], { id: number }>({
+      query: ({ id }) => ({
+        url: `/api/questions/content/${id}`,
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((q) => ({ type: 'Questions' as const, id: q.id })),
+              { type: 'Questions', id: 'LIST' },
+            ]
+          : [{ type: 'Questions', id: 'LIST' }],
+    }),
+
+    DeleteQuestion: build.mutation<void, { id: number }>({
+      query: ({ id }) => ({
+        method: 'DELETE',
+        url: `/api/questions/${id}`,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Questions', id: arg.id },
+        { type: 'Questions', id: 'LIST' },
+      ],
+    }),
   }),
 });
 
-export const { useAddQuestionMutation} = QuestionAPI;
+export const { useAddQuestionMutation,useGetQuestionsInTrainengContentQuery,useDeleteQuestionMutation} = QuestionAPI;

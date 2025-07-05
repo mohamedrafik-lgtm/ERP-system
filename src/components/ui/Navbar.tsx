@@ -151,7 +151,7 @@ export const Navbar = () => {
         
 // 
   return (
-    <nav className="py-2 px-4 bg-white shadow-md flex items-center justify-between border-b">
+    <nav className="py-2 px-4 bg-white  flex items-center justify-between border-b border-gray-300">
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6">
         <div className="relative" ref={userMenuRef}>

@@ -1,12 +1,16 @@
 "use client";
-import { useGetTrainingContentsWithCountQuery } from "@/lip/features/TraningContetn/Traning";
+import { useDeleteTrainingContentMutation, useGetTrainingContentsWithCountQuery } from "@/lip/features/TraningContetn/Traning";
 import ProgramTableSkeleton from "../Program/ProgramTableSkeleton";
 import AddQuestionModal from "../questionBank/AddQuestionModal";
+import { useRouter } from "next/navigation";
+import Spinner from "../ui/Spinner";
+
 
 export const TrainingContentTable = () => {
   const { data, isLoading, isError } = useGetTrainingContentsWithCountQuery();
-
+  const [deleteTrainengContent,{isLoading:Loading,isSuccess}] = useDeleteTrainingContentMutation()
   // استخراج القائمة الحقيقية من المحتوى التدريبي
+  const router = useRouter();
   const trainingList = Array.isArray(data) ? data : [];
 
   return (
@@ -41,20 +45,30 @@ export const TrainingContentTable = () => {
           <div className="text-center">{content.instructor?.name || "غير محدد"}</div>
           <div className="text-center">{content._count?.questions}</div>
           <div className="flex  justify-between col-span-3">
-            <button className=" text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white py-1 border border-blue-500 px-2 rounded-md">
-              تعديل
+            <button
+            onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}/UpdateTrainengContent`)}
+            className=" text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white py-1 border border-blue-500 px-2 rounded-md">
+              تعديل  
+              {/* UpdateTrainengContent */}
             </button>
-            <button className=" text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md">
+            <button className=" text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md"
+            onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}/Lecture`)}>
               المحاضرات
             </button>
-            <button className=" text-indigo-500 transition-all duration-300 hover:bg-indigo-500 hover:text-white py-1 border border-indigo-500 px-2 rounded-md">
-              الاسأله
+            <button 
+            className=" text-indigo-500 transition-all duration-300 hover:bg-indigo-500 hover:text-white py-1 border border-indigo-500 px-2 rounded-md"
+            onClick={()=> router.push(`/TrainingContentManagement/TrainingContent/${content.id}/question`)}>
+               الاسأله  ({content._count?.questions})
             </button>
             <AddQuestionModal ButtonContent={'اضافه سؤال'}
             contentId={content.id}
             className="text-green-500 transition-all duration-300 hover:bg-green-500 hover:text-white py-1 border border-green-500 px-2 rounded-md"/>
-            <button className=" text-red-500 transition-all duration-300 hover:bg-red-500 hover:text-white py-1 border border-red-500 px-2 rounded-md">
-              حذف
+            <button
+            onClick={() => deleteTrainengContent({id:content.id})}
+            className= {`text-red-500 ${Loading ? 'cursor-not-allowed' : 'hover:bg-red-500'} transition-all duration-300  hover:text-white py-1 border border-red-500 px-2 rounded-md`}
+            >
+              {Loading ? <Spinner Color="text-red-500"/> :"حذف"}
+              
             </button>
           </div>
         </div>

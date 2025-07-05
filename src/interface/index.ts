@@ -537,3 +537,53 @@ export interface IAddQuestions{
   contentId:number;
   options:IOptions[]
 }
+
+export interface IQuestionsResponce extends  IAddQuestions{
+  id:number;
+  createdById:string;
+  createdAt:string
+}
+
+
+export enum ITypeLecture{
+  VIDEO = 'VIDEO',
+  PDF = 'PDF',
+  BOTH = 'BOTH'
+}
+export interface ILecture{
+  title:string;
+  description:string;
+  // نوع المحاضره (فيديو - PDF - BOTH)
+  type:ITypeLecture;
+  chapter:number;
+  youtubeUrl:string;
+  pdfFile:string;
+  // (order) هي رقم ترتيب المحاضره
+  order:number;
+  contentId:number; //id الماده ادراسيه
+}
+export interface IResponseLecture extends ILecture{
+  id:number
+}
+
+
+export interface IUpdateTrainingContentRequest {
+  code: string;
+  name: string;
+  semester: Semester;
+  year: Year;
+  programIds: number[];
+  instructorId: string;
+  theoryAttendanceRecorderId: string;
+  practicalAttendanceRecorderId: string;
+  durationMonths: number;
+  theorySessionsPerWeek: number;
+  practicalSessionsPerWeek: number;
+  chaptersCount: number;
+  yearWorkMarks: number;
+  practicalMarks: number;
+  writtenMarks: number;
+  attendanceMarks: number;
+  quizzesMarks: number;
+  finalExamMarks: number;
+}

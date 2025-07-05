@@ -47,12 +47,12 @@ export default function AddQuestionModal({setData,contentId,ButtonContent,classN
   }
 
  const onSubmit = (data: IAddQuestions) => {
+ console.log(data)
    try{
      AddQuestion(data);
-      toast.success('تم اضافه سؤال بنجاح');
-    }catch(err){
-      console.log(err)
-      close()
+      toast.success('تم تعديل السؤال بنجاح');
+    }catch{
+
     }
   };
 
@@ -75,7 +75,7 @@ export default function AddQuestionModal({setData,contentId,ButtonContent,classN
               className="w-full max-w-4xl border-gray-600 rounded-xl bg-white/20 p-6 space-y-3 backdrop-blur-xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
               <DialogTitle as="h3" className="text-2xl font-medium">
-                  اضافة سؤال جديد
+                 تعديل السؤال
               </DialogTitle>
                  <AddQuestionForm register={register} setValue={setValue} values={values} />
               <div className="mt-4 space-x-5 mr-10">
@@ -88,10 +88,10 @@ export default function AddQuestionModal({setData,contentId,ButtonContent,classN
                 </Button>
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-green-500 px-8 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700"
-                  onClick={close}
+                  // onClick={close}
                   type='submit'
                 >
-                  اضافه
+                  تعديل
                 </Button>
               </div>
             </DialogPanel>

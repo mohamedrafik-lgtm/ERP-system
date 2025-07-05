@@ -20,7 +20,7 @@ export const programApi = createApi({
       query: () => `/api/programs`,
       providesTags: ['Programs'],
     }),
-    addProgram: build.mutation<Program, IProgram>({
+    addProgram: build.mutation<Program, ProgramData>({
       query: (body) => ({
         url: `/api/programs`,
         method: 'POST',

@@ -5,13 +5,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import InlineMenu from "../ui/MenuReport";
 import { useGetStudentsQuery } from "@/lip/features/student/student";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Input } from "../input";
+import { RowCardSkeleton } from "../ui/Skeleton";
 
 const StudentTable = () => {
   const router = useRouter();
   const { data, isError, isLoading, isSuccess } = useGetStudentsQuery();
   const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
+
+   if(isLoading) return <RowCardSkeleton/>;
+
 
   return (
     <div className="relative overflow-visible p-4 space-y-5">
@@ -153,4 +157,4 @@ const StudentTable = () => {
   );
 };
 
-export default StudentTable;
+export default memo(StudentTable) ;

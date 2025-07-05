@@ -19,3 +19,7 @@
   .input {
   @apply w-full px-3 py-2 border rounded bg-white dark:bg-slate-800 text-sm;
 }
+
+ .input-field {
+   @apply w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-400 transition;
+ }

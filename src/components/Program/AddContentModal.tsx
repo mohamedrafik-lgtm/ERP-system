@@ -10,6 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { ProgramData } from "@/interface";
 import AddProgramForm from "./AddProgramContent";
 import { useAddProgramMutation } from "@/lip/features/program/program"; // تأكد من المسار الصحيح
+import toast from "react-hot-toast";
 
 export default function AddProgramContentModel() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ export default function AddProgramContentModel() {
   const onSubmit: SubmitHandler<ProgramData> = async (data) => {
     try {
       await addProgram(data).unwrap();
-      console.log("تم الإضافة بنجاح");
+          toast.success("تم الإضافة بنجاح");
       setIsOpen(false);
       reset(); 
     } catch (err) {

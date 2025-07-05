@@ -4,7 +4,7 @@ import Paginator from "@/components/ui/paginator";
 
 const EmployeeManagement = () => {
     return (
-        <div dir="ltr">
+        <div>
               <div className="w-9/12 mx-auto mt-14 space-y-10">
                 {/* title */}
                 <div>

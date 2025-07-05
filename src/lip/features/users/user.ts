@@ -1,21 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
+import { FormValues } from '@/components/EmployeeManagement/EmployeeModalContent';
 
 
-interface IProps{
-    name:string;
-    code:string;
-    type:string;
-    parentId:number;
-    debitBalance:number;
-    creditBalance:number;
-    totalBalance:number;
-}
 interface IUserOption {
   id: string;
   name: string;
   email: string;
   role: string;
+  createdAt:string;
+  updatedAt:string;
 }
 export const UserAPI = createApi({
   reducerPath: 'userApi',
@@ -32,12 +26,32 @@ export const UserAPI = createApi({
   tagTypes: ['user'],
   endpoints: (build) => ({
     GetUserEmployee: build.query< IUserOption[],void>({
-        query: () => ({
+        query: () =>  `/api/users`,
+        providesTags:['user']
+    }),
+    addEmployee: build.mutation< any,FormValues>({
+        query: (body) => ({
            url: `/api/users`,
-           providesTags:['user']
-      }),
+           method: 'POST',
+           body,
+           headers: {
+             'Content-Type': 'application/json',
+           },
+          }),
+          invalidatesTags:['user']
+    }),
+    DeleteEmployee: build.mutation< any,{id:string}>({
+        query: ({id}) => ({
+           url: `/api/users/${id}`,
+           method: 'DELETE',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+          }),
+          invalidatesTags:['user']
+      
     })
   }),
 });
 
-export const {useGetUserEmployeeQuery } = UserAPI;
+export const {useGetUserEmployeeQuery,useAddEmployeeMutation ,useDeleteEmployeeMutation } = UserAPI;
