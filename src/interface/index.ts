@@ -606,3 +606,25 @@ export interface Marketer {
   createdAt: string;
   updatedAt: string;
 }
+
+
+export enum SafeType {
+  REVENUE = 'REVENUE', 
+  EXPENSE = 'EXPENSE', 
+  DEBT = 'DEBT' 
+}
+
+export enum ICurrency{
+  EGP = 'EGP',
+  USD = 'USD',
+  EUR = 'EUR',
+  SAR = 'SAR'
+}
+export interface ILocker{
+  name:string;
+  description:string;
+  type:SafeType;
+  balance:number;
+  currency:ICurrency;
+  isActive:boolean
+}
