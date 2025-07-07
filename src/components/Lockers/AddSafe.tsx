@@ -51,7 +51,7 @@ export default function LockerModal() {
 
   return (
     <>
-      <Toaster position="top-center" reverseOrder={false} />
+      {/* <Toaster position="top-center" reverseOrder={false} /> */}
       <button
         onClick={() => setIsOpen(true)}
         className="mb-4 rounded-xl bg-blue-600 px-4 py-2 text-white text-sm font-medium hover:bg-blue-700 transition"

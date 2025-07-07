@@ -628,3 +628,66 @@ export interface ILocker{
   currency:ICurrency;
   isActive:boolean
 }
+
+export type TransactionType =
+  | 'DEPOSIT'
+  | 'WITHDRAW'
+  | 'TRANSFER'
+  | 'FEE'
+  | 'PAYMENT';
+
+export type AccountType = 'REVENUE' | 'EXPENSE' | 'DEBT';
+
+export interface Transaction {
+  id: string;
+  amount: number;
+  type: TransactionType;
+  description: string | null;
+  reference: string | null;
+  sourceId: string | null;
+  targetId: string | null;
+  traineeFeeId: number | null;
+  traineePaymentId: number | null;
+  createdById: string | null;
+  createdAt: string; // ISO date
+  updatedAt: string; // ISO date
+}
+
+export interface FinancialAccount {
+  id: string;
+  name: string;
+  description: string | null;
+  type: AccountType;
+  balance: number;
+  currency: string;
+  isActive: boolean;
+  createdAt: string; // ISO date
+  updatedAt: string; // ISO date
+  sourceTransactions: Transaction[];
+  targetTransactions: Transaction[];
+}
+
+export enum ITransactionType {
+  DEPOSIT = 'DEPOSIT',   // إيداع
+  WITHDRAW = 'WITHDRAW', // سحب
+  TRANSFER = 'TRANSFER', // تحويل بين حسابين
+  FEE = 'FEE',           // رسوم متدربين
+  PAYMENT = 'PAYMENT',   // دفع رسوم
+}
+// {
+//   "amount": 1000.50,
+//   "type": "TRANSFER",
+//   "description": "تحويل من خزينة الإيرادات إلى خزينة المصروفات",
+//   "reference": "TRX-2024-001",
+//   "sourceId": "clx1234567890",
+//   "targetId": "clx9876543210"
+// }
+
+export interface ITransactions{
+   amount : number;
+   type : ITransactionType;
+   description : string;
+   reference :string;
+   sourceId : string;
+   targetId : string;
+}

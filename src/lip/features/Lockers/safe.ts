@@ -1,4 +1,4 @@
-import { ILocker } from '@/interface';
+import { FinancialAccount, ILocker, ITransactions } from '@/interface';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
@@ -27,8 +27,19 @@ export const SafeAPI = createApi({
       }),
       invalidatesTags: ['safes'],
     }),
-
+    GetFinance: build.query<FinancialAccount[],void>({
+      query: () => `/api/finances/safes`,
+      providesTags: ['safes'],
+    }),
+    AddTransaction: build.mutation<void, ITransactions>({
+      query: (body) => ({
+        method: 'POST',
+        url: `/api/finances/transactions`,
+        body,
+      }),
+      invalidatesTags: ['safes'],
+    }),
   }),
 });
 
-export const {useAddSafeMutation} = SafeAPI;
+export const {useAddSafeMutation,useGetFinanceQuery} = SafeAPI;
