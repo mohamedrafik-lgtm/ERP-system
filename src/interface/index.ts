@@ -700,3 +700,37 @@ export interface ITraineeFees{
   programId: number;
   safeId: string;
 }
+
+export enum ITraineeFeeType{
+  TUITION = "TUITION",
+  SERVICES = 'SERVICES',
+  TRAINING = 'TRAINING',
+  ADDITIONAL = 'ADDITIONAL'
+}
+export interface ITraineeFeeWithRelations {
+  id: number;
+  name: string;
+  amount: number;
+  type: ITraineeFeeType;
+  academicYear: string;
+  allowMultipleApply: boolean;
+  programId: number;
+  safeId: string;
+  isApplied: boolean;
+  appliedAt: string | null;
+  appliedById: string | null;
+  createdAt: string;
+  updatedAt: string;
+  program: {
+    id: number;
+    nameAr: string;
+    // ممكن تضيف باقي خصائص البرنامج هنا لو عندك
+  };
+  safe: {
+    id: string;
+    name: string;
+    balance: number;
+    currency: string;
+    // ممكن تضيف باقي خصائص الخزنة هنا لو عندك
+  };
+}

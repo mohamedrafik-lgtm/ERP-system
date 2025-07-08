@@ -10,6 +10,7 @@ import { QuestionAPI } from './features/question/question';
 import { LectureAPI } from './features/Lecture/lecture';
 import { MarketerAPI } from './features/Marketer/Marketer';
 import { SafeAPI } from './features/Lockers/safe';
+import { FeesAPI } from './features/Fees/Fees';
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     [LectureAPI.reducerPath]:LectureAPI.reducer,
     [MarketerAPI.reducerPath]: MarketerAPI.reducer,
     [SafeAPI.reducerPath]: SafeAPI.reducer,
+    [FeesAPI.reducerPath]:FeesAPI.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -36,7 +38,8 @@ export const store = configureStore({
       QuestionAPI.middleware,
       MarketerAPI.middleware,
       SafeAPI.middleware,
-      LectureAPI.middleware
+      LectureAPI.middleware,
+      FeesAPI.middleware
     ),
 })
 

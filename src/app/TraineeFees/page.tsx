@@ -25,12 +25,9 @@ const TraineeFees = () =>{
                     placeholder=" ابحث عن رسم" 
                     className=" bg-white px-4 py-2 rounded-xl col-span-3"
                 />
-                {/* <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
-                    اضافه جديد
-                </button> */}
                 <button
                   onClick={() => setIsOpen(true)}
-                  className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-4 py-2 rounded bg-orange-600 text-white hover:bg-orange-700"
                 >
                   اضافه رسوم متدربين
                 </button>

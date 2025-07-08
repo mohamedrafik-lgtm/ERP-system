@@ -3,6 +3,7 @@
 import { payments } from "@/data";
 import MenuComponent from "../ui/MenuReport";
 import DialogReports from "../ui/Dialog";
+import { useGetFeesQuery } from "@/lip/features/Fees/Fees";
 
 const menuItems = [
   { name: "متدربين مستحق عليهم الدفع", svgIcon: <svg>...</svg> },
@@ -11,8 +12,9 @@ const menuItems = [
   { name: "تقارير القسط الحالي و المتأخر", svgIcon: <svg>...</svg> },
   { name: "تقرير تفصيلي" },
 ];
-
 const TraineeFeesCards = () => {
+  const {data} = useGetFeesQuery()
+  console.log(data)
   return (
     <div className="p-4 space-y-4" dir="rtl">
       {/* Header */}
