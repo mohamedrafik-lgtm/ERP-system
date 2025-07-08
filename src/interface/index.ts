@@ -674,14 +674,6 @@ export enum ITransactionType {
   FEE = 'FEE',           // رسوم متدربين
   PAYMENT = 'PAYMENT',   // دفع رسوم
 }
-// {
-//   "amount": 1000.50,
-//   "type": "TRANSFER",
-//   "description": "تحويل من خزينة الإيرادات إلى خزينة المصروفات",
-//   "reference": "TRX-2024-001",
-//   "sourceId": "clx1234567890",
-//   "targetId": "clx9876543210"
-// }
 
 export interface ITransactions{
    amount : number;
@@ -690,4 +682,21 @@ export interface ITransactions{
    reference :string;
    sourceId : string;
    targetId : string;
+}
+
+export enum IFeesType{
+  TUITION = 'TUITION',
+  SERVICES = 'SERVICES',
+  TRAIN = 'TRAIN',
+  ING = 'ING',
+  ADDITIONAL = 'ADDITIONAL',
+}
+export interface ITraineeFees{
+  name: string;
+  amount: number;
+  type: IFeesType;
+  academicYear: string;
+  allowMultipleApply: boolean;
+  programId: number;
+  safeId: string;
 }
