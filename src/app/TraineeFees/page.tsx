@@ -1,9 +1,16 @@
-import TraineeFeesModal from "@/components/TraineeFees/Modal";
+'use client';
+import FeesDialog from "@/components/TraineeFees/Modal";
 import TraineeFeesTable from "@/components/TraineeFees/TraineeFeesTable";
 import FilterButton from "@/components/ui/filterButton";
 import Paginator from "@/components/ui/paginator";
+import { useGetFinanceQuery } from "@/lip/features/Lockers/safe";
+import { useGetProgramsQuery } from "@/lip/features/program/program";
+import { useState } from "react";
 
 const TraineeFees = () =>{
+    const [isOpen, setIsOpen] = useState(false);
+    const {data} = useGetProgramsQuery ()
+    const {data:res} = useGetFinanceQuery()
     return (
         <div>
            <div className="w-10/12 mx-auto mt-10">
@@ -21,7 +28,14 @@ const TraineeFees = () =>{
                 {/* <button className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
                     اضافه جديد
                 </button> */}
-                <TraineeFeesModal/>
+                <button
+                  onClick={() => setIsOpen(true)}
+                  className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  اضافه رسوم متدربين
+                </button>
+                <FeesDialog  programs={data ?? []}
+                safes={res ?? []} isOpen={isOpen} onClose={() => setIsOpen(false)} />
            </div>
            <div>
             <FilterButton
