@@ -1,4 +1,4 @@
-import { ITraineeFees, IResponseLecture, ITraineeFeeWithRelations } from '@/interface';
+import { ITraineeFees, IResponseLecture, ITraineeFeeWithRelations, IPayTrainerFee } from '@/interface';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
@@ -27,8 +27,23 @@ export const FeesAPI = createApi({
         }),
         invalidatesTags: ['Fees'],
       }),
+      ActivateFee: build.mutation<void, {id:number}>({
+        query: ({id}) => ({
+          method: 'POST',
+          url: `/api/finances/trainee-fees/${id}/apply`,
+        }),
+        invalidatesTags: ['Fees'],
+      }),
+      PayTraineeFee: build.mutation<void, IPayTrainerFee>({
+        query: (body) => ({
+          method: 'POST',
+          url: `/api/finances/trainee-payments`,
+          body,
+        }),
+        invalidatesTags: ['Fees'],
+      }),
 
-
+    //  /api/finances/trainee-payments
     GetFees: build.query< ITraineeFeeWithRelations[],void>({
         query: () =>  `/api/finances/trainee-fees`,
           providesTags: ['Fees'],
@@ -36,4 +51,4 @@ export const FeesAPI = createApi({
   }),
 });
 
-export const {useAddFeesMutation,useGetFeesQuery} = FeesAPI;
+export const {useAddFeesMutation,useGetFeesQuery,useActivateFeeMutation} = FeesAPI;

@@ -3,14 +3,17 @@ import FeesDialog from "@/components/TraineeFees/Modal";
 import TraineeFeesTable from "@/components/TraineeFees/TraineeFeesTable";
 import FilterButton from "@/components/ui/filterButton";
 import Paginator from "@/components/ui/paginator";
+import { useGetFeesQuery } from "@/lip/features/Fees/Fees";
 import { useGetFinanceQuery } from "@/lip/features/Lockers/safe";
 import { useGetProgramsQuery } from "@/lip/features/program/program";
 import { useState } from "react";
 
 const TraineeFees = () =>{
     const [isOpen, setIsOpen] = useState(false);
-    const {data} = useGetProgramsQuery ()
-    const {data:res} = useGetFinanceQuery()
+    const {data} = useGetProgramsQuery ();
+    const {data:res} = useGetFinanceQuery();
+    const {data: response} = useGetFeesQuery();
+    console.log(response)
     return (
         <div>
            <div className="w-10/12 mx-auto mt-10">

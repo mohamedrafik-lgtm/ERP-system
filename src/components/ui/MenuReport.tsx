@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 interface InlineMenuProps {
-  name: string;
+  name?: string;
   svgIcon?: React.ReactNode;
 }
 

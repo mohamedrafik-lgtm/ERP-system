@@ -734,3 +734,20 @@ export interface ITraineeFeeWithRelations {
     // ممكن تضيف باقي خصائص الخزنة هنا لو عندك
   };
 }
+
+
+// {
+//   "feeId": 0,
+//   "traineeId": 0,
+//   "amount": 0,
+//   "safeId": "string",
+//   "notes": "string"
+// }
+
+export interface IPayTrainerFee{
+  feeId : number;
+  traineeId : number;
+  amount : number;
+  safeId : string;
+  notes : string;
+}
