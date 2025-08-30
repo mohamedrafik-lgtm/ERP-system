@@ -87,10 +87,7 @@ export const studentSchema: yup.ObjectSchema<IStudentRequest> = yup.object({
   schoolName: yup.string().required(),
   graduationDate: yup.string().required(),
 
-  sportsActivity: yup.string().required(),
-  culturalActivity: yup.string().required(),
-  educationalActivity: yup.string().required(),
+
   photoUrl: yup.string().required(),
 
-  notes: yup.string().required(),
 });

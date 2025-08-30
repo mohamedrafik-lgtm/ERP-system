@@ -12,7 +12,6 @@ import {
   ITraineeStatus,
   IClassLevel,
 } from '@/interface/index';
-import FormField from '@/components/AddStudent/FormField';
 import ImageUpload from '@/components/AddStudent/TraineeImage';
 import { useAddTraineeMutation } from '@/lip/features/trainees/traineesApi';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -45,7 +44,6 @@ export default function AddStudent() {
       programType: programType.SUMMER,
       gender: Gender.MALE,
       religion: Religion.ISLAM,
-      educationType: IEducationType.PREPARATORY,
       traineeStatus: ITraineeStatus.NEW,
       classLevel: IClassLevel.FIRST,
       photoUrl: '',
@@ -67,12 +65,11 @@ console.log(data)
     const finalData: IStudentRequest = {
       ...data,
       programId: Number(data.programId),
-      marketerId:1,
       totalGrade: Number(data.totalGrade),
       gradePercentage: Number(data.gradePercentage),
     };
     addTrainee(finalData);
-    toast.success('تم اضافه المتدرب بنجاح');   
+    if (!isSuccess) return toast.success('تم اضافه المتدرب بنجاح');   
     reset()
   };
 
@@ -191,12 +188,9 @@ console.log(data)
 
         <Card title="الأنشطة والملاحظات">
           <Grid>
-            <InputField label="نشاط رياضي" name="sportsActivity" register={register} error={errors.sportsActivity?.message} />
-            <InputField label="نشاط ثقافي" name="culturalActivity" register={register} error={errors.culturalActivity?.message} />
-            <InputField label="نشاط تعليمي" name="educationalActivity" register={register} error={errors.educationalActivity?.message} />
             <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} />
           </Grid>
-          <FormField label="ملاحظات">
+          {/* <FormField label="ملاحظات">
             <textarea
               {...register("notes")}
               rows={4}
@@ -205,7 +199,7 @@ console.log(data)
               }`}
             />
             {errors.notes && <p className="text-red-500 text-sm mt-1">{errors.notes.message}</p>}
-          </FormField>
+          </FormField> */}
         </Card>
 
         <div className="text-end">

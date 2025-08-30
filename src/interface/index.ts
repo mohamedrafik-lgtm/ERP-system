@@ -395,13 +395,8 @@ export interface IStudentRequest {
   graduationDate: string;
   totalGrade: number;
   gradePercentage: number;
-  sportsActivity: string;
-  culturalActivity: string;
-  educationalActivity: string;
   traineeStatus:ITraineeStatus;
   classLevel:IClassLevel;
-  notes: string;
-  marketerId:number
 }
 
 

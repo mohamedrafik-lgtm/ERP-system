@@ -5,8 +5,8 @@ import { ChevronDown } from "lucide-react";
 import {useGetLectureQuery } from "@/lip/features/Lecture/lecture";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import ConfirmationDeleteLecture from "@/components/Lecre/Confirmation";
-import UpdateLectureModale from "@/components/Lecre/UpdateLectureModale";
+import ConfirmationDeleteLecture from "@/components/Lecure/Confirmation";
+import UpdateLectureModale from "@/components/Lecure/UpdateLectureModale";
 
 
 export default function LecturePage() {

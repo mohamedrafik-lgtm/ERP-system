@@ -3,7 +3,7 @@
 import { useForm, Controller } from "react-hook-form";
 import {  useState } from "react";
 import { UploadCloud } from "lucide-react";
-import SelectField from "@/components/Lecre/select";
+import SelectField from "@/components/Lecure/select";
 import { useParams } from "next/navigation";
 import { ILecture, ITypeLecture } from "@/interface";
 import { useAddLectureMutation } from "@/lip/features/Lecture/lecture";

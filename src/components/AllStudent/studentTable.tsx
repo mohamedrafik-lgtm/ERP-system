@@ -60,12 +60,19 @@ const StudentTable = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 items-center">
             <div>
               <Image
-                src={`/${student.photoUrl}`}
-                alt={student.nameEn}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+               src={
+                 student.photoUrl?.startsWith("//")
+                   ? `https:${student.photoUrl}` // لو راجع //uploads
+                   : student.photoUrl?.startsWith("http")
+                   ? student.photoUrl // لو أصلاً راجع http/https
+                   : `/uploads/trainees/${student.photoUrl}` // fallback لو عندك صورة محلية
+               }
+               alt={student.nameEn || "student photo"}
+               width={40}
+               height={40}
+               className="rounded-full"
+             />
+
             </div>
             <div className="px-4 py-3 text-center font-medium ">{student.nameAr}</div>
             <div className="px-4 py-3 text-center ">{student.id}</div>
