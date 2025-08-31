@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import toast from "react-hot-toast";
 
 interface LoginInputs {
-  email: string;
+  emailOrPhone: string;
   password: string;
   remember: boolean;
 }
@@ -49,7 +49,7 @@ const LoginPage = () => {
     setErrorMessage(null);
     try {
       const response = await login({
-        email: formData.email,
+        emailOrPhone: formData.emailOrPhone,
         password: formData.password
       }).unwrap();
       
@@ -110,14 +110,14 @@ const LoginPage = () => {
               <label htmlFor="email" className="text-lg font-medium">البريد الإلكتروني</label>
               <Input
                 type="text"
-                {...register("email")}
+                {...register("emailOrPhone")}
                 placeholder="example@domain.com"
                 id="email"
                 className="w-full bg-white rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
                 required
               />
-              {errors.email?.message && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              {errors.emailOrPhone?.message && (
+                <p className="text-red-500 text-sm">{errors.emailOrPhone.message}</p>
               )}
             </div>
 

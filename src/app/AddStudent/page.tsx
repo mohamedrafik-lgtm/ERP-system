@@ -23,6 +23,7 @@ import InputField from '@/components/AddStudent/RenderInputs/inputFild';
 import InputDate from '@/components/AddStudent/RenderInputs/InputDate';
 import { useGetProgramsQuery } from '@/lip/features/program/program';
 import ProgramSelect from '@/components/Program/SelectProgram';
+import { getBirthDateFromNationalId } from '@/components/AddStudent/getBirthDateFromNationaltyId';
 
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
@@ -57,27 +58,82 @@ export default function AddStudent() {
     value: key,
   }));
 };
-const {data}= useGetProgramsQuery()
-console.log(data)
+  const {data}= useGetProgramsQuery()
   const [addTrainee,{isLoading,isSuccess,isError}] = useAddTraineeMutation();
+  
+  const birthDateFromNationalId =  getBirthDateFromNationalId('30409011223052');
+  console.log(birthDateFromNationalId);
 
-  const onSubmit = (data: IStudentRequest) => {
-    const finalData: IStudentRequest = {
-      ...data,
-      programId: Number(data.programId),
-      totalGrade: Number(data.totalGrade),
-      gradePercentage: Number(data.gradePercentage),
-    };
-    addTrainee(finalData);
-    if (!isSuccess) return toast.success('تم اضافه المتدرب بنجاح');   
-    reset()
+  const onSubmit = async (data: IStudentRequest) => {
+    try {
+      const finalData: IStudentRequest = {
+        ...data,
+        programId: Number(data.programId),
+        totalGrade: Number(data.totalGrade),
+        gradePercentage: Number(data.gradePercentage),
+      };
+      
+      const result = await addTrainee(finalData).unwrap();
+      toast.success('تم إضافة المتدرب بنجاح');
+      reset();
+    } catch (error) {
+      toast.error('حدث خطأ أثناء إضافة الطالب');
+      console.error(error);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-6"> 
-        <h1 className='text-3xl font-semibold'>اضافه طالب</h1>
-        <Card title="البيانات الأساسية">
+    <div className="min-h-screen bg-white py-8 px-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-6xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-2xl p-8 shadow-xl transform transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
+          <div className="flex items-center justify-between">
+            <div className="transform transition-all duration-300 hover:translate-x-2">
+              <h1 className="text-4xl font-bold text-white mb-3 flex items-center gap-3">
+                <span>إضافة طالب جديد</span>
+                <div className="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></div>
+              </h1>
+              <p className="text-blue-100 text-lg font-medium">قم بإدخال بيانات الطالب بدقة للتسجيل في النظام</p>
+            </div>
+            <div className="hidden md:block">
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-400 rounded-full blur-lg opacity-50 animate-pulse"></div>
+                <div className="relative bg-white/20 backdrop-blur-sm w-32 h-32 rounded-full flex items-center justify-center transform transition-all duration-500 hover:rotate-12 hover:scale-110">
+                  <svg className="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Steps */}
+        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-100">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">1</div>
+              <div className="mr-3">
+                <p className="font-semibold">البيانات الأساسية</p>
+                <p className="text-sm text-gray-500">المعلومات الشخصية للطالب</p>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center">
+              <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">2</div>
+              <div className="mx-3">
+                <p className="font-semibold">بيانات التواصل</p>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">3</div>
+              <div className="mx-3">
+                <p className="font-semibold">البيانات التعليمية</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Card title="البيانات الأساسية"
+          className="transform transition-all duration-300 hover:shadow-xl"
+        >
           <Grid>
             <InputField label="الاسم بالعربية" name="nameAr" register={register} error={errors.nameAr?.message} />
             <InputField label="الاسم بالإنجليزية" name="nameEn" register={register} error={errors.nameEn?.message} />
@@ -190,26 +246,58 @@ console.log(data)
           <Grid>
             <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} />
           </Grid>
-          {/* <FormField label="ملاحظات">
-            <textarea
-              {...register("notes")}
-              rows={4}
-              className={`w-full border rounded-md px-3 py-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.notes ? 'border-red-500' : 'border-gray-300'
-              }`}
-            />
-            {errors.notes && <p className="text-red-500 text-sm mt-1">{errors.notes.message}</p>}
-          </FormField> */}
+          
         </Card>
 
-        <div className="text-end">
-          <button
-            type="submit"
-            className={`bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded-lg shadow-sm ${isLoading ? 'opacity-50 cursor-not-allowed':''}`}
-          >
-            {isLoading ? 'جاري حفظ البيانات' : "حفظ الطالب"}
+        {/* Footer Actions */}
+        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium flex items-center gap-2 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              رجوع
+            </button>
             
-          </button>
+            <div className="flex gap-4">
+              <button
+                type="button"
+                className="px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-lg transition-all duration-200"
+              >
+                حفظ كمسودة
+              </button>
+              <button
+                type="submit"
+                className={`
+                  px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium rounded-lg
+                  transform transition-all duration-200 hover:scale-105 hover:shadow-xl
+                  flex items-center gap-2
+                  ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:translate-y-[-1px]'}
+                `}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>جاري الحفظ...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>حفظ الطالب</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>

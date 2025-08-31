@@ -25,21 +25,75 @@ export default function SelectWithTransition({
   const selected = options.find((o) => o.value === value) || { label: 'اختر', value: '' };
 
   return (
-    <div className="flex flex-col space-y-1 w-full">
-      <label className="ext-sm font-medium text-gray-700">
+    <div className="flex flex-col space-y-2 w-full group/select">
+      <label className="
+        text-sm font-semibold text-gray-700
+        transition-all duration-300
+        group-hover/select:text-gray-900
+        flex items-center gap-2
+      ">
+        <span className="
+          w-1 h-1 rounded-full
+          bg-blue-400 opacity-0
+          transition-all duration-300
+          group-hover/select:opacity-100
+          group-hover/select:w-2
+        "></span>
         {label}
       </label>
       <Listbox value={value ?? ''} onChange={onChange}>
         <div className="relative">
           <Listbox.Button
-            className={`relative w-full cursor-pointer rounded-xl bg-white  py-2.5 pl-4 pr-10 text-left text-sm shadow-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-              error ? 'border-red-500' : 'border-gray-300'
-            }`}
+            className={`
+              relative w-full
+              px-4 py-3
+              text-right
+              bg-white
+              border-2 rounded-lg
+              transition-all duration-300
+              cursor-pointer
+              group
+              ${error 
+                ? 'border-red-300 hover:border-red-400' 
+                : 'border-gray-200 hover:border-gray-300'
+              }
+              focus:outline-none focus:ring-4
+              ${error ? 'focus:ring-red-50' : 'focus:ring-blue-50'}
+              disabled:bg-gray-50 disabled:cursor-not-allowed
+            `}
           >
-            <span className="ext-sm font-medium text-gray-700">{selected.label}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-              <ChevronDown className="h-4 w-4 text-gray-400" />
+            <span className={`
+              block text-base
+              ${selected.value === '' ? 'text-gray-400' : 'text-gray-700'}
+              group-hover:text-gray-900
+              transition-colors duration-200
+            `}>
+              {selected.label}
             </span>
+            <span className="
+              pointer-events-none
+              absolute inset-y-0 right-3
+              flex items-center
+            ">
+              <ChevronDown className={`
+                w-5 h-5
+                transition-all duration-300
+                ${error ? 'text-red-400' : 'text-gray-400'}
+                group-hover:text-gray-600
+                ui-open:rotate-180
+              `} />
+            </span>
+            
+            {/* Decorative Elements */}
+            <span className="
+              absolute left-3 top-1/2 -translate-y-1/2
+              w-5 h-5
+              rounded-full
+              transition-all duration-300
+              ${error ? 'bg-red-50' : 'bg-blue-50'}
+              opacity-0 scale-90
+              group-hover:opacity-100 group-hover:scale-100
+            "></span>
           </Listbox.Button>
 
           <Transition
@@ -51,29 +105,64 @@ export default function SelectWithTransition({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-2"
           >
-            <Listbox.Options className="absolute z-20 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white dark:bg-white py-1 text-sm shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Listbox.Options className="
+              absolute z-20 mt-2
+              w-full max-h-60
+              overflow-auto
+              rounded-xl bg-white
+              py-2
+              text-base
+              shadow-xl
+              ring-1 ring-black/5
+              focus:outline-none
+              animate-fadeIn
+            ">
               {options.map((opt) => (
                 <Listbox.Option
                   key={opt.value}
                   value={opt.value}
-                  className={({ active }) =>
-                    `relative cursor-pointer select-none py-2 pl-10 pr-4 transition-colors duration-200 ${
-                      active
-                        ? 'bg-orange-100 text-orange-900'
-                        : 'text-gray-900'
-                    }`
-                  }
+                  className={({ active }) => `
+                    relative
+                    cursor-pointer
+                    select-none
+                    py-3 px-4
+                    text-gray-900
+                    transition-all duration-200
+                    ${active 
+                      ? 'bg-blue-50 text-blue-900'
+                      : 'hover:bg-gray-50'
+                    }
+                  `}
                 >
-                  {({ selected }) => (
+                  {({ selected, active }) => (
                     <>
-                      <span className={`block truncate ${selected ? 'font-semibold text-orange-600' : 'font-normal'}`}>
-                        {opt.label}
-                      </span>
-                      {selected && (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-600">
-                          <Check className="h-4 w-4" />
+                      <div className="flex items-center gap-3">
+                        <span className={`
+                          flex-1
+                          transition-all duration-200
+                          ${selected 
+                            ? 'font-semibold text-blue-900'
+                            : 'font-normal'
+                          }
+                          ${active ? 'transform translate-x-2' : ''}
+                        `}>
+                          {opt.label}
                         </span>
-                      )}
+                        {selected ? (
+                          <span className={`
+                            flex items-center justify-center
+                            w-5 h-5
+                            rounded-full
+                            transition-all duration-200
+                            ${active 
+                              ? 'bg-blue-100 text-blue-600'
+                              : 'text-blue-500'
+                            }
+                          `}>
+                            <Check className="h-3.5 w-3.5" />
+                          </span>
+                        ) : null}
+                      </div>
                     </>
                   )}
                 </Listbox.Option>
