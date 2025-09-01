@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
@@ -7,7 +7,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id?: string;
 }
 
-export const Input = React.forwardRef<HTMLInputElement, IProps>(
+const InputComponent = React.forwardRef<HTMLInputElement, IProps>(
   ({ type, className = "", placeholder = "", id, ...rest }, ref) => {
     return (
       <input
@@ -22,4 +22,6 @@ export const Input = React.forwardRef<HTMLInputElement, IProps>(
   }
 );
 
-Input.displayName = "Input";
+InputComponent.displayName = "Input";
+
+export const Input = memo(InputComponent);

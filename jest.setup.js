@@ -53,12 +53,12 @@ jest.mock('framer-motion', () => ({
   AnimatePresence: ({ children }) => children,
 }))
 
-// Mock react-router-dom
-jest.mock('react-router-dom', () => ({
-  BrowserRouter: ({ children }) => children,
-  useNavigate: () => jest.fn(),
-  useLocation: () => ({ pathname: '/' }),
-}))
+// Mock react-router-dom (only if installed)
+// jest.mock('react-router-dom', () => ({
+//   BrowserRouter: ({ children }) => children,
+//   useNavigate: () => jest.fn(),
+//   useLocation: () => ({ pathname: '/' }),
+// }))
 
 // Global test utilities
 global.ResizeObserver = jest.fn().mockImplementation(() => ({

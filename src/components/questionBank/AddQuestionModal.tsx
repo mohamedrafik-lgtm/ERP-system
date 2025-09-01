@@ -6,6 +6,7 @@ import { IAddQuestions, IDifficulty, IType , ISkill} from '@/interface';
 import { useForm } from 'react-hook-form';
 import { useAddQuestionMutation } from '@/lip/features/question/question';
 import toast from 'react-hot-toast';
+import { Plus, X, Save, Loader2, Brain } from 'lucide-react';
 
 interface IProps{
   ButtonContent  : ReactNode;
@@ -62,38 +63,73 @@ export default function AddQuestionModal({setData,contentId,ButtonContent,classN
     <>
       <Button
         onClick={open}
-        className={className}
+        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg flex items-center gap-2"
       >
-            {ButtonContent}
+        <Plus className="w-4 h-4" />
+        {ButtonContent}
       </Button>
 
-      <Dialog open={isOpen} onSubmit={handleSubmit(onSubmit)} as="form" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
+      <Dialog open={isOpen} className="relative z-50 focus:outline-none" onClose={close}>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300" />
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel
-              transition
-              className="w-full max-w-4xl border-gray-600 rounded-xl bg-white/20 p-6 space-y-3 backdrop-blur-xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
-            >
-              <DialogTitle as="h3" className="text-2xl font-medium">
-                  اضافة سؤال جديد
-              </DialogTitle>
-                 <AddQuestionForm register={register} setValue={setValue} values={values} />
-              <div className="mt-4 space-x-5 mr-10">
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-red-500 px-8 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-red-600 data-open:bg-red-700"
-                  onClick={close}
-                  type='button'
-                >
-                  اغلاق
-                </Button>
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-green-500 px-8 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-green-600 data-open:bg-green-700"
-                  onClick={close}
-                  type='submit'
-                >
-                  اضافه
-                </Button>
-              </div>
+            <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all duration-300">
+              <form onSubmit={handleSubmit(onSubmit)} className="p-8">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                      <Brain className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <DialogTitle as="h3" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        إضافة سؤال جديد
+                      </DialogTitle>
+                      <p className="text-gray-600 text-sm mt-1">أدخل تفاصيل السؤال والخيارات</p>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={close}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                  >
+                    <X className="w-5 h-5 text-gray-500" />
+                  </Button>
+                </div>
+
+                {/* Form Content */}
+                <div className="space-y-6">
+                  <AddQuestionForm register={register} setValue={setValue} values={values} />
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
+                  <Button
+                    type="button"
+                    onClick={close}
+                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium"
+                  >
+                    إلغاء
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        جاري الإضافة...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        إضافة السؤال
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
             </DialogPanel>
           </div>
         </div>

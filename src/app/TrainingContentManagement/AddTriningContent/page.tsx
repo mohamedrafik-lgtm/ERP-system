@@ -90,8 +90,17 @@ useEffect(() => {
 }, [ContentCode, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl pt-10 mx-auto space-y-6 p-4">
-      <h1 className='text-3xl mb-14'>اضافه محتوي تدريبي</h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
+      <div className="max-w-5xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            إضافة محتوى تدريبي جديد
+          </h1>
+          <p className="text-gray-600">أدخل تفاصيل المحتوى التدريبي الجديد</p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">كود المادة</label>
@@ -196,25 +205,50 @@ useEffect(() => {
         <TextInput name="finalExamMarks" label="امتحان النهائي" register={register} type="number" error={errors.finalExamMarks?.message} />
       </div>
 
-      <div className="text-end">
-        <button type="submit" className="bg-orange-600 text-white px-6 py-2 rounded-md shadow hover:bg-orange-700">
-          إضافة المحتوى التدريبي
-        </button>
+          <div className="col-span-full flex justify-end gap-4 pt-6 border-t border-gray-200">
+            <button 
+              type="button" 
+              onClick={() => router.back()}
+              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200"
+            >
+              إلغاء
+            </button>
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  جاري الإضافة...
+                </>
+              ) : (
+                'إضافة المحتوى التدريبي'
+              )}
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
 
 const TextInput = ({ label, name, register, type = 'text', error }: any) => (
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+    <label className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>
     <input
       type={type}
       {...register(name, { valueAsNumber: type === 'number' })}
       max={type === 'number' ? 100 : undefined}
-      className={`w-full border bg-white rounded-md px-3 py-2 text-sm ${error ? 'border-red-500' : 'border-gray-300'}`}
+      className={`w-full border bg-white rounded-xl px-4 py-3 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+        error ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+      }`}
     />
-    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    {error && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+      <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+      {error}
+    </p>}
   </div>
 );
 
@@ -223,23 +257,27 @@ const SelectField = ({ label, value, onChange, options, error }: any) => {
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>
       <Listbox value={value || ''} onChange={onChange}>
         <div className="relative">
-          <Listbox.Button className={`relative w-full cursor-pointer rounded-md bg-white py-2 pl-3 pr-10 text-left border ${error ? 'border-red-500' : 'border-gray-300'}`}>
-            <span className="block truncate">{selectedOption?.label || 'اختر'}</span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronDown className="h-4 w-4 text-gray-500" />
+          <Listbox.Button className={`relative w-full cursor-pointer rounded-xl bg-white py-3 pl-4 pr-10 text-left border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+            error ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+          }`}>
+            <span className="block truncate text-sm">{selectedOption?.label || 'اختر من القائمة'}</span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+              <ChevronDown className="h-5 w-5 text-gray-500" />
             </span>
           </Listbox.Button>
           <Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="opacity-0" enterTo="opacity-100" leave="transition ease-in duration-75" leaveFrom="opacity-100" leaveTo="opacity-0">
-            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5">
+            <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-white py-2 text-sm shadow-xl ring-1 ring-black ring-opacity-5 border border-gray-200">
               {options.map((opt: any, index: number) => (
-                <Listbox.Option key={opt.key || `${opt.value}-${index}`} value={opt.value} className={({ active }) => `cursor-pointer select-none relative py-2 pl-10 pr-4 ${active ? 'bg-orange-100 text-orange-900' : 'text-gray-900'}`}>
+                <Listbox.Option key={opt.key || `${opt.value}-${index}`} value={opt.value} className={({ active }) => `cursor-pointer select-none relative py-3 pl-10 pr-4 transition-colors duration-200 ${
+                  active ? 'bg-blue-50 text-blue-900' : 'text-gray-900'
+                }`}>
                   {({ selected }) => (
                     <>
-                      <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>{opt.label}</span>
-                      {selected && <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-600"><Check className="h-4 w-4" /></span>}
+                      <span className={`block truncate ${selected ? 'font-semibold' : 'font-normal'}`}>{opt.label}</span>
+                      {selected && <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600"><Check className="h-5 w-5" /></span>}
                     </>
                   )}
                 </Listbox.Option>
@@ -248,7 +286,10 @@ const SelectField = ({ label, value, onChange, options, error }: any) => {
           </Transition>
         </div>
       </Listbox>
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+        <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+        {error}
+      </p>}
     </div>
   );
 };

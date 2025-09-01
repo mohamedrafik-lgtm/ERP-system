@@ -1,14 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // أو أيقونات SVG بديلة
 
 const Paginator = ({ totalPages = 3 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const goToPage = (page:number) => {
+  const goToPage = useCallback((page:number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
-  };
+  }, [totalPages]);
 
   return (
     <div className="flex items-center justify-center space-x-2 py-4 rounded-md">
@@ -47,4 +47,4 @@ const Paginator = ({ totalPages = 3 }) => {
   );
 };
 
-export default Paginator;
+export default memo(Paginator);

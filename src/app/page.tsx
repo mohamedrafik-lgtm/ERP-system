@@ -3,6 +3,7 @@ import ActivityRow from "@/components/activiti";
 import StatCard from "@/components/stateCard";
 import { activities, stats } from "@/data";
 import Link from "next/link";
+import TestUserMenu from "@/components/ui/TestUserMenu";
 
 export default function Home() {
 
@@ -11,8 +12,13 @@ export default function Home() {
     <div className="p-6 max-w-6xl  mx-auto" dir="ltr">
     <h1 className="text-3xl font-bold ">Dashboard</h1>
     <p className=" mt-1">
-      Welcome back, Eleanor! Here&apos;s a snapshot of your academy’s performance.
+      Welcome back, Eleanor! Here&apos;s a snapshot of your academy's performance.
     </p>
+    
+    {/* Test User Menu */}
+    <div className="mb-4">
+      <TestUserMenu />
+    </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
       {stats.map((stat, idx) => (
         <StatCard key={idx} title={stat.title} value={stat.value} color={stat.color} />

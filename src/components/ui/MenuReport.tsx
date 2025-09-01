@@ -48,9 +48,12 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="bg-white/20 flex space-x-3 hover:bg-white/50 py-1 px-2 rounded-md cursor-pointer transition"
+        className="inline-flex items-center gap-2 px-4 py-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-100 transition-all duration-200 shadow-sm hover:shadow-md"
       >
-        {name}
+        <span className="text-sm font-semibold text-gray-700">{name}</span>
+        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
         {svg}
       </button>
 
@@ -58,28 +61,35 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
         createPortal(
           <div
             ref={menuRef}
-            className="absolute w-60 bg-white  rounded-md shadow z-[9999]"
+            className="absolute w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-[9999] overflow-hidden"
             style={{
-              top: position.top,
+              top: position.top + 8,
               left: position.left,
               position: "absolute",
             }}
           >
-            <ul className="py-1">
+            <div className="p-2">
               {items.map((item, index) => (
-                <li
+                <button
                   key={index}
                   onClick={() => {
                     setIsOpen(false);
                     console.log(`تم اختيار: ${item.name}`);
                   }}
-                  className="px-3 py-2  flex items-center  justify-between text-start hover:bg-black/20 text-sm cursor-pointer"
+                  className="w-full px-4 py-3 flex items-center justify-between text-right hover:bg-orange-50 text-sm cursor-pointer rounded-lg transition-all duration-200 group"
                 >
-                  {item.name}
-                  {!item.svgIcon ? item.svgIcon : null}
-                </li>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                    <span className="text-gray-700 font-medium">{item.name}</span>
+                  </div>
+                  {item.svgIcon && (
+                    <div className="text-gray-400 group-hover:text-orange-500 transition-colors duration-200">
+                      {item.svgIcon}
+                    </div>
+                  )}
+                </button>
               ))}
-            </ul>
+            </div>
           </div>,
           document.body
         )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 type ActivityRowProps = {
   date: string;
@@ -16,4 +16,4 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ date, activity, details }) =>
   );
 };
 
-export default ActivityRow;
+export default memo(ActivityRow);

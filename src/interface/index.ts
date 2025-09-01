@@ -397,6 +397,10 @@ export interface IStudentRequest {
   gradePercentage: number;
   traineeStatus:ITraineeStatus;
   classLevel:IClassLevel;
+  sportsActivity?: string;
+  culturalActivity?: string;
+  educationalActivity?: string;
+  notes?: string;
 }
 
 

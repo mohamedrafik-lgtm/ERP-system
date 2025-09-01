@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { IStudentRequest } from '@/interface';
 import { Camera, Upload, Trash2, Image as ImageIcon } from 'lucide-react';
 import Webcam from 'react-webcam';
@@ -16,17 +16,40 @@ const ImageUpload = ({
   name,
   register,
   setValue,
+  watch,
 }: {
   label: string;
   name: keyof IStudentRequest;
   register: any;
   setValue: any;
+  watch?: any;
 }) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const webcamRef = useRef<Webcam>(null);
+  
+  // مراقبة قيمة الصورة من النموذج
+  const currentValue = watch ? watch(name) : null;
+  
+  // معالجة الصورة الموجودة عند تحميل البيانات
+  useEffect(() => {
+    if (currentValue && typeof currentValue === 'string' && currentValue.startsWith('/uploads')) {
+      // إذا كانت الصورة مسار من الخادم
+      setPreviewUrl(`http://localhost:4000${currentValue}`);
+    } else if (currentValue && typeof currentValue === 'string' && currentValue.startsWith('data:')) {
+      // إذا كانت الصورة base64
+      setPreviewUrl(currentValue);
+    } else if (currentValue instanceof File) {
+      // إذا كانت الصورة ملف جديد
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewUrl(e.target?.result as string);
+      };
+      reader.readAsDataURL(currentValue);
+    }
+  }, [currentValue]);
   
   const videoConstraints = {
     width: 1280,

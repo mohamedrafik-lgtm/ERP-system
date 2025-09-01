@@ -1,14 +1,25 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ButtonProps } from "@/interface";
+import { useCallback, memo } from "react";
 
-
-export const NavigationButton = ({name,url,className}:ButtonProps) => {
+const NavigationButtonComponent = ({name,url,className}:ButtonProps) => {
     const router = useRouter();
+    
+    const handleClick = useCallback(() => {
+        router.push(`${url}`);
+    }, [router, url]);
+    
     return(
         <div>
-            <button onClick={() => router.push(`${url}`)}
-                     className={`${className}`}>{name}</button>
+            <button 
+                onClick={handleClick}
+                className={`${className}`}
+            >
+                {name}
+            </button>
         </div>
     )
 }
+
+export const NavigationButton = memo(NavigationButtonComponent);

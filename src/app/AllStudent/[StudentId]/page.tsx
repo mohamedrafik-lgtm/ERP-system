@@ -22,14 +22,15 @@ import { enumOptions } from '@/data';
 import { Card } from '@/components/AddStudent/Card';
 import InputField from '@/components/AddStudent/RenderInputs/inputFild';
 import InputDate from '@/components/AddStudent/RenderInputs/InputDate';
-import { useGetTraineeQuery } from '@/lip/features/trainees/traineesApi';
+import { useGetTraineeQuery, useUpdateTraineeMutation } from '@/lip/features/trainees/traineesApi';
+import toast from 'react-hot-toast';
 const Grid = ({ children }: { children: React.ReactNode }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
 );
 export default function EditTraineePage() {
   const { StudentId } = useParams<{ StudentId: string }>();
-  console.log(StudentId)
   const { data, isLoading } = useGetTraineeQuery(Number(StudentId));
+  const [updateTrainee, { isLoading: isUpdating }] = useUpdateTraineeMutation();
 
   const {
     register,
@@ -50,17 +51,33 @@ export default function EditTraineePage() {
 
   useEffect(() => {
     if (data) {
-      reset(data);
+      // تحويل التواريخ إلى تنسيق YYYY-MM-DD للـ input type="date"
+      const formattedData = {
+        ...data,
+        birthDate: data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : '',
+        idIssueDate: data.idIssueDate ? new Date(data.idIssueDate).toISOString().split('T')[0] : '',
+        idExpiryDate: data.idExpiryDate ? new Date(data.idExpiryDate).toISOString().split('T')[0] : '',
+        graduationDate: data.graduationDate ? new Date(data.graduationDate).toISOString().split('T')[0] : '',
+      };
+      reset(formattedData);
     }
   }, [data, reset]);
 
-  const onSubmit = (formData: IStudentRequest) => {
-    const updated: IStudentRequest = {
-      ...formData,
-      programId: Number(formData.programId),
-      totalGrade: Number(formData.totalGrade),
-      gradePercentage: Number(formData.gradePercentage),
-    };
+  const onSubmit = async (formData: IStudentRequest) => {
+    try {
+      const updated: IStudentRequest = {
+        ...formData,
+        programId: Number(formData.programId),
+        totalGrade: Number(formData.totalGrade),
+        gradePercentage: Number(formData.gradePercentage),
+      };
+      
+      await updateTrainee({ id: Number(StudentId), data: updated }).unwrap();
+      toast.success('تم تحديث بيانات الطالب بنجاح');
+    } catch (error) {
+      console.error('Error updating trainee:', error);
+      toast.error('حدث خطأ أثناء تحديث بيانات الطالب');
+    }
   };
   
 
@@ -174,30 +191,37 @@ export default function EditTraineePage() {
 
         <Card title="الأنشطة والملاحظات">
           <Grid>
-            <InputField label="نشاط رياضي" name="sportsActivity" register={register} error={errors.sportsActivity?.message} />
-            <InputField label="نشاط ثقافي" name="culturalActivity" register={register} error={errors.culturalActivity?.message} />
-            <InputField label="نشاط تعليمي" name="educationalActivity" register={register} error={errors.educationalActivity?.message} />
-            <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} />
+            <InputField label="نشاط رياضي" name="sportsActivity" register={register} />
+            <InputField label="نشاط ثقافي" name="culturalActivity" register={register} />
+            <InputField label="نشاط تعليمي" name="educationalActivity" register={register} />
+            <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} watch={watch} />
           </Grid>
           <FormField label="ملاحظات">
             <textarea
               {...register("notes")}
               rows={4}
-              className={`w-full border rounded-md px-3 py-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.notes ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className="w-full border rounded-md px-3 py-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              placeholder="أدخل أي ملاحظات إضافية..."
             />
-            {errors.notes && <p className="text-red-500 text-sm mt-1">{errors.notes.message}</p>}
           </FormField>
         </Card>
 
         <div className="text-end">
           <button
             type="submit"
-            className={`bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded-lg shadow-sm ${isLoading ? 'opacity-50 cursor-not-allowed':''}`}
+            disabled={isUpdating}
+            className={`bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-all duration-200 ${
+              isUpdating ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg hover:scale-105'
+            }`}
           >
-            {isLoading ? 'جاري حفظ البيانات' : "حفظ الطالب"}
-            
+            {isUpdating ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                جاري تحديث البيانات...
+              </div>
+            ) : (
+              "تحديث بيانات الطالب"
+            )}
           </button>
         </div>
       </form>

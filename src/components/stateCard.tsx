@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { memo } from 'react';
 
 type StatCardProps = {
   title: string;
@@ -17,4 +17,4 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, color = 'text-gray-80
   );
 };
 
-export default StatCard;
+export default memo(StatCard);

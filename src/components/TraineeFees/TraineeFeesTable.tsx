@@ -3,24 +3,32 @@ import MenuComponent from "../ui/MenuReport";
 import DialogReports from "../ui/Dialog";
 import { useActivateFeeMutation, useGetFeesQuery } from "@/lip/features/Fees/Fees";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useCallback, useMemo, memo } from "react";
 
-const menuItems = [
-  { name: "متدربين مستحق عليهم الدفع", svgIcon: <svg>...</svg> },
-  { name: "كشف المسدد", svgIcon: <svg>...</svg> },
-  { name: "كشف المتخلفين عن السداد", svgIcon: <svg>...</svg> },
-  { name: "تقارير القسط الحالي و المتأخر", svgIcon: <svg>...</svg> },
-  { name: "تقرير تفصيلي" },
-];
 const TraineeFeesCards = () => {
+  const menuItems = useMemo(() => [
+    { name: "متدربين مستحق عليهم الدفع", svgIcon: <svg>...</svg> },
+    { name: "كشف المسدد", svgIcon: <svg>...</svg> },
+    { name: "كشف المتخلفين عن السداد", svgIcon: <svg>...</svg> },
+    { name: "تقارير القسط الحالي و المتأخر", svgIcon: <svg>...</svg> },
+    { name: "تقرير تفصيلي" },
+  ], []);
   const {data} = useGetFeesQuery();
   const [ActivateFee,{isLoading , isSuccess}] = useActivateFeeMutation()
 
+  const handleActivateFee = useCallback(async (id: number) => {
+    try {
+      await ActivateFee({ id });
+    } catch (error) {
+      console.error('Error activating fee:', error);
+    }
+  }, [ActivateFee]);
+
   useEffect(() => {
-  if(isSuccess){
-    toast.success('تم تفعيل الرسم')
-  }
-}, [isSuccess]);
+    if(isSuccess){
+      toast.success('تم تفعيل الرسم')
+    }
+  }, [isSuccess]);
   return (
     <div className="p-4 space-y-4" dir="rtl">
       {/* Header */}
@@ -41,12 +49,12 @@ const TraineeFeesCards = () => {
           className="grid grid-cols-1 sm:grid-cols-10 gap-2 items-center bg-white hover:bg-white/20 backdrop-blur-md rounded-xl p-4 shadow transition"
         >
           <div className="col-span-3 font-bold text-center">{fee.name}</div>
-          <div className="text-center col-span-2">{fee.name}</div>
-          <div className="text-center">{fee.safe.name}</div>
+          <div className="text-center col-span-2">{fee.type}</div>
+          <div className="text-center">{fee.program.nameAr}</div>
           <div className="text-center">{fee.amount} {fee.safe.currency}</div>
           <div className="text-center">{fee.safe.balance}</div>
           <button
-          onClick={async () => await ActivateFee({ id: fee.id})}
+          onClick={() => handleActivateFee(fee.id)}
           className={`text-center ${isLoading ? 'cursor-not-allowed opacity-65' : ''} cursor-pointer ${fee.isApplied ? 'text-green-500 bg-green-200 px-3 py-1 rounded-xl' : 'text-red-500 bg-red-200 px-3 py-1 rounded-xl'}`}>{fee.isApplied ? 'مفعل ' : 'غير مفعل'}</button>
 
           {/* التحكم */}
@@ -76,4 +84,4 @@ const TraineeFeesCards = () => {
   );
 };
 
-export default TraineeFeesCards;
+export default memo(TraineeFeesCards);

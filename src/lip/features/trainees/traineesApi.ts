@@ -113,6 +113,18 @@ export const traineesApi = createApi({
     getTrainee: builder.query<IStudentRequest, number>({
       query: (id) => `/api/trainees/${id}`,
     }),
+    
+    // تحديث بيانات طالب
+    updateTrainee: builder.mutation<IStudentRequest, { id: number; data: IStudentRequest }>({
+      query: ({ id, data }) => ({
+        url: `/api/trainees/${id}`,
+        method: 'PUT',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
   }),
 });
 
@@ -120,7 +132,8 @@ export const traineesApi = createApi({
 export const { 
   useAddTraineeMutation,
   useGetTraineesQuery,
-  useGetTraineeQuery
+  useGetTraineeQuery,
+  useUpdateTraineeMutation
 } = traineesApi;
 
 export default traineesApi; 
