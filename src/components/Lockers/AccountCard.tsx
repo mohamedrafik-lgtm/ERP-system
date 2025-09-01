@@ -5,11 +5,16 @@ interface AccountCardProps {
   description: string;
   balance: number;
   currency: string;
+  isSelected?: boolean;
 }
 
-export function AccountCard({ name, description, balance, currency }: AccountCardProps) {
+export function AccountCard({ name, description, balance, currency, isSelected }: AccountCardProps) {
   return (
-    <div className="border border-blue-200 rounded-md p-4 flex items-center justify-between bg-blue-50 max-w-xl">
+    <div
+      className={`border ${isSelected ? 'border-blue-500 ring-2 ring-blue-500' : 'border-blue-200'} 
+      rounded-md p-4 flex items-center justify-between ${isSelected ? 'bg-blue-100' : 'bg-blue-50'} 
+      max-w-xl cursor-pointer transition-all duration-200 hover:border-blue-400`}
+    >
       {/* المبلغ */}
       <div className="text-blue-700 text-lg font-bold">
         {balance} {currency}

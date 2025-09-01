@@ -3,7 +3,7 @@
 import { Dialog, DialogPanel, DialogTitle, Transition } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useState, Fragment, useEffect } from 'react';
-import { ICurrency, ILocker, SafeType } from '@/interface';
+import { ICurrency, ILocker } from '@/interface';
 import { Listbox, Transition as ListboxTransition } from '@headlessui/react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useAddSafeMutation } from '@/lip/features/Lockers/safe';
@@ -23,14 +23,13 @@ export default function LockerModal() {
     defaultValues: {
       name: '',
       description: '',
-      type: SafeType.REVENUE,
       balance: 0,
       currency: ICurrency.EGP,
       isActive: true,
     },
   });
 
-  const [selectedType, setSelectedType] = useState(SafeType.REVENUE);
+  // const [selectedType, setSelectedType] = useState(SafeType.REVENUE);
   const [selectedCurrency, setSelectedCurrency] = useState(ICurrency.EGP);
 
   const onSubmit = (data: ILocker) => {
@@ -95,7 +94,7 @@ export default function LockerModal() {
                       />
                     </div>
 
-                    <div>
+                    {/* <div>
                       <label className="block mb-1 text-sm font-medium text-gray-700">نوع الخزنة</label>
                       <Controller
                         control={control}
@@ -141,7 +140,7 @@ export default function LockerModal() {
                           </Listbox>
                         )}
                       />
-                    </div>
+                    </div> */}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700">الرصيد</label>

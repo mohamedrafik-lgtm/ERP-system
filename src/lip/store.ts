@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { loginApi } from './features/auth/login';
 import authReducer from './features/auth/authSlice';
 import { traineesApi } from './features/trainees/traineesApi';
+import lockersReducer from './features/Lockers/lockersSlice';
 import { programApi } from './features/program/program';
 import addStudentApi from './features/student/student';
 import { TraningContetnApi } from './features/TraningContetn/Traning';
@@ -26,6 +27,7 @@ export const store = configureStore({
     [SafeAPI.reducerPath]: SafeAPI.reducer,
     [FeesAPI.reducerPath]:FeesAPI.reducer,
     auth: authReducer,
+    lockers: lockersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

@@ -132,7 +132,6 @@ export default function AddStudent() {
         </div>
 
         <Card title="البيانات الأساسية"
-          className="transform transition-all duration-300 hover:shadow-xl"
         >
           <Grid>
             <InputField label="الاسم بالعربية" name="nameAr" register={register} error={errors.nameAr?.message} />

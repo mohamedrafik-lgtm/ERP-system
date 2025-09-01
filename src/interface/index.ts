@@ -603,12 +603,6 @@ export interface Marketer {
 }
 
 
-export enum SafeType {
-  REVENUE = 'REVENUE', 
-  EXPENSE = 'EXPENSE', 
-  DEBT = 'DEBT' 
-}
-
 export enum ICurrency{
   EGP = 'EGP',
   USD = 'USD',
@@ -618,7 +612,6 @@ export enum ICurrency{
 export interface ILocker{
   name:string;
   description:string;
-  type:SafeType;
   balance:number;
   currency:ICurrency;
   isActive:boolean

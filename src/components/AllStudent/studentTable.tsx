@@ -3,6 +3,27 @@
 import { studentActions } from "@/data";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+
+// دالة مساعدة للتعامل مع روابط الصور
+const getImageUrl = (photo: any): string => {
+  if (!photo) return '/placeholder-avatar.png';
+  
+  // التعامل مع كائن File
+  if (photo instanceof File || (typeof photo === 'object' && photo.toString() === '[object File]')) {
+    return '/placeholder-avatar.png';
+  }
+  
+  // إذا كان الراجع هو مسار (string)
+  if (typeof photo === 'string') {
+    const url = photo.trim();
+    // إذا كان المسار يبدأ بـ /uploads، نستخدمه مباشرة
+    if (url.startsWith('/uploads')) {
+      return url;
+    }
+  }
+  
+  return '/placeholder-avatar.png';
+};
 import InlineMenu from "../ui/MenuReport";
 import { useGetStudentsQuery } from "@/lip/features/student/student";
 import { memo, useState } from "react";
@@ -39,49 +60,65 @@ const StudentTable = () => {
         </form>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 bg-white font-bold text-sm p-4 rounded-xl">
-        <div className="text-center">الصورة</div>
-        <div className="text-center">الاسم</div>
-        <div className="text-center">رقم الملف</div>
-        <div className="text-center">الهاتف الأرضي</div>
-        <div className="text-center ">التخصص</div>
-        <div className="text-center">الهاتف المحمول</div>
-        <div className="text-center">مدين</div>
-        <div className="text-center">الفرقه</div>
-        <div className="text-center">الرقم الثابت</div>
-        <div className="text-center col-span-2">الاجراءات</div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-9 bg-gray-50 font-bold text-sm p-4 rounded-t-xl border-b-2 border-gray-200">
+        <div className="text-center text-gray-600">الصورة</div>
+        <div className="text-center text-gray-600">الاسم</div>
+        <div className="text-center text-gray-600">رقم الملف</div>
+        <div className="text-center text-gray-600">الهاتف الأرضي</div>
+        <div className="text-center text-gray-600">التخصص</div>
+        <div className="text-center text-gray-600">الهاتف المحمول</div>
+        <div className="text-center text-gray-600">الفرقه</div>
+        <div className="text-center text-gray-600 col-span-2">الاجراءات</div>
       </div>
 
       {data?.map((student, idx) => (
         <div
           key={idx}
-          className="relative z-[100] bg-white backdrop-blur-md rounded-xl  p-2 shadow-sm hover:shadow-md transition-all duration-200"
+          className="relative z-[100] bg-white backdrop-blur-md border-b last:border-b-0 p-3 hover:bg-gray-50 transition-all duration-200"
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-11 items-center">
-            <div>
-              <Image
-               src={
-                 student.photoUrl?.startsWith("//")
-                   ? `https:${student.photoUrl}` // لو راجع //uploads
-                   : student.photoUrl?.startsWith("http")
-                   ? student.photoUrl // لو أصلاً راجع http/https
-                   : `/uploads/trainees/${student.photoUrl}` // fallback لو عندك صورة محلية
-               }
-               alt={student.nameEn || "student photo"}
-               width={40}
-               height={40}
-               className="rounded-full"
-             />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-9 items-center">
+            <div className="flex justify-center">
+              <div className="w-10 h-10 relative">
+                {typeof student.photoUrl === 'string' && student.photoUrl.startsWith('/uploads') ? (
+                  // إذا كان لدينا مسار صورة صالح
+                  <div className="relative w-10 h-10">
+                    <img
+                      src={`http://localhost:4000${student.photoUrl}`}
+                      alt={student.nameEn || "صورة الطالب"}
+                      className="w-10 h-10 rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder-avatar.png';
+                      }}
+                    />
+                  </div>
+                ) : (
+                  // الصورة الافتراضية
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
 
             </div>
-            <div className="px-4 py-3 text-center font-medium ">{student.nameAr}</div>
-            <div className="px-4 py-3 text-center ">{student.id}</div>
-            <div className="px-4 py-3 text-center ">{student.landline}</div>
-            <div className="px-4 py-3 text-center ">{student.program?.nameAr}</div>
-            <div className="px-4 py-3 text-center ">{student.phone}</div>
-            <div className="px-4 py-3 text-center font-semibold ">1</div>
-            <div className="px-4 py-3 text-center ">1</div>
-            <div className="px-4 py-3 text-center ">{student.guardianNationalId}</div>
+            <div className="px-4 py-2 text-center font-medium text-gray-800">{student.nameAr}</div>
+            <div className="px-4 py-2 text-center text-gray-600">{student.id}</div>
+            <div className="px-4 py-2 text-center text-gray-600">{student.landline}</div>
+            <div className="px-4 py-2 text-center text-gray-600">{student.program?.nameAr}</div>
+            <div className="px-4 py-2 text-center text-gray-600">{student.phone}</div>
+            <div className="px-4 py-2 text-center text-gray-600">1</div>
 
             <div
               className="relative px-4 py-3 flex justify-center space-x-2 col-span-2 text-sm"
