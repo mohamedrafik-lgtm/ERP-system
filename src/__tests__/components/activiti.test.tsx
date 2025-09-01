@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 import ActivityRow from '@/components/activiti'
 
 describe('ActivityRow Component', () => {

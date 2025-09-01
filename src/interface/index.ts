@@ -627,18 +627,18 @@ export type TransactionType =
 export type AccountType = 'REVENUE' | 'EXPENSE' | 'DEBT';
 
 export interface Transaction {
-  id: string;
-  amount: number;
-  type: TransactionType;
-  description: string | null;
-  reference: string | null;
-  sourceId: string | null;
-  targetId: string | null;
-  traineeFeeId: number | null;
-  traineePaymentId: number | null;
-  createdById: string | null;
-  createdAt: string; // ISO date
-  updatedAt: string; // ISO date
+  id: string; // معرف التحويل
+  amount: number; // قيمة التحويل
+  type: 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER' | 'FEE' | 'PAYMENT'; // نوع التحويل
+  description?: string; // وصف التحويل (اختياري)
+  reference?: string; // رقم مرجعي (اختياري)
+  sourceId?: string; // الحساب المصدر (للسحب والتحويل)
+  targetId?: string; // الحساب الهدف (للإيداع والتحويل)
+  traineeFeeId?: number; // معرف رسوم المتدربين (اختياري)
+  traineePaymentId?: number; // معرف مدفوعات المتدربين (اختياري)
+  createdById?: string; // المستخدم الذي أنشأ التحويل (اختياري)
+  createdAt: Date; // تاريخ الإنشاء
+  updatedAt: Date; // تاريخ التحديث
 }
 
 export interface FinancialAccount {
@@ -738,4 +738,12 @@ export interface IPayTrainerFee{
   amount : number;
   safeId : string;
   notes : string;
+}
+
+export interface CreateTransaction {
+  amount: number; // قيمة المعاملة (مطلوبة)
+  type: 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER' | 'FEE' | 'PAYMENT'; // نوع المعاملة (مطلوبة)
+  description?: string; // وصف المعاملة (اختياري)
+  sourceId?: string; // معرف الخزينة المصدر (اختياري - مطلوب في حالات السحب أو التحويل)
+  targetId?: string; // معرف الخزينة الهدف (اختياري - مطلوب في حالات الإيداع أو التحويل)
 }

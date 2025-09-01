@@ -4,40 +4,70 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lip/store';
-import { useGetFinanceQuery } from '@/lip/features/Lockers/safe';
+import { useGetFinanceQuery, useAddTransactionMutation } from '@/lip/features/Lockers/safe';
+import { CreateTransaction } from '@/interface';
+import toast from 'react-hot-toast';
 
 interface TransactionDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type TransactionType = 'إيداع' | 'سحب' | 'تحويل';
+type TransactionType = 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER' | 'FEE' | 'PAYMENT';
 
 export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps) => {
-  const [transactionType, setTransactionType] = useState<TransactionType>('إيداع');
+  const [transactionType, setTransactionType] = useState<TransactionType>('DEPOSIT');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+
   const [targetLockerId, setTargetLockerId] = useState('');
   
   const currentLockerId = useSelector((state: RootState) => state.lockers.selectedLockerId);
   const { data: lockers } = useGetFinanceQuery();
+  const [addTransaction, { isLoading }] = useAddTransactionMutation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // هنا سنضيف منطق إرسال المعاملة للباكيند
-    console.log({
-      type: transactionType,
-      amount: parseFloat(amount),
-      description,
-      sourceLockerId: currentLockerId,
-      targetLockerId: transactionType === 'تحويل' ? targetLockerId : undefined
-    });
     
-    // إعادة تعيين النموذج
-    setAmount('');
-    setDescription('');
-    setTargetLockerId('');
-    onClose();
+    if (!currentLockerId) {
+      toast.error('يرجى اختيار خزينة أولاً');
+      return;
+    }
+
+    if (!amount || parseFloat(amount) <= 0) {
+      toast.error('يرجى إدخال مبلغ صحيح');
+      return;
+    }
+
+    if (transactionType === 'TRANSFER' && !targetLockerId) {
+      toast.error('يرجى اختيار الخزينة المستهدفة');
+      return;
+    }
+
+    try {
+      const transactionData: CreateTransaction = {
+        amount: parseFloat(amount),
+        type: transactionType,
+        description: description || undefined,
+        sourceId: (transactionType === 'WITHDRAW' || transactionType === 'TRANSFER') ? currentLockerId : undefined,
+        targetId: (transactionType === 'DEPOSIT' || transactionType === 'TRANSFER') ? 
+          (transactionType === 'TRANSFER' ? targetLockerId : currentLockerId) : undefined
+      };
+
+      await addTransaction(transactionData).unwrap();
+      
+      toast.success('تم إنشاء المعاملة بنجاح');
+      
+      // إعادة تعيين النموذج
+      setAmount('');
+      setDescription('');
+      setTargetLockerId('');
+      setTransactionType('DEPOSIT');
+      onClose();
+    } catch (error) {
+      console.error('Error creating transaction:', error);
+      toast.error('حدث خطأ أثناء إنشاء المعاملة');
+    }
   };
 
   return (
@@ -66,70 +96,99 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 mb-4"
-                >
-                  إضافة معاملة جديدة
-                </Dialog.Title>
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-gradient-to-br from-white to-gray-50 p-8 text-right align-middle shadow-2xl transition-all border border-gray-100">
+                <div className="flex items-center justify-between mb-6">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-2xl font-bold leading-6 text-gray-900"
+                  >
+                    إضافة معاملة جديدة
+                  </Dialog.Title>
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </div>
+                </div>
                 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* نوع المعاملة */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
                       نوع المعاملة
                     </label>
-                    <select
-                      value={transactionType}
-                      onChange={(e) => setTransactionType(e.target.value as TransactionType)}
-                      className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    >
-                      <option value="إيداع">إيداع</option>
-                      <option value="سحب">سحب</option>
-                      <option value="تحويل">تحويل</option>
-                    </select>
+                    <div className="grid grid-cols-3 gap-2">
+                      {([
+                        { value: 'DEPOSIT', label: 'إيداع' },
+                        { value: 'WITHDRAW', label: 'سحب' },
+                        { value: 'TRANSFER', label: 'تحويل' },
+                        { value: 'FEE', label: 'رسوم' },
+                        { value: 'PAYMENT', label: 'دفع' }
+                      ] as { value: TransactionType; label: string }[]).map(({ value, label }) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => setTransactionType(value)}
+                          className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                            transactionType === value
+                              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105'
+                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   {/* المبلغ */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
                       المبلغ
                     </label>
-                    <input
-                      type="number"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                      className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                      required
-                      min="0"
-                      step="0.01"
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full px-4 py-4 rounded-xl border-2 border-gray-200 bg-white shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 text-lg font-medium"
+                        placeholder="0.00"
+                        required
+                        min="0"
+                        step="0.01"
+                      />
+                      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                        ر.س
+                      </div>
+                    </div>
                   </div>
 
+
+
                   {/* الوصف */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      الوصف
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
+                      الوصف (اختياري)
                     </label>
                     <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="w-full px-4 py-4 rounded-xl border-2 border-gray-200 bg-white shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 resize-none"
                       rows={3}
+                      placeholder="أدخل وصفاً للمعاملة..."
                     />
                   </div>
 
                   {/* اختيار الخزينة المستهدفة (يظهر فقط في حالة التحويل) */}
-                  {transactionType === 'تحويل' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {transactionType === 'TRANSFER' && (
+                    <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">
                         الخزينة المستهدفة
                       </label>
                       <select
                         value={targetLockerId}
                         onChange={(e) => setTargetLockerId(e.target.value)}
-                        className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                        className="w-full px-4 py-4 rounded-xl border-2 border-gray-200 bg-white shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
                         required
                       >
                         <option value="">اختر الخزينة</option>
@@ -142,19 +201,32 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
                     </div>
                   )}
 
-                  <div className="flex justify-end gap-3 mt-6">
+                  <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
                     <button
                       type="button"
-                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500"
+                      className="px-6 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-300 transition-all duration-200 hover:scale-105"
                       onClick={onClose}
                     >
                       إلغاء
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                      disabled={isLoading}
+                      className={`px-8 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl hover:from-blue-600 hover:to-purple-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 transition-all duration-200 hover:scale-105 shadow-lg ${
+                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                     >
-                      إضافة المعاملة
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          جاري الإرسال...
+                        </div>
+                      ) : (
+                        'إضافة المعاملة'
+                      )}
                     </button>
                   </div>
                 </form>
