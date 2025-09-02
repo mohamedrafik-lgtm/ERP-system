@@ -70,6 +70,10 @@ export const pageMetadata = {
   '/TrainingContentManagement/AddTriningContent': {
     title: 'إضافة محتوى تدريبي - نظام إدارة التدريب المتقدم',
     description: 'إضافة محتوى تدريبي جديد'
+  },
+  '/TraineePayments': {
+    title: 'مدفوعات المتدربين - نظام إدارة التدريب المتقدم',
+    description: 'إدارة ومتابعة مدفوعات المتدربين والرسوم المالية'
   }
 };
 

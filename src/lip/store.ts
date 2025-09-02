@@ -12,6 +12,7 @@ import { LectureAPI } from './features/Lecture/lecture';
 import { MarketerAPI } from './features/Marketer/Marketer';
 import { SafeAPI } from './features/Lockers/safe';
 import { FeesAPI } from './features/Fees/Fees';
+import { traineePaymentsApi } from './features/traineePayments/traineePaymentsApi';
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     [MarketerAPI.reducerPath]: MarketerAPI.reducer,
     [SafeAPI.reducerPath]: SafeAPI.reducer,
     [FeesAPI.reducerPath]:FeesAPI.reducer,
+    [traineePaymentsApi.reducerPath]: traineePaymentsApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -41,7 +43,8 @@ export const store = configureStore({
       MarketerAPI.middleware,
       SafeAPI.middleware,
       LectureAPI.middleware,
-      FeesAPI.middleware
+      FeesAPI.middleware,
+      traineePaymentsApi.middleware
     ),
 })
 

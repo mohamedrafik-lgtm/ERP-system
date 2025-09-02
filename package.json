@@ -17,6 +17,9 @@
     "test:update": "jest --updateSnapshot",
     "test:coverage:html": "jest --coverage --coverageReporters=html",
     "test:runner": "node scripts/test-runner.js",
+    "test:trainee-payments": "jest --config jest.traineePayments.config.js",
+    "test:trainee-payments:watch": "jest --config jest.traineePayments.config.js --watch",
+    "test:trainee-payments:coverage": "jest --config jest.traineePayments.config.js --coverage",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next out dist",
     "preview": "next build && next start"
