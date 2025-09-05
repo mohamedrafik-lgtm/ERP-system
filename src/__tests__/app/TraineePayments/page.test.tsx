@@ -3,6 +3,34 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TraineePayments from '@/app/TraineePayments/page';
 
+// Mock the usePayments hook
+jest.mock('@/hooks/usePayments', () => ({
+  usePayments: () => ({
+    payments: [],
+    stats: {
+      total: 0,
+      paid: 0,
+      remaining: 0,
+      totalCount: 0
+    },
+    filters: {
+      searchTerm: '',
+      statusFilter: 'all',
+      sortBy: 'date'
+    },
+    isAddPaymentDialogOpen: false,
+    selectedPayment: null,
+    isLoading: false,
+    error: null,
+    handleFilterChange: jest.fn(),
+    handleAddPayment: jest.fn(),
+    handleCloseDialog: jest.fn(),
+    handlePaymentAdded: jest.fn(),
+    handleExportReport: jest.fn(),
+    handleAddPaymentFromHeader: jest.fn()
+  })
+}));
+
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
   motion: {

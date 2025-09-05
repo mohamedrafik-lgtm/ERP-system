@@ -20,7 +20,8 @@ export interface FeeDetails {
 
 export interface TraineeDetails {
   id: number; // معرف المتدرب
-  name: string; // اسم المتدرب
+  nameAr: string; 
+  phone: string;
 }
 
 export interface SafeDetails {

@@ -14,9 +14,9 @@ interface PaymentStatsProps {
 
 export default function PaymentStats({ stats }: PaymentStatsProps) {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ar-SA', {
+    return new Intl.NumberFormat('ar-EG', {
       style: 'currency',
-      currency: 'SAR'
+      currency: 'EGP'
     }).format(amount);
   };
 

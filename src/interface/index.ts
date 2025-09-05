@@ -758,3 +758,6 @@ export interface CreateTransaction {
   sourceId?: string; // معرف الخزينة المصدر (اختياري - مطلوب في حالات السحب أو التحويل)
   targetId?: string; // معرف الخزينة الهدف (اختياري - مطلوب في حالات الإيداع أو التحويل)
 }
+
+// Re-export types from traineeFees
+export * from '@/types/traineeFees';

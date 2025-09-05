@@ -1,13 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { TraineePaymentResponse } from '@/types/payment';
+import { TraineePaymentsResponse } from '@/types/traineePaymentDetails';
 import Cookies from 'js-cookie';
 
-export const traineePaymentsApi = createApi({
-  reducerPath: 'traineePaymentsApi',
+export const traineePaymentDetailsApi = createApi({
+  reducerPath: 'traineePaymentDetailsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:4000/api/finances',
     prepareHeaders: (headers) => {
-      // إضافة التوكن للمصادقة
       const token = Cookies.get('access_token') || Cookies.get('auth_token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
@@ -16,25 +15,23 @@ export const traineePaymentsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['TraineePayment'],
+  tagTypes: ['TraineePaymentDetails'],
   endpoints: (builder) => ({
-    getTraineePayments: builder.query<TraineePaymentResponse[], void>({
-      query: () => ({
-        url: '/trainee-payments',
-       
+    getTraineePayments: builder.query<TraineePaymentsResponse, string>({
+      query: (traineeId) => ({
+        url: `/trainees/${traineeId}/payments`,
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
           'Expires': '0'
         }
       }),
-      // عدم استخدام الـ caching في RTK Query
       keepUnusedDataFor: 0,
-      providesTags: ['TraineePayment'],
+      providesTags: ['TraineePaymentDetails'],
     }),
   }),
 });
 
 export const {
   useGetTraineePaymentsQuery,
-} = traineePaymentsApi;
+} = traineePaymentDetailsApi;

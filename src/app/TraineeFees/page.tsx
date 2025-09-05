@@ -6,6 +6,7 @@ import Paginator from "@/components/ui/paginator";
 import { useGetFeesQuery } from "@/lip/features/Fees/Fees";
 import { useGetFinanceQuery } from "@/lip/features/Lockers/safe";
 import { useGetProgramsQuery } from "@/lip/features/program/program";
+import { useGetTraineeFeesQuery } from "@/lip/features/traineeFees/traineeFeesApi";
 import { useState, useCallback, useMemo, memo } from "react";
 
 const TraineeFees = () =>{
@@ -13,6 +14,14 @@ const TraineeFees = () =>{
     const {data} = useGetProgramsQuery ();
     const {data:res} = useGetFinanceQuery();
     const {data: response} = useGetFeesQuery();
+    
+    // استخدام API الجديد لرسوم المتدربين
+    const { 
+        data: traineeFeesData, 
+        isLoading: isTraineeFeesLoading, 
+        error: traineeFeesError,
+        refetch: refetchTraineeFees
+    } = useGetTraineeFeesQuery();
 
     const handleOpenDialog = useCallback(() => {
         setIsOpen(true);
@@ -22,9 +31,11 @@ const TraineeFees = () =>{
         setIsOpen(false);
     }, []);
 
-    // حساب الإحصائيات
+    // حساب الإحصائيات - استخدام البيانات الجديدة
     const statistics = useMemo(() => {
-        if (!response || response.length === 0) {
+        const dataToUse = traineeFeesData || response || [];
+        
+        if (!dataToUse || dataToUse.length === 0) {
             return {
                 totalAmount: 0,
                 paidAmount: 0,
@@ -32,13 +43,13 @@ const TraineeFees = () =>{
                 totalCount: 0,
                 paidCount: 0,
                 unpaidCount: 0,
-                currency: 'ر.س'
+                currency: 'ج.م'
             };
         }
 
-        const totalAmount = response.reduce((sum, fee) => sum + fee.amount, 0);
-        const paidFees = response.filter(fee => fee.isApplied);
-        const unpaidFees = response.filter(fee => !fee.isApplied);
+        const totalAmount = dataToUse.reduce((sum, fee) => sum + fee.amount, 0);
+        const paidFees = dataToUse.filter(fee => fee.isApplied);
+        const unpaidFees = dataToUse.filter(fee => !fee.isApplied);
         
         const paidAmount = paidFees.reduce((sum, fee) => sum + fee.amount, 0);
         const unpaidAmount = unpaidFees.reduce((sum, fee) => sum + fee.amount, 0);
@@ -47,49 +58,55 @@ const TraineeFees = () =>{
             totalAmount,
             paidAmount,
             unpaidAmount,
-            totalCount: response.length,
+            totalCount: dataToUse.length,
             paidCount: paidFees.length,
             unpaidCount: unpaidFees.length,
-            currency: response[0]?.safe?.currency || 'ر.س'
+            currency: dataToUse[0]?.safe?.currency || 'ج.م'
         };
-    }, [response]);
+    }, [traineeFeesData, response]);
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23f3f4f6%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-pink-600/10"></div>
+            </div>
             
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Section */}
-                <div className="mb-12">
-                    <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl shadow-blue-500/30 mb-6 relative">
-                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                            </svg>
-                            <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                {/* Modern Header Section */}
+                <div className="mb-16">
+                    <div className="text-center mb-12">
+                        {/* Floating Icon with Glow Effect */}
+                        <div className="relative inline-block mb-8">
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-600 rounded-3xl blur-xl opacity-75 animate-pulse"></div>
+                            <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 shadow-2xl">
+                                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                                 </svg>
                             </div>
                         </div>
-                        <h1 className="text-5xl font-black bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                        
+                        {/* Modern Typography */}
+                        <h1 className="text-6xl font-black bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
                             إدارة الرسوم
                         </h1>
-                        <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto leading-relaxed">
-                            نظام متكامل لإدارة وتتبع رسوم المتدربين بكفاءة عالية
+                        <p className="text-2xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed mb-8">
+                            نظام متطور لإدارة وتتبع رسوم المتدربين بذكاء وكفاءة عالية
                         </p>
-                        <div className="flex items-center justify-center gap-8 mt-6">
-                            <div className="flex items-center gap-2 text-gray-600">
-                                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                <span className="font-medium">نظام آمن</span>
+                        
+                        {/* Status Indicators */}
+                        <div className="flex items-center justify-center gap-12 mt-10">
+                            <div className="flex items-center gap-3 text-gray-300 group">
+                                <div className="w-4 h-4 bg-emerald-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
+                                <span className="font-semibold text-lg">نظام آمن</span>
                             </div>
-                            <div className="flex items-center gap-2 text-gray-600">
-                                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                                <span className="font-medium">تتبع دقيق</span>
+                            <div className="flex items-center gap-3 text-gray-300 group">
+                                <div className="w-4 h-4 bg-blue-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
+                                <span className="font-semibold text-lg">تتبع دقيق</span>
                             </div>
-                            <div className="flex items-center gap-2 text-gray-600">
-                                <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                                <span className="font-medium">تقارير شاملة</span>
+                            <div className="flex items-center gap-3 text-gray-300 group">
+                                <div className="w-4 h-4 bg-purple-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
+                                <span className="font-semibold text-lg">تقارير ذكية</span>
                             </div>
                         </div>
                     </div>
@@ -124,7 +141,7 @@ const TraineeFees = () =>{
                                 paramKey="status"
                                 options={[
                                     "الكل",
-                                    "مدفوع",
+                                    "مفعل",
                                     "غير مدفوع"
                                 ]}
                             />
@@ -142,7 +159,7 @@ const TraineeFees = () =>{
                 </div>
 
                 {/* Stats Cards */}
-                {response && response.length > 0 && (
+                {((traineeFeesData || response)?.length ?? 0) > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
                         {/* إجمالي الرسوم */}
                         <div className="group relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
@@ -156,7 +173,7 @@ const TraineeFees = () =>{
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm font-bold text-gray-600 mb-1">إجمالي الرسوم</p>
-                                        <p className="text-2xl font-black text-gray-900">{response.length}</p>
+                                        <p className="text-2xl font-black text-gray-900">{(traineeFeesData || response)?.length || 0}</p>
                                         <p className="text-xs text-gray-500 font-medium">رسم إجمالي</p>
                                     </div>
                                 </div>
@@ -177,10 +194,10 @@ const TraineeFees = () =>{
                                     <div className="text-right">
                                         <p className="text-sm font-bold text-gray-600 mb-1">إجمالي المبلغ</p>
                                         <p className="text-2xl font-black text-purple-600">
-                                            {response.reduce((sum, fee) => sum + fee.amount, 0).toLocaleString()}
+                                            {(traineeFeesData || response)?.reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0}
                                         </p>
                                         <p className="text-xs text-gray-500 font-medium">
-                                            {response[0]?.safe?.currency || 'ر.س'}
+                                            {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
                                         </p>
                                     </div>
                                 </div>
@@ -201,10 +218,10 @@ const TraineeFees = () =>{
                                     <div className="text-right">
                                         <p className="text-sm font-bold text-gray-600 mb-1">مدفوعة</p>
                                         <p className="text-2xl font-black text-green-600">
-                                            {response.filter(fee => fee.isApplied).length}
+                                            {(traineeFeesData || response)?.filter(fee => fee.isApplied).length || 0}
                                         </p>
                                         <p className="text-xs text-gray-500 font-medium">
-                                            {response.filter(fee => fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString()} {response[0]?.safe?.currency || 'ر.س'}
+                                            {(traineeFeesData || response)?.filter(fee => fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
                                         </p>
                                     </div>
                                 </div>
@@ -225,10 +242,10 @@ const TraineeFees = () =>{
                                     <div className="text-right">
                                         <p className="text-sm font-bold text-gray-600 mb-1">غير مدفوعة</p>
                                         <p className="text-2xl font-black text-red-600">
-                                            {response.filter(fee => !fee.isApplied).length}
+                                            {(traineeFeesData || response)?.filter(fee => !fee.isApplied).length || 0}
                                         </p>
                                         <p className="text-xs text-gray-500 font-medium">
-                                            {response.filter(fee => !fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString()} {response[0]?.safe?.currency || 'ر.س'}
+                                            {(traineeFeesData || response)?.filter(fee => !fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
                                         </p>
                                     </div>
                                 </div>
@@ -240,7 +257,25 @@ const TraineeFees = () =>{
 
                 {/* Table Section */}
                 <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/40 overflow-hidden">
-                    <TraineeFeesTable />
+                    {isTraineeFeesLoading ? (
+                        <div className="flex items-center justify-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                            <span className="mr-3 text-gray-600">جاري تحميل البيانات...</span>
+                        </div>
+                    ) : traineeFeesError ? (
+                        <div className="text-center py-12">
+                            <div className="text-red-500 text-lg font-medium mb-2">خطأ في تحميل البيانات</div>
+                            <p className="text-gray-600 mb-4">حدث خطأ أثناء جلب بيانات الرسوم</p>
+                            <button 
+                                onClick={() => refetchTraineeFees()}
+                                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                            >
+                                إعادة المحاولة
+                            </button>
+                        </div>
+                    ) : (
+                        <TraineeFeesTable data={traineeFeesData || []} />
+                    )}
                 </div>
 
                 {/* Pagination Section */}

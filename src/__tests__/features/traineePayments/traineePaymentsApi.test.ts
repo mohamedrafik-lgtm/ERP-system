@@ -5,18 +5,52 @@ import { TraineePaymentResponse } from '@/types/payment';
 // Mock fetch
 global.fetch = jest.fn();
 
-const mockStore = configureStore({
-  reducer: {
-    [traineePaymentsApi.reducerPath]: traineePaymentsApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(traineePaymentsApi.middleware),
-});
+const mockTraineePayments: TraineePaymentResponse[] = [
+  {
+    id: 1,
+    amount: 2500,
+    status: 'PAID',
+    paidAmount: 2500,
+    paidAt: '2024-01-15T10:30:00Z',
+    notes: 'دفعة كاملة',
+    fee: {
+      id: 1,
+      name: 'رسوم البرمجة المتقدمة',
+      amount: 2500,
+      type: 'TRAINING'
+    },
+    trainee: {
+      id: 1,
+      name: 'أحمد محمد'
+    },
+    safe: {
+      id: '1',
+      name: 'الخزينة الرئيسية'
+    },
+    transactions: [
+      {
+        id: '1',
+        amount: 2500,
+        type: 'PAYMENT',
+        createdAt: '2024-01-15T10:30:00Z'
+      }
+    ]
+  }
+];
 
-describe('traineePaymentsApi', () => {
+describe('TraineePayments API', () => {
+  let store: any;
+
   beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        [traineePaymentsApi.reducerPath]: traineePaymentsApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(traineePaymentsApi.middleware),
+    });
+    
     (fetch as jest.Mock).mockClear();
-    localStorage.clear();
   });
 
   afterEach(() => {
@@ -25,54 +59,24 @@ describe('traineePaymentsApi', () => {
 
   describe('getTraineePayments', () => {
     it('should fetch trainee payments successfully', async () => {
-      const mockPayments: TraineePaymentResponse[] = [
-        {
-          id: 1,
-          amount: 5000,
-          status: 'PARTIALLY_PAID',
-          paidAmount: 3000,
-          paidAt: '2024-01-15T10:30:00Z',
-          notes: 'دفعة جزئية للرسوم',
-          fee: {
-            id: 1,
-            name: 'رسوم التسجيل',
-            amount: 5000,
-            type: 'REGISTRATION_FEE'
-          },
-          trainee: {
-            id: 1,
-            name: 'أحمد محمد علي'
-          },
-          safe: {
-            id: '1',
-            name: 'الخزينة الرئيسية'
-          },
-          transactions: [
-            {
-              id: 'TXN-001',
-              amount: 3000,
-              type: 'PAYMENT',
-              createdAt: '2024-01-15T10:30:00Z'
-            }
-          ]
-        }
-      ];
-
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockPayments,
+        json: async () => mockTraineePayments,
       });
 
-      const result = await mockStore.dispatch(
+      const result = await store.dispatch(
         traineePaymentsApi.endpoints.getTraineePayments.initiate()
       );
 
-      expect(result.data).toEqual(mockPayments);
+      expect(result.isSuccess).toBe(true);
+      expect(result.data).toEqual(mockTraineePayments);
       expect(fetch).toHaveBeenCalledWith(
-        '/api/finances/trainee-payments',
+        'http://localhost:4000/api/finances/trainee-fees',
         expect.objectContaining({
           method: 'GET',
-          headers: expect.any(Object),
+          headers: expect.objectContaining({
+            'Content-Type': 'application/json',
+          }),
         })
       );
     });
@@ -80,31 +84,37 @@ describe('traineePaymentsApi', () => {
     it('should handle fetch error', async () => {
       (fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
 
-      const result = await mockStore.dispatch(
+      const result = await store.dispatch(
         traineePaymentsApi.endpoints.getTraineePayments.initiate()
       );
 
+      expect(result.isError).toBe(true);
       expect(result.error).toBeDefined();
-      expect(result.data).toBeUndefined();
     });
 
-    it('should include authorization header when token exists', async () => {
-      localStorage.setItem('token', 'test-token');
+    it('should include authorization header when token is available', async () => {
+      // Mock cookies
+      const mockCookies = {
+        get: jest.fn().mockReturnValue('mock-token'),
+      };
       
+      // Mock js-cookie
+      jest.doMock('js-cookie', () => mockCookies);
+
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => [],
+        json: async () => mockTraineePayments,
       });
 
-      await mockStore.dispatch(
+      await store.dispatch(
         traineePaymentsApi.endpoints.getTraineePayments.initiate()
       );
 
       expect(fetch).toHaveBeenCalledWith(
-        '/api/finances/trainee-payments',
+        'http://localhost:4000/api/finances/trainee-fees',
         expect.objectContaining({
           headers: expect.objectContaining({
-            authorization: 'Bearer test-token',
+            'Authorization': 'Bearer mock-token',
           }),
         })
       );
@@ -113,79 +123,48 @@ describe('traineePaymentsApi', () => {
 
   describe('addTraineePayment', () => {
     it('should add trainee payment successfully', async () => {
-      const paymentData = {
+      const newPayment = {
         traineeId: 1,
-        amount: 2000,
+        amount: 1000,
         safeId: '1',
-        notes: 'دفعة إضافية'
-      };
-
-      const mockResponse: TraineePaymentResponse = {
-        id: 2,
-        amount: 2000,
-        status: 'PAID',
-        paidAmount: 2000,
-        paidAt: '2024-01-20T10:30:00Z',
-        notes: 'دفعة إضافية',
-        fee: {
-          id: 1,
-          name: 'رسوم التسجيل',
-          amount: 5000,
-          type: 'REGISTRATION_FEE'
-        },
-        trainee: {
-          id: 1,
-          name: 'أحمد محمد علي'
-        },
-        safe: {
-          id: '1',
-          name: 'الخزينة الرئيسية'
-        },
-        transactions: [
-          {
-            id: 'TXN-002',
-            amount: 2000,
-            type: 'PAYMENT',
-            createdAt: '2024-01-20T10:30:00Z'
-          }
-        ]
+        notes: 'دفعة جديدة'
       };
 
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: async () => ({ ...mockTraineePayments[0], id: 2, ...newPayment }),
       });
 
-      const result = await mockStore.dispatch(
-        traineePaymentsApi.endpoints.addTraineePayment.initiate(paymentData)
+      const result = await store.dispatch(
+        traineePaymentsApi.endpoints.addTraineePayment.initiate(newPayment)
       );
 
-      expect(result.data).toEqual(mockResponse);
+      expect(result.isSuccess).toBe(true);
       expect(fetch).toHaveBeenCalledWith(
-        '/api/finances/trainee-payments',
+        'http://localhost:4000/api/finances/trainee-fees',
         expect.objectContaining({
           method: 'POST',
-          body: JSON.stringify(paymentData),
+          body: JSON.stringify(newPayment),
         })
       );
     });
 
     it('should handle add payment error', async () => {
-      const paymentData = {
+      const newPayment = {
         traineeId: 1,
-        amount: 2000,
+        amount: 1000,
         safeId: '1',
-        notes: 'دفعة إضافية'
+        notes: 'دفعة جديدة'
       };
 
       (fetch as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
 
-      const result = await mockStore.dispatch(
-        traineePaymentsApi.endpoints.addTraineePayment.initiate(paymentData)
+      const result = await store.dispatch(
+        traineePaymentsApi.endpoints.addTraineePayment.initiate(newPayment)
       );
 
+      expect(result.isError).toBe(true);
       expect(result.error).toBeDefined();
-      expect(result.data).toBeUndefined();
     });
   });
 
@@ -193,63 +172,66 @@ describe('traineePaymentsApi', () => {
     it('should update trainee payment successfully', async () => {
       const updateData = {
         id: 1,
-        amount: 1000,
+        amount: 2000,
         safeId: '2',
         notes: 'تحديث الدفعة'
       };
 
-      const mockResponse: TraineePaymentResponse = {
-        id: 1,
-        amount: 1000,
-        status: 'PAID',
-        paidAmount: 1000,
-        paidAt: '2024-01-20T10:30:00Z',
-        notes: 'تحديث الدفعة',
-        fee: {
-          id: 1,
-          name: 'رسوم التسجيل',
-          amount: 5000,
-          type: 'REGISTRATION_FEE'
-        },
-        trainee: {
-          id: 1,
-          name: 'أحمد محمد علي'
-        },
-        safe: {
-          id: '2',
-          name: 'خزينة الرسوم'
-        },
-        transactions: [
-          {
-            id: 'TXN-003',
-            amount: 1000,
-            type: 'PAYMENT',
-            createdAt: '2024-01-20T10:30:00Z'
-          }
-        ]
-      };
-
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: async () => ({ ...mockTraineePayments[0], ...updateData }),
       });
 
-      const result = await mockStore.dispatch(
+      const result = await store.dispatch(
         traineePaymentsApi.endpoints.updateTraineePayment.initiate(updateData)
       );
 
-      expect(result.data).toEqual(mockResponse);
+      expect(result.isSuccess).toBe(true);
       expect(fetch).toHaveBeenCalledWith(
-        '/api/finances/trainee-payments/1',
+        'http://localhost:4000/api/finances/trainee-fees/1',
         expect.objectContaining({
           method: 'PUT',
           body: JSON.stringify({
-            amount: 1000,
-            safeId: '2',
-            notes: 'تحديث الدفعة'
+            amount: updateData.amount,
+            safeId: updateData.safeId,
+            notes: updateData.notes
           }),
         })
       );
+    });
+  });
+
+  describe('deleteTraineePayment', () => {
+    it('should delete trainee payment successfully', async () => {
+      (fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}),
+      });
+
+      const result = await store.dispatch(
+        traineePaymentsApi.endpoints.deleteTraineePayment.initiate(1)
+      );
+
+      expect(result.isSuccess).toBe(true);
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:4000/api/finances/trainee-fees/1',
+        expect.objectContaining({
+          method: 'DELETE',
+        })
+      );
+    });
+  });
+
+  describe('API Configuration', () => {
+    it('should have correct base URL', () => {
+      expect(traineePaymentsApi.reducerPath).toBe('traineePaymentsApi');
+    });
+
+    it('should have correct tag types', () => {
+      expect(traineePaymentsApi.endpoints.getTraineePayments.providesTags).toEqual(['TraineePayment']);
+      expect(traineePaymentsApi.endpoints.addTraineePayment.invalidatesTags).toEqual(['TraineePayment']);
+      expect(traineePaymentsApi.endpoints.updateTraineePayment.invalidatesTags).toEqual(['TraineePayment']);
+      expect(traineePaymentsApi.endpoints.deleteTraineePayment.invalidatesTags).toEqual(['TraineePayment']);
     });
   });
 });

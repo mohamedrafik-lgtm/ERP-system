@@ -162,9 +162,9 @@ export default function AddPaymentDialog({
                       <div className="text-left">
                         <p className="text-sm font-medium text-gray-700">المبلغ المتبقي</p>
                         <p className="text-lg font-bold text-red-600">
-                          {new Intl.NumberFormat('ar-SA', {
+                          {new Intl.NumberFormat('ar-EG', {
                             style: 'currency',
-                            currency: 'SAR'
+                            currency: 'EGP'
                           }).format(remainingAmount)}
                         </p>
                       </div>
@@ -194,7 +194,7 @@ export default function AddPaymentDialog({
                           max={remainingAmount}
                         />
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
-                          ر.س
+                          ج.م
                         </div>
                       </div>
                       {errors.amount && (
@@ -222,9 +222,9 @@ export default function AddPaymentDialog({
                         <option value="">اختر الخزينة</option>
                         {treasuries.map((treasury) => (
                           <option key={treasury.id} value={treasury.id}>
-                            {treasury.name} - الرصيد: {new Intl.NumberFormat('ar-SA', {
+                            {treasury.name} - الرصيد: {new Intl.NumberFormat('ar-EG', {
                               style: 'currency',
-                              currency: 'SAR'
+                              currency: 'EGP'
                             }).format(treasury.balance)}
                           </option>
                         ))}
@@ -240,9 +240,9 @@ export default function AddPaymentDialog({
                       {selectedTreasuryData && (
                         <div className="mt-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
                           <p className="text-sm text-blue-700">
-                            <span className="font-medium">رصيد الخزينة:</span> {new Intl.NumberFormat('ar-SA', {
+                            <span className="font-medium">رصيد الخزينة:</span> {new Intl.NumberFormat('ar-EG', {
                               style: 'currency',
-                              currency: 'SAR'
+                              currency: 'EGP'
                             }).format(selectedTreasuryData.balance)}
                           </p>
                         </div>
