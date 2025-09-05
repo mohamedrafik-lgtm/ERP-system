@@ -621,6 +621,13 @@ export interface ILocker{
   isActive:boolean
 }
 
+export interface IUpdateLocker{
+  name?:string;
+  description?:string;
+  currency?:ICurrency;
+  isActive?:boolean
+}
+
 export type TransactionType =
   | 'DEPOSIT'
   | 'WITHDRAW'

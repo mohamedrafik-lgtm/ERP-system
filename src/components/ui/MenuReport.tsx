@@ -48,27 +48,27 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
       <button
         ref={buttonRef}
         onClick={toggleMenu}
-        className="inline-flex items-center gap-2 px-4 py-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-100 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="relative inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 shadow-lg hover:shadow-xl group"
       >
-        <span className="text-sm font-semibold text-gray-700">{name}</span>
-        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
         {svg}
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </button>
 
       {isOpen &&
         createPortal(
           <div
             ref={menuRef}
-            className="absolute w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-[9999] overflow-hidden"
+            className="absolute w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/40 z-[9999] overflow-hidden"
             style={{
               top: position.top + 8,
               left: position.left,
               position: "absolute",
             }}
           >
-            <div className="p-2">
+            <div className="p-3">
+              <div className="mb-3 px-3 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
+                <h3 className="text-sm font-bold text-gray-700 text-center">خيارات الإجراءات</h3>
+              </div>
               {items.map((item, index) => (
                 <button
                   key={index}
@@ -76,17 +76,27 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
                     setIsOpen(false);
                     console.log(`تم اختيار: ${item.name}`);
                   }}
-                  className="w-full px-4 py-3 flex items-center justify-between text-right hover:bg-orange-50 text-sm cursor-pointer rounded-lg transition-all duration-200 group"
+                  className="w-full px-4 py-4 flex items-center justify-between text-right hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 text-sm cursor-pointer rounded-xl transition-all duration-300 group border border-transparent hover:border-blue-200/50 hover:shadow-md"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                    <span className="text-gray-700 font-medium">{item.name}</span>
-                  </div>
-                  {item.svgIcon && (
-                    <div className="text-gray-400 group-hover:text-orange-500 transition-colors duration-200">
-                      {item.svgIcon}
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 bg-gradient-to-r from-gray-100 to-gray-200 group-hover:from-blue-100 group-hover:to-purple-100 rounded-lg flex items-center justify-center transition-all duration-300">
+                      {item.svgIcon && (
+                        <div className="text-gray-500 group-hover:text-blue-600 transition-colors duration-300">
+                          {item.svgIcon}
+                        </div>
+                      )}
                     </div>
-                  )}
+                    <div className="text-right">
+                      <span className="text-gray-700 font-bold text-sm block">{item.name}</span>
+                      <span className="text-xs text-gray-500">انقر للتنفيذ</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <svg className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </button>
               ))}
             </div>

@@ -24,7 +24,16 @@ export const LockerDetils = () => {
   const selectedLocker = lockers?.find(locker => locker.id === selectedLockerId);
 
   // دالة لتنسيق نوع المعاملة
-  const getTransactionTypeLabel = (type: string) => {
+  const getTransactionTypeLabel = (transaction: Transaction) => {
+    // إذا كانت العملية تحويل، نحدد النوع بناءً على الخزينة الحالية
+    if (transaction.type === 'TRANSFER') {
+      if (transaction.targetId === selectedLockerId) {
+        return 'استلام تحويل';
+      } else if (transaction.sourceId === selectedLockerId) {
+        return 'إرسال تحويل';
+      }
+    }
+    
     const typeLabels: Record<string, string> = {
       'DEPOSIT': 'إيداع',
       'WITHDRAW': 'سحب',
@@ -32,7 +41,7 @@ export const LockerDetils = () => {
       'FEE': 'رسوم',
       'PAYMENT': 'دفع'
     };
-    return typeLabels[type] || type;
+    return typeLabels[transaction.type] || transaction.type;
   };
 
   // دالة لتنسيق التاريخ
@@ -47,7 +56,16 @@ export const LockerDetils = () => {
   };
 
   // دالة لتحديد لون نوع المعاملة
-  const getTransactionTypeColor = (type: string) => {
+  const getTransactionTypeColor = (transaction: Transaction) => {
+    // إذا كانت العملية تحويل، نحدد اللون بناءً على الخزينة الحالية
+    if (transaction.type === 'TRANSFER') {
+      if (transaction.targetId === selectedLockerId) {
+        return 'text-green-600 bg-green-100'; // استلام تحويل - أخضر
+      } else if (transaction.sourceId === selectedLockerId) {
+        return 'text-red-600 bg-red-100'; // إرسال تحويل - أحمر
+      }
+    }
+    
     const colors: Record<string, string> = {
       'DEPOSIT': 'text-green-600 bg-green-100',
       'WITHDRAW': 'text-red-600 bg-red-100',
@@ -55,7 +73,7 @@ export const LockerDetils = () => {
       'FEE': 'text-orange-600 bg-orange-100',
       'PAYMENT': 'text-purple-600 bg-purple-100'
     };
-    return colors[type] || 'text-gray-600 bg-gray-100';
+    return colors[transaction.type] || 'text-gray-600 bg-gray-100';
   };
 
   return (
@@ -154,7 +172,7 @@ export const LockerDetils = () => {
                 <div key={transaction.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${getTransactionTypeColor(transaction.type)}`}>
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${getTransactionTypeColor(transaction)}`}>
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           {transaction.type === 'DEPOSIT' && (
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -174,18 +192,24 @@ export const LockerDetils = () => {
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{getTransactionTypeLabel(transaction.type)}</h4>
+                        <h4 className="font-semibold text-gray-900">{getTransactionTypeLabel(transaction)}</h4>
                         <p className="text-sm text-gray-500">{transaction.description || 'لا يوجد وصف'}</p>
                         <p className="text-xs text-gray-400">{formatDate(transaction.createdAt.toString())}</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className={`text-lg font-bold ${
-                        transaction.type === 'DEPOSIT' || transaction.type === 'PAYMENT' 
+                        // تحديد لون المبلغ بناءً على نوع العملية والخزينة الحالية
+                        transaction.type === 'DEPOSIT' || 
+                        transaction.type === 'PAYMENT' || 
+                        (transaction.type === 'TRANSFER' && transaction.targetId === selectedLockerId)
                           ? 'text-green-600' 
                           : 'text-red-600'
                       }`}>
-                        {transaction.type === 'DEPOSIT' || transaction.type === 'PAYMENT' ? '+' : '-'}
+                        {transaction.type === 'DEPOSIT' || 
+                         transaction.type === 'PAYMENT' || 
+                         (transaction.type === 'TRANSFER' && transaction.targetId === selectedLockerId)
+                          ? '+' : '-'}
                         {transaction.amount.toLocaleString()} {selectedLocker?.currency}
                       </div>
                       {transaction.reference && (

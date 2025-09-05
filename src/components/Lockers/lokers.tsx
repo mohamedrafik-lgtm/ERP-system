@@ -6,6 +6,9 @@ import { TypedUseSelectorHook, useDispatch as useDispatchApp, useSelector as use
 import { AccountCard } from './AccountCard';
 import { setSelectedLocker } from '@/lip/features/Lockers/lockersSlice';
 import { RootState, AppDispatch } from '@/lip/store';
+import { useState } from 'react';
+import { EditSafeModal } from './EditSafeModal';
+import { ICurrency } from '@/interface';
 
 // استخدام النسخ المُعدّلة من الhooks
 const useDispatch = () => useDispatchApp<AppDispatch>();
@@ -16,8 +19,34 @@ export default function FinanceTabs() {
   const selectedLocker = useSelector((state: RootState) => state.lockers.selectedLockerId);
   const { data, isLoading } = useGetFinanceQuery();
   
+  // حالة مودال التعديل
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingSafe, setEditingSafe] = useState<{
+    id: string;
+    name: string;
+    description: string;
+    currency: ICurrency;
+    isActive: boolean;
+  } | null>(null);
+  
   const handleLockerSelect = (lockerId: string) => {
     dispatch(setSelectedLocker(lockerId));
+  };
+
+  const handleEditSafe = (safeId: string, safeData: any) => {
+    setEditingSafe({
+      id: safeId,
+      name: safeData.name,
+      description: safeData.description,
+      currency: safeData.currency,
+      isActive: safeData.isActive
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingSafe(null);
   };
   // const filteredData = data?.filter((item) => {
   //   if (activeTab === 'إيرادات') return item.type === 'REVENUE';
@@ -63,6 +92,8 @@ export default function FinanceTabs() {
                   balance={item.balance}
                   currency={item.currency}
                   isSelected={selectedLocker === item.id}
+                  onEdit={() => handleEditSafe(item.id, item)}
+                  safeId={item.id}
                 />
               </div>
             ))}
@@ -71,6 +102,21 @@ export default function FinanceTabs() {
           <p className="text-center text-gray-400">لا توجد بيانات</p>
         )}
       </div>
+
+      {/* مودال التعديل */}
+      {editingSafe && (
+        <EditSafeModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          safeId={editingSafe.id}
+          currentData={{
+            name: editingSafe.name,
+            description: editingSafe.description,
+            currency: editingSafe.currency,
+            isActive: editingSafe.isActive
+          }}
+        />
+      )}
     </div>
   );
 }
