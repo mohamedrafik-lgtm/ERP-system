@@ -1,22 +1,34 @@
-const FormField = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div className="flex flex-col gap-2 group/field">
-    <label className="
-      text-sm font-semibold
-      text-gray-700
-      transition-all duration-300
-      group-hover/field:text-gray-900
-      flex items-center gap-2
-    ">
-      <span className="
-        w-1 h-1 rounded-full
-        bg-blue-400 opacity-0
-        transition-all duration-300
-        group-hover/field:opacity-100
-        group-hover/field:w-2
-      "></span>
-      {label}
-    </label>
-    {children}
-  </div>
-);
-export default FormField
+"use client";
+
+import { ReactNode } from 'react';
+
+interface FormFieldProps {
+  label: string;
+  error?: string;
+  className?: string;
+  required?: boolean;
+  children: ReactNode;
+}
+
+const FormField = ({ 
+  label, 
+  error, 
+  className = "", 
+  required, 
+  children 
+}: FormFieldProps) => {
+  return (
+    <div className={`space-y-2 ${className}`}>
+      <label className="block text-sm font-medium text-gray-700">
+        {label}
+        {required && <span className="text-red-500 mr-1">*</span>}
+      </label>
+      {children}
+      {error && (
+        <p className="text-sm text-red-600 mt-1">{error}</p>
+      )}
+    </div>
+  );
+};
+
+export default FormField;

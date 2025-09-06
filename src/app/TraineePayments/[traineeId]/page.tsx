@@ -6,14 +6,17 @@ import { ArrowRight, CreditCard, User, Calendar, DollarSign, Printer, CheckCircl
 import { useGetTraineePaymentsQuery } from '@/lip/features/traineePayments/traineePaymentDetailsApi';
 import { useGetTraineeQuery } from '@/lip/features/trainees/traineesApi';
 import { PaymentStatus, FeeType } from '@/types/traineePaymentDetails';
+import SmartPaymentDialog from '@/components/TraineePayments/SmartPaymentDialog';
+import { useState } from 'react';
 
 export default function PaymentPage() {
   const params = useParams();
   const router = useRouter();
   const traineeId = params.traineeId as string;
+  const [isSmartPaymentOpen, setIsSmartPaymentOpen] = useState(false);
   
   // API calls
-  const { data: payments, isLoading, error } = useGetTraineePaymentsQuery(traineeId);
+  const { data: payments, isLoading, error, refetch } = useGetTraineePaymentsQuery(traineeId);
   const { data: trainee, isLoading: isTraineeLoading } = useGetTraineeQuery(parseInt(traineeId));
 
   // معالجة البيانات للعرض
@@ -259,7 +262,10 @@ export default function PaymentPage() {
             <Printer className="w-5 h-5" />
             طباعة
           </button>
-          <button className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+          <button 
+            onClick={() => setIsSmartPaymentOpen(true)}
+            className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+          >
             <CreditCard className="w-5 h-5" />
             دفع ذكي
           </button>
@@ -343,6 +349,18 @@ export default function PaymentPage() {
           <h3 className="text-lg font-bold text-blue-900 mb-3">كيف يعمل الدفع الذكي؟</h3>
           <p className="text-blue-800">أدخل أي مبلغ وسيتم توزيعه تلقائياً على الرسوم من الأقدم للأحدث. مثال: إذا أدخلت 1000 جنيه، سيتم دفع الرسوم بترتيب الأولوية حتى ينتهي المبلغ.</p>
         </motion.div>
+
+        {/* Smart Payment Dialog */}
+        <SmartPaymentDialog
+          isOpen={isSmartPaymentOpen}
+          onClose={() => setIsSmartPaymentOpen(false)}
+          traineeId={traineeId}
+          traineeName={paymentDetails.trainee.name}
+          remainingAmount={paymentDetails.financialSummary.remainingAmount}
+          onPaymentSuccess={() => {
+            refetch(); // إعادة تحميل البيانات بعد الدفع
+          }}
+        />
       </div>
     </div>
   );
