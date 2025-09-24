@@ -1,6 +1,7 @@
 // Liskov Substitution Principle - يمكن استبدال implementations
 import { BaseStudentApiService } from '../abstract/StudentApiService';
-import { IStudentCreateRequest, IStudentUpdateRequest, IStudentListRequest, IStudentResponse, IPaginatedResponse } from '@/types/api.interfaces';
+import { IStudentCreateRequest, IStudentUpdateRequest, IStudentListRequest, IPaginatedResponse } from '@/types/api.interfaces';
+import type { IStudentResponse } from '@/types/api.interfaces';
 
 export class MockStudentApiService extends BaseStudentApiService {
   private students: IStudentResponse[] = [];
