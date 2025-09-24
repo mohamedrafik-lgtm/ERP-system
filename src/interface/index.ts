@@ -613,12 +613,22 @@ export enum ICurrency{
   EUR = 'EUR',
   SAR = 'SAR'
 }
+// SafeCategory enum
+export enum SafeCategory {
+  DEBT = 'DEBT',                // خزائن مديونية
+  INCOME = 'INCOME',            // خزائن دخل
+  EXPENSE = 'EXPENSE',          // خزائن مصروفات
+  ASSETS = 'ASSETS',            // خزائن أصول
+  UNSPECIFIED = 'UNSPECIFIED'   // غير محدد (للخزائن القديمة)
+}
+
 export interface ILocker{
   name:string;
-  description:string;
-  balance:number;
-  currency:ICurrency;
-  isActive:boolean
+  description?:string;
+  category?:SafeCategory;
+  balance?:number;
+  currency?:string;
+  isActive?:boolean
 }
 
 export interface IUpdateLocker{
@@ -751,12 +761,35 @@ export interface IPayTrainerFee{
   notes : string;
 }
 
+// TransactionType enum
+export enum TransactionType {
+  DEPOSIT = 'DEPOSIT',     // إيداع
+  WITHDRAW = 'WITHDRAW',   // سحب
+  TRANSFER = 'TRANSFER',   // تحويل بين حسابين
+  FEE = 'FEE',             // رسوم متدربين
+  PAYMENT = 'PAYMENT',     // دفع رسوم
+}
+
 export interface CreateTransaction {
-  amount: number; // قيمة المعاملة (مطلوبة)
-  type: 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER' | 'FEE' | 'PAYMENT'; // نوع المعاملة (مطلوبة)
-  description?: string; // وصف المعاملة (اختياري)
-  sourceId?: string; // معرف الخزينة المصدر (اختياري - مطلوب في حالات السحب أو التحويل)
-  targetId?: string; // معرف الخزينة الهدف (اختياري - مطلوب في حالات الإيداع أو التحويل)
+  amount: number;              // مطلوب
+  type: TransactionType;       // مطلوب
+  description?: string;        // اختياري
+  reference?: string;          // اختياري
+  sourceId?: string;           // اختياري
+  targetId?: string;           // اختياري
+}
+
+export interface TransactionResponse {
+  id: string;
+  amount: number;
+  type: TransactionType;
+  description: string;
+  reference?: string;
+  sourceId?: string;
+  targetId?: string;
+  createdById?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // Re-export types from traineeFees

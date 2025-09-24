@@ -16,6 +16,7 @@ import { traineePaymentsApi } from './features/traineePayments/traineePaymentsAp
 import { traineeFeesApi } from './features/traineeFees/traineeFeesApi';
 import { traineePaymentDetailsApi } from './features/traineePayments/traineePaymentDetailsApi';
 import { commissionsApi } from './features/commissions/commissionsApi';
+import { marketersApi } from './features/marketers/marketersApi';
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
     [traineeFeesApi.reducerPath]: traineeFeesApi.reducer,
     [traineePaymentDetailsApi.reducerPath]: traineePaymentDetailsApi.reducer,
     [commissionsApi.reducerPath]: commissionsApi.reducer,
+    [marketersApi.reducerPath]: marketersApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -53,7 +55,8 @@ export const store = configureStore({
       traineePaymentsApi.middleware,
       traineeFeesApi.middleware,
       traineePaymentDetailsApi.middleware,
-      commissionsApi.middleware
+      commissionsApi.middleware,
+      marketersApi.middleware
     ),
 })
 

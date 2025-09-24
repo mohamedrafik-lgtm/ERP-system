@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lip/store';
 import { useGetFinanceQuery, useAddTransactionMutation } from '@/lip/features/Lockers/safe';
-import { CreateTransaction } from '@/interface';
+import { CreateTransaction, TransactionType } from '@/interface';
 import toast from 'react-hot-toast';
 
 interface TransactionDialogProps {
@@ -13,12 +13,13 @@ interface TransactionDialogProps {
   onClose: () => void;
 }
 
-type TransactionType = 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER' | 'FEE' | 'PAYMENT';
+// استخدام TransactionType enum من interface
 
 export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps) => {
-  const [transactionType, setTransactionType] = useState<TransactionType>('DEPOSIT');
+  const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.DEPOSIT);
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [reference, setReference] = useState('');
 
   const [targetLockerId, setTargetLockerId] = useState('');
   
@@ -39,7 +40,7 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
       return;
     }
 
-    if (transactionType === 'TRANSFER' && !targetLockerId) {
+    if (transactionType === TransactionType.TRANSFER && !targetLockerId) {
       toast.error('يرجى اختيار الخزينة المستهدفة');
       return;
     }
@@ -49,9 +50,10 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
         amount: parseFloat(amount),
         type: transactionType,
         description: description || undefined,
-        sourceId: (transactionType === 'WITHDRAW' || transactionType === 'TRANSFER') ? currentLockerId : undefined,
-        targetId: (transactionType === 'DEPOSIT' || transactionType === 'TRANSFER') ? 
-          (transactionType === 'TRANSFER' ? targetLockerId : currentLockerId) : undefined
+        reference: reference || undefined,
+        sourceId: (transactionType === TransactionType.WITHDRAW || transactionType === TransactionType.TRANSFER) ? currentLockerId : undefined,
+        targetId: (transactionType === TransactionType.DEPOSIT || transactionType === TransactionType.TRANSFER) ? 
+          (transactionType === TransactionType.TRANSFER ? targetLockerId : currentLockerId) : undefined
       };
 
       await addTransaction(transactionData).unwrap();
@@ -61,8 +63,9 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
       // إعادة تعيين النموذج
       setAmount('');
       setDescription('');
+      setReference('');
       setTargetLockerId('');
-      setTransactionType('DEPOSIT');
+      setTransactionType(TransactionType.DEPOSIT);
       onClose();
     } catch (error) {
       console.error('Error creating transaction:', error);
@@ -119,11 +122,11 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       {([
-                        { value: 'DEPOSIT', label: 'إيداع' },
-                        { value: 'WITHDRAW', label: 'سحب' },
-                        { value: 'TRANSFER', label: 'تحويل' },
-                        { value: 'FEE', label: 'رسوم' },
-                        { value: 'PAYMENT', label: 'دفع' }
+                        { value: TransactionType.DEPOSIT, label: 'إيداع' },
+                        { value: TransactionType.WITHDRAW, label: 'سحب' },
+                        { value: TransactionType.TRANSFER, label: 'تحويل' },
+                        { value: TransactionType.FEE, label: 'رسوم' },
+                        { value: TransactionType.PAYMENT, label: 'دفع' }
                       ] as { value: TransactionType; label: string }[]).map(({ value, label }) => (
                         <button
                           key={value}
@@ -179,8 +182,22 @@ export const AddTransactionDialog = ({ isOpen, onClose }: TransactionDialogProps
                     />
                   </div>
 
+                  {/* المرجع */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">
+                      المرجع (اختياري)
+                    </label>
+                    <input
+                      type="text"
+                      value={reference}
+                      onChange={(e) => setReference(e.target.value)}
+                      className="w-full px-4 py-4 rounded-xl border-2 border-gray-200 bg-white shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
+                      placeholder="أدخل مرجعاً للمعاملة..."
+                    />
+                  </div>
+
                   {/* اختيار الخزينة المستهدفة (يظهر فقط في حالة التحويل) */}
-                  {transactionType === 'TRANSFER' && (
+                  {transactionType === TransactionType.TRANSFER && (
                     <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
                       <label className="block text-sm font-semibold text-gray-800 mb-2">
                         الخزينة المستهدفة

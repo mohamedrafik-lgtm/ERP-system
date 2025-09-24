@@ -3,7 +3,7 @@
 import { Dialog, DialogPanel, DialogTitle, Transition } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useState, Fragment, useEffect } from 'react';
-import { ICurrency, ILocker } from '@/interface';
+import { ICurrency, ILocker, SafeCategory } from '@/interface';
 import { Listbox, Transition as ListboxTransition } from '@headlessui/react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useAddSafeMutation } from '@/lip/features/Lockers/safe';
@@ -23,10 +23,12 @@ export default function LockerModal() {
     defaultValues: {
       name: '',
       description: '',
+      category: SafeCategory.UNSPECIFIED,
       balance: 0,
-      currency: ICurrency.EGP,
+      currency: 'EGP',
       isActive: true,
     },
+    mode: 'onChange', // إضافة mode للتأكد من التحكم
   });
 
   // const [selectedType, setSelectedType] = useState(SafeType.REVENUE);
@@ -94,6 +96,65 @@ export default function LockerModal() {
                       />
                     </div>
 
+                    <div>
+                      <label className="block mb-1 text-sm font-medium text-gray-700">تصنيف الخزينة</label>
+                      <Controller
+                        control={control}
+                        name="category"
+                        defaultValue={SafeCategory.UNSPECIFIED}
+                        render={({ field: { onChange, value } }) => (
+                          <Listbox value={value || SafeCategory.UNSPECIFIED} onChange={onChange}>
+                            <div className="relative">
+                              <Listbox.Button className="relative w-full cursor-pointer rounded-xl border border-gray-300 bg-white py-2 pl-4 pr-10 text-left text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <span>
+                                  {value === SafeCategory.DEBT ? 'خزائن مديونية' :
+                                   value === SafeCategory.INCOME ? 'خزائن دخل' :
+                                   value === SafeCategory.EXPENSE ? 'خزائن مصروفات' :
+                                   value === SafeCategory.ASSETS ? 'خزائن أصول' :
+                                   'غير محدد'}
+                                </span>
+                                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                                  <ChevronsUpDown className="h-4 w-4" />
+                                </span>
+                              </Listbox.Button>
+                              <ListboxTransition
+                                as={Fragment}
+                                enter="transition ease-out duration-200"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="transition ease-in duration-150"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                              >
+                                <Listbox.Options className="absolute mt-2 w-full rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-lg ring-1 ring-black/10 z-10">
+                                  {Object.values(SafeCategory).map((category) => (
+                                    <Listbox.Option
+                                      key={category}
+                                      value={category}
+                                      className={({ active }) =>
+                                        `cursor-pointer select-none px-4 py-2 ${active ? 'bg-blue-50 text-blue-600' : 'text-gray-800'}`
+                                      }
+                                    >
+                                      {({ selected }) => (
+                                        <span className="flex items-center justify-between">
+                                          {category === SafeCategory.DEBT ? 'خزائن مديونية' :
+                                           category === SafeCategory.INCOME ? 'خزائن دخل' :
+                                           category === SafeCategory.EXPENSE ? 'خزائن مصروفات' :
+                                           category === SafeCategory.ASSETS ? 'خزائن أصول' :
+                                           'غير محدد'}
+                                          {selected && <Check className="w-4 h-4 text-blue-500" />}
+                                        </span>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </ListboxTransition>
+                            </div>
+                          </Listbox>
+                        )}
+                      />
+                    </div>
+
                     {/* <div>
                       <label className="block mb-1 text-sm font-medium text-gray-700">نوع الخزنة</label>
                       <Controller
@@ -143,24 +204,26 @@ export default function LockerModal() {
                     </div> */}
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">الرصيد</label>
+                      <label className="block text-sm font-medium text-gray-700">الرصيد الابتدائي (اختياري)</label>
                       <input
                         type="number"
-                        {...register('balance', { required: 'هذا الحقل مطلوب', valueAsNumber: true })}
+                        {...register('balance', { valueAsNumber: true })}
                         className="w-full rounded-xl border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="0"
                       />
                     </div>
 
                     <div>
-                      <label className="block mb-1 text-sm font-medium text-gray-700">العملة</label>
+                      <label className="block mb-1 text-sm font-medium text-gray-700">العملة (اختياري)</label>
                       <Controller
                         control={control}
                         name="currency"
+                        defaultValue="EGP"
                         render={({ field: { onChange, value } }) => (
-                          <Listbox value={value} onChange={(val) => { setSelectedCurrency(val); onChange(val); }}>
+                          <Listbox value={value || "EGP"} onChange={(val) => { setSelectedCurrency(val); onChange(val); }}>
                             <div className="relative">
                               <Listbox.Button className="relative w-full cursor-pointer rounded-xl border border-gray-300 bg-white py-2 pl-4 pr-10 text-left text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <span>{value}</span>
+                                <span>{value || 'اختر العملة'}</span>
                                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
                                   <ChevronsUpDown className="h-4 w-4" />
                                 </span>
@@ -205,7 +268,7 @@ export default function LockerModal() {
                         {...register('isActive')}
                         className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                       />
-                      <label className="text-sm text-gray-700">الخزنة مفعلة</label>
+                      <label className="text-sm text-gray-700">الخزنة مفعلة (اختياري)</label>
                     </div>
 
                     <div className="mt-6">
