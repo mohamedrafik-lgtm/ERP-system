@@ -125,6 +125,51 @@ export const traineesApi = createApi({
         },
       }),
     }),
+
+    // Trainees stats
+    getTraineesStats: builder.query<{ totalTrainees: number; activeTrainees: number; newTrainees: number; graduates: number; graduationRate: number; }, void>({
+      query: () => `/api/trainees/stats`,
+    }),
+
+    // Trainee documents
+    getTraineeDocuments: builder.query<{
+      trainee: { id: number; nameAr: string; photoUrl?: string | null; createdAt: string; updatedAt: string };
+      documents: Array<{
+        type: 'PERSONAL_PHOTO' | 'ID_CARD_FRONT' | 'ID_CARD_BACK' | 'QUALIFICATION_FRONT' | 'QUALIFICATION_BACK' | 'EXPERIENCE_CERT' | 'MINISTRY_CERT' | 'PROFESSION_CARD' | 'SKILL_CERT';
+        nameAr: string;
+        required: boolean;
+        document: {
+          id: string;
+          traineeId: number;
+          documentType: any;
+          fileName: string;
+          filePath: string;
+          fileSize: number;
+          mimeType: string;
+          uploadedAt: string;
+          uploadedBy: { id: string; name: string };
+          notes?: string | null;
+          isVerified: boolean;
+          verifiedAt?: string | null;
+          verifiedById?: string | null;
+          createdAt: string;
+          updatedAt: string;
+        } | null;
+        isUploaded: boolean;
+        isVerified: boolean;
+      }>;
+      stats: {
+        totalRequired: number;
+        totalOptional: number;
+        uploadedRequired: number;
+        uploadedOptional: number;
+        verifiedCount: number;
+        completionPercentage: number;
+        isComplete: boolean;
+      };
+    }, number>({
+      query: (id) => `/api/trainees/${id}/documents`,
+    }),
   }),
 });
 
@@ -134,6 +179,8 @@ export const {
   useGetTraineesQuery,
   useGetTraineeQuery,
   useUpdateTraineeMutation
+  ,useGetTraineesStatsQuery
+  ,useGetTraineeDocumentsQuery
 } = traineesApi;
 
 export default traineesApi; 

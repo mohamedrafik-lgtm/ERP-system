@@ -9,6 +9,13 @@ export interface CreateCommissionRequest {
   amount: number;                // مبلغ العمولة (مطلوب)
   description?: string;          // وصف العمولة (اختياري)
 }
+// Payout payload
+export interface CommissionPayoutPayload {
+  amount: number;        // المبلغ المصروف (>= 0.01 ولا يتجاوز قيمة العمولة)
+  fromSafeId: string;    // معرّف الخزينة المصدر
+  toSafeId: string;      // معرّف الخزينة الهدف (مختلف عن المصدر)
+  description: string;   // وصف عملية الصرف
+}
 import Cookies from 'js-cookie';
 
 // Base query with authentication
@@ -109,6 +116,20 @@ export const commissionsApi = createApi({
         return response;
       },
     }),
+
+    // Payout a commission - POST /api/commissions/{id}/payout
+    payoutCommission: builder.mutation<Commission, { id: number; payload: CommissionPayoutPayload }>({
+      query: ({ id, payload }) => {
+        return {
+          url: `/api/commissions/${id}/payout`,
+          method: 'POST',
+          body: payload,
+        };
+      },
+      invalidatesTags: ['Commission'],
+      transformResponse: (response: Commission) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
@@ -116,4 +137,5 @@ export const commissionsApi = createApi({
 export const {
   useGetCommissionsQuery,
   useCreateCommissionMutation,
+  usePayoutCommissionMutation,
 } = commissionsApi;

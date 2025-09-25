@@ -318,12 +318,12 @@ export enum maritalStatus  {
 //  SUMMER, WINTER, ANNUAL
 export enum programType  {
   SUMMER= 'SUMMER',
-  WINTER='MARRIED',
+  WINTER='WINTER',
   ANNUAL='ANNUAL',
 }
 export enum Gender  {
   MALE= 'MALE',
-  FEMALE ='FEMALE ',
+  FEMALE ='FEMALE',
 }
 export enum Religion{
   //  ISLAM, CHRISTIANITY, JUDAISM
@@ -360,48 +360,55 @@ export enum IClassLevel{
      FOURTH='FOURTH'
 }
 // length 41
-export interface IStudentRequest {
+export type CreateTraineePayload = {
   nameAr: string;
   nameEn: string;
-  enrollmentType: enrollmentType;
-  maritalStatus: maritalStatus;
+  enrollmentType: 'REGULAR' | 'DISTANCE' | 'BOTH';
+  maritalStatus: 'SINGLE' | 'MARRIED' | 'DIVORCED' | 'WIDOWED';
   nationalId: string;
-  idIssueDate: string; // ISO Date
-  idExpiryDate: string; // ISO Date
-  programType: programType;
+  idIssueDate: string; // ISO
+  idExpiryDate: string; // ISO
+  programType: 'SUMMER' | 'WINTER' | 'ANNUAL';
   nationality: string;
-  gender: Gender;
-  birthDate: string;
+  gender: 'MALE' | 'FEMALE';
+  birthDate: string; // ISO
   residenceAddress: string;
-  photoUrl: string;
-  religion: Religion;
+  photoUrl?: string;
+  religion?: 'ISLAM' | 'CHRISTIANITY' | 'JUDAISM';
   programId: number;
   country: string;
-  governorate: string;
+  governorate?: string;
   city: string;
   address: string;
   phone: string;
-  email: string;
+  email?: string;
   guardianPhone: string;
-  guardianEmail: string;
-  guardianJob: string;
+  guardianEmail?: string;
+  guardianJob?: string;
   guardianRelation: string;
-  guardianNationalId: string;
-  landline: string;
-  whatsapp: string;
-  facebook: string;
-  educationType: IEducationType;
+  guardianName: string;
+  landline?: string;
+  whatsapp?: string;
+  facebook?: string;
+  educationType:
+    | 'PREPARATORY'
+    | 'INDUSTRIAL_SECONDARY'
+    | 'COMMERCIAL_SECONDARY'
+    | 'AGRICULTURAL_SECONDARY'
+    | 'AZHAR_SECONDARY'
+    | 'GENERAL_SECONDARY'
+    | 'UNIVERSITY'
+    | 'INDUSTRIAL_APPRENTICESHIP';
   schoolName: string;
-  graduationDate: string;
-  totalGrade: number;
-  gradePercentage: number;
-  traineeStatus:ITraineeStatus;
-  classLevel:IClassLevel;
-  sportsActivity?: string;
-  culturalActivity?: string;
-  educationalActivity?: string;
-  notes?: string;
-}
+  graduationDate: string; // ISO
+  totalGrade?: number;
+  gradePercentage?: number;
+  academicYear?: string;
+  traineeStatus?: 'NEW' | 'CURRENT' | 'GRADUATE' | 'WITHDRAWN';
+  classLevel?: 'FIRST' | 'SECOND' | 'THIRD' | 'FOURTH';
+};
+
+export type IStudentRequest = CreateTraineePayload;
 
 
 export enum Semester {
