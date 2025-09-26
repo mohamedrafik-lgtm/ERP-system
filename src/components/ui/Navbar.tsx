@@ -236,6 +236,46 @@ const NavbarComponent = () => {
             url: "/ExchangeAndPaymentRequests"
           }
         ], []);
+
+        // قائمة إدارة الكرنيهات
+        const list5: IProps[] = useMemo(() => [
+          {
+            name: "إدارة الكرنيهات",
+            svg: (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+              </svg>
+            ),
+            url: "/CardsManagement"
+          },
+          {
+            name: "طباعة الكرنيهات",
+            svg: (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.545c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18V3.545c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m0 0a48.536 48.536 0 0 0-10.5 0" />
+              </svg>
+            ),
+            url: "/CardsPrinting"
+          },
+          {
+            name: "تصميم الكرنيهات",
+            svg: (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
+              </svg>
+            ),
+            url: "/CardsDesign"
+          },
+          {
+            name: "إحصائيات الكرنيهات",
+            svg: (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+              </svg>
+            ),
+            url: "/CardsStats"
+          }
+        ], []);
         
 // 
   return (
@@ -267,6 +307,7 @@ const NavbarComponent = () => {
           <Dropmenu key={'accountant'} name="الحسابات" list={list3} />
           <Dropmenu key={"users"} name="المستخدمين" list={list2} />
           <Dropmenu key={"trainers"} name="شؤون المتدربين" list={list1} />
+          <Dropmenu key={"cards"} name="إدارة الكرنيهات" list={list5} />
         </div>
 
         {/* User Profile Section */}
@@ -414,6 +455,7 @@ const NavbarComponent = () => {
             <Dropmenu key={2} name="المستخدمين" list={list2} />
             <Dropmenu key={3} name="الحسابات" list={list3} />
             <Dropmenu key={4} name="التسويق" list={list4} />
+            <Dropmenu key={5} name="إدارة الكرنيهات" list={list5} />
           </div>
           
           {/* User Profile in Mobile Menu */}

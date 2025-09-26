@@ -170,6 +170,42 @@ export const traineesApi = createApi({
     }, number>({
       query: (id) => `/api/trainees/${id}/documents`,
     }),
+
+    // Add trainee document
+    addTraineeDocument: builder.mutation<{
+      success: boolean;
+      message: string;
+      document: {
+        id: string;
+        traineeId: number;
+        documentType: string;
+        fileName: string;
+        filePath: string;
+        fileSize: number;
+        mimeType: string;
+        notes?: string | null;
+        isVerified: boolean;
+        createdAt: string;
+        updatedAt: string;
+      };
+    }, {
+      traineeId: number;
+      documentType: 'PERSONAL_PHOTO' | 'ID_CARD_FRONT' | 'ID_CARD_BACK' | 'QUALIFICATION_FRONT' | 'QUALIFICATION_BACK' | 'EXPERIENCE_CERT' | 'MINISTRY_CERT' | 'PROFESSION_CARD' | 'SKILL_CERT';
+      fileName: string;
+      filePath: string;
+      fileSize: number;
+      mimeType: string;
+      notes?: string;
+    }>({
+      query: ({ traineeId, ...documentData }) => ({
+        url: `/api/trainees/${traineeId}/documents`,
+        method: 'POST',
+        body: documentData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
   }),
 });
 
@@ -178,9 +214,10 @@ export const {
   useAddTraineeMutation,
   useGetTraineesQuery,
   useGetTraineeQuery,
-  useUpdateTraineeMutation
-  ,useGetTraineesStatsQuery
-  ,useGetTraineeDocumentsQuery
+  useUpdateTraineeMutation,
+  useGetTraineesStatsQuery,
+  useGetTraineeDocumentsQuery,
+  useAddTraineeDocumentMutation
 } = traineesApi;
 
 export default traineesApi; 
