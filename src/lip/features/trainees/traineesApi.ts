@@ -125,6 +125,87 @@ export const traineesApi = createApi({
         },
       }),
     }),
+
+    // Trainees stats
+    getTraineesStats: builder.query<{ totalTrainees: number; activeTrainees: number; newTrainees: number; graduates: number; graduationRate: number; }, void>({
+      query: () => `/api/trainees/stats`,
+    }),
+
+    // Trainee documents
+    getTraineeDocuments: builder.query<{
+      trainee: { id: number; nameAr: string; photoUrl?: string | null; createdAt: string; updatedAt: string };
+      documents: Array<{
+        type: 'PERSONAL_PHOTO' | 'ID_CARD_FRONT' | 'ID_CARD_BACK' | 'QUALIFICATION_FRONT' | 'QUALIFICATION_BACK' | 'EXPERIENCE_CERT' | 'MINISTRY_CERT' | 'PROFESSION_CARD' | 'SKILL_CERT';
+        nameAr: string;
+        required: boolean;
+        document: {
+          id: string;
+          traineeId: number;
+          documentType: any;
+          fileName: string;
+          filePath: string;
+          fileSize: number;
+          mimeType: string;
+          uploadedAt: string;
+          uploadedBy: { id: string; name: string };
+          notes?: string | null;
+          isVerified: boolean;
+          verifiedAt?: string | null;
+          verifiedById?: string | null;
+          createdAt: string;
+          updatedAt: string;
+        } | null;
+        isUploaded: boolean;
+        isVerified: boolean;
+      }>;
+      stats: {
+        totalRequired: number;
+        totalOptional: number;
+        uploadedRequired: number;
+        uploadedOptional: number;
+        verifiedCount: number;
+        completionPercentage: number;
+        isComplete: boolean;
+      };
+    }, number>({
+      query: (id) => `/api/trainees/${id}/documents`,
+    }),
+
+    // Add trainee document
+    addTraineeDocument: builder.mutation<{
+      success: boolean;
+      message: string;
+      document: {
+        id: string;
+        traineeId: number;
+        documentType: string;
+        fileName: string;
+        filePath: string;
+        fileSize: number;
+        mimeType: string;
+        notes?: string | null;
+        isVerified: boolean;
+        createdAt: string;
+        updatedAt: string;
+      };
+    }, {
+      traineeId: number;
+      documentType: 'PERSONAL_PHOTO' | 'ID_CARD_FRONT' | 'ID_CARD_BACK' | 'QUALIFICATION_FRONT' | 'QUALIFICATION_BACK' | 'EXPERIENCE_CERT' | 'MINISTRY_CERT' | 'PROFESSION_CARD' | 'SKILL_CERT';
+      fileName: string;
+      filePath: string;
+      fileSize: number;
+      mimeType: string;
+      notes?: string;
+    }>({
+      query: ({ traineeId, ...documentData }) => ({
+        url: `/api/trainees/${traineeId}/documents`,
+        method: 'POST',
+        body: documentData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
   }),
 });
 
@@ -133,7 +214,10 @@ export const {
   useAddTraineeMutation,
   useGetTraineesQuery,
   useGetTraineeQuery,
-  useUpdateTraineeMutation
+  useUpdateTraineeMutation,
+  useGetTraineesStatsQuery,
+  useGetTraineeDocumentsQuery,
+  useAddTraineeDocumentMutation
 } = traineesApi;
 
 export default traineesApi; 

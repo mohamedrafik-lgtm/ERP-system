@@ -44,9 +44,6 @@ export default function AddStudent() {
       maritalStatus: maritalStatus.SINGLE,
       programType: programType.SUMMER,
       gender: Gender.MALE,
-      religion: Religion.ISLAM,
-      traineeStatus: ITraineeStatus.NEW,
-      classLevel: IClassLevel.FIRST,
       photoUrl: '',
     },
     resolver: yupResolver(studentSchema),
@@ -69,8 +66,8 @@ export default function AddStudent() {
       const finalData: IStudentRequest = {
         ...data,
         programId: Number(data.programId),
-        totalGrade: Number(data.totalGrade),
-        gradePercentage: Number(data.gradePercentage),
+        totalGrade: data.totalGrade !== undefined && data.totalGrade !== null ? Number(data.totalGrade) : undefined,
+        gradePercentage: data.gradePercentage !== undefined && data.gradePercentage !== null ? Number(data.gradePercentage) : undefined,
       };
       
       const result = await addTrainee(finalData).unwrap();
@@ -83,33 +80,20 @@ export default function AddStudent() {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8 px-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-2xl p-8 shadow-xl transform transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="transform transition-all duration-300 hover:translate-x-2">
-              <h1 className="text-4xl font-bold text-white mb-3 flex items-center gap-3">
-                <span>إضافة طالب جديد</span>
-                <div className="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></div>
-              </h1>
-              <p className="text-blue-100 text-lg font-medium">قم بإدخال بيانات الطالب بدقة للتسجيل في النظام</p>
-            </div>
-            <div className="hidden md:block">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-400 rounded-full blur-lg opacity-50 animate-pulse"></div>
-                <div className="relative bg-white/20 backdrop-blur-sm w-32 h-32 rounded-full flex items-center justify-center transform transition-all duration-500 hover:rotate-12 hover:scale-110">
-                  <svg className="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                  </svg>
-                </div>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 mb-1">إضافة طالب جديد</h1>
+              <p className="text-sm text-gray-600">قم بإدخال بيانات الطالب بدقة للتسجيل في النظام</p>
             </div>
           </div>
         </div>
 
         {/* Progress Steps */}
-        <div className="bg-white rounded-xl p-4 shadow-md border border-gray-100">
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">1</div>
@@ -171,8 +155,8 @@ export default function AddStudent() {
             <InputDate label="تاريخ انتهاء البطاقة" name="idExpiryDate" register={register} error={errors.idExpiryDate?.message} />
             <SelectWithTransition
               label="الديانة"
-              value={watch("religion")}
-              onChange={(val) => setValue("religion", val as Religion)}
+              value={String(watch("religion") || '')}
+              onChange={(val) => setValue("religion", (val as unknown) as IStudentRequest['religion'])}
               options={mapEnumToOptions(enumOptions.Religion)}
               error={errors.religion?.message}
             />
@@ -196,11 +180,11 @@ export default function AddStudent() {
 
         <Card title="بيانات ولي الأمر">
           <Grid>
+            <InputField label="اسم ولي الأمر" name="guardianName" register={register} error={errors.guardianName?.message} />
             <InputField label="هاتف ولي الأمر" name="guardianPhone" register={register} error={errors.guardianPhone?.message} />
             <InputField label="إيميل ولي الأمر" name="guardianEmail" register={register} error={errors.guardianEmail?.message} />
             <InputField label="وظيفة ولي الأمر" name="guardianJob" register={register} error={errors.guardianJob?.message} />
             <InputField label="صلة القرابة" name="guardianRelation" register={register} error={errors.guardianRelation?.message} />
-            <InputField label="الرقم القومي لولي الأمر" name="guardianNationalId" register={register} error={errors.guardianNationalId?.message} />
           </Grid>
         </Card>
 
@@ -208,8 +192,8 @@ export default function AddStudent() {
           <Grid>
             <SelectWithTransition
               label="نوع التعليم"
-              value={watch("educationType")}
-              onChange={(val) => setValue("educationType", val as IEducationType)}
+              value={String(watch("educationType") || '')}
+              onChange={(val) => setValue("educationType", (val as unknown) as IStudentRequest['educationType'])}
               options={mapEnumToOptions(enumOptions.IEducationType)}
               error={errors.educationType?.message}
             />
@@ -219,15 +203,15 @@ export default function AddStudent() {
             <InputField label="النسبة المئوية" name="gradePercentage" register={register} type="number" error={errors.gradePercentage?.message} />
             <SelectWithTransition
               label="حالة المتدرب"
-              value={watch("traineeStatus")}
-              onChange={(val) => setValue("traineeStatus", val as ITraineeStatus)}
+              value={String(watch("traineeStatus") || '')}
+              onChange={(val) => setValue("traineeStatus", (val as unknown) as IStudentRequest['traineeStatus'])}
               options={mapEnumToOptions(enumOptions.ITraineeStatus)}
               error={errors.traineeStatus?.message}
             />
             <SelectWithTransition
               label="الصف الدراسي"
-              value={watch("classLevel")}
-              onChange={(val) => setValue("classLevel", val as IClassLevel)}
+              value={String(watch("classLevel") || '')}
+              onChange={(val) => setValue("classLevel", (val as unknown) as IStudentRequest['classLevel'])}
               options={mapEnumToOptions(enumOptions.IClassLevel)}
               error={errors.classLevel?.message}
             />
@@ -243,17 +227,17 @@ export default function AddStudent() {
 
         <Card title="الأنشطة والملاحظات">
           <Grid>
-            <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} />
+            <ImageUpload label="صورة الطالب" name="photoUrl" register={register} setValue={setValue} watch={watch} />
           </Grid>
           
         </Card>
 
         {/* Footer Actions */}
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <div className="flex items-center justify-between">
             <button
               type="button"
-              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium flex items-center gap-2 transition-colors"
+              className="px-5 py-2.5 text-gray-700 hover:text-gray-900 font-medium flex items-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -264,18 +248,13 @@ export default function AddStudent() {
             <div className="flex gap-4">
               <button
                 type="button"
-                className="px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-lg transition-all duration-200"
+                className="px-5 py-2.5 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-lg"
               >
                 حفظ كمسودة
               </button>
               <button
                 type="submit"
-                className={`
-                  px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium rounded-lg
-                  transform transition-all duration-200 hover:scale-105 hover:shadow-xl
-                  flex items-center gap-2
-                  ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:translate-y-[-1px]'}
-                `}
+                className={`px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={isLoading}
               >
                 {isLoading ? (

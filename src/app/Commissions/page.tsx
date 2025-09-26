@@ -24,8 +24,10 @@ import {
 import CommissionsTable from "@/components/Commissions/CommissionsTable";
 import { 
   useGetCommissionsQuery,
-  useCreateCommissionMutation
+  useCreateCommissionMutation,
+  usePayoutCommissionMutation
 } from "@/lip/features/commissions/commissionsApi";
+import { useGetFinanceQuery } from "@/lip/features/Lockers/safe";
 import { Commission } from "@/types/commission.types";
 
 const Commissions = () => {
@@ -44,6 +46,10 @@ const Commissions = () => {
   } = useGetCommissionsQuery();
 
   const [createCommission, { isLoading: isCreating }] = useCreateCommissionMutation();
+  const [payoutCommission, { isLoading: isPaying }] = usePayoutCommissionMutation();
+  const { data: safes = [] } = useGetFinanceQuery();
+  const [isPayDialogOpen, setIsPayDialogOpen] = useState(false);
+  const [selectedCommission, setSelectedCommission] = useState<Commission | null>(null);
 
   // Derived state
   const commissions = commissionsResponse?.data || [];
@@ -128,18 +134,9 @@ const Commissions = () => {
     // Show confirmation dialog and delete
   };
 
-  const handlePayCommission = async (commission: Commission) => {
-    try {
-      const paidBy = prompt("أدخل اسم من قام بالدفع:");
-      if (paidBy) {
-        // هنا يمكن إضافة API call منفصل لدفع العمولة
-        console.log(`Paying commission ${commission.id} by ${paidBy}`);
-        // يمكن إضافة fetch مباشر هنا إذا لزم الأمر
-        alert(`تم دفع العمولة ${commission.amount} ج.م بواسطة ${paidBy}`);
-      }
-    } catch (error) {
-      console.error('Error paying commission:', error);
-    }
+  const handlePayCommission = (commission: Commission) => {
+    setSelectedCommission(commission);
+    setIsPayDialogOpen(true);
   };
 
   const handleCreateCommission = async () => {
@@ -164,26 +161,20 @@ const Commissions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmMWY1ZjkiIGZpbGwtb3BhY2l0eT0iMC40Ij48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-60"></div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Header Section */}
         <div className="mb-12">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
-            <div className="flex items-center gap-6">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  <DollarSign className="w-10 h-10 text-white" />
-                </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-emerald-600" />
               </div>
               <div>
-                <h1 className="text-4xl font-black bg-gradient-to-r from-gray-900 via-green-800 to-emerald-800 bg-clip-text text-transparent mb-2">
+                <h1 className="text-3xl font-bold text-gray-900 mb-1">
                   عمولات المسوقين
                 </h1>
-                <p className="text-lg text-gray-600 font-medium">
+                <p className="text-sm text-gray-600">
                   إدارة وحساب عمولات المسوقين والمبيعات
                 </p>
                 <div className="flex items-center gap-4 mt-3">
@@ -203,39 +194,22 @@ const Commissions = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleExport}
-                  className="p-3 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 border border-gray-200/50"
+                  className="px-3 py-2 bg-white text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-50"
                   title="تصدير البيانات"
                 >
                   <Download className="w-5 h-5" />
                 </button>
                 <button
                   onClick={handleRefresh}
-                  className="p-3 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 border border-gray-200/50"
+                  className="px-3 py-2 bg-white text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-50"
                   title="تحديث البيانات"
                 >
                   <RefreshCw className="w-5 h-5" />
                 </button>
-                <button className="p-3 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 border border-gray-200/50">
+                <button className="px-3 py-2 bg-white text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-50">
                   <Settings className="w-5 h-5" />
                 </button>
               </div>
-              <button
-                onClick={handleCreateCommission}
-                disabled={isCreating}
-                className="inline-flex items-center gap-3 px-8 py-4 text-white bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-105 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isCreating ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>جاري الإنشاء...</span>
-                  </>
-                ) : (
-                  <>
-                    <DollarSign className="w-5 h-5" />
-                    <span>حساب عمولة جديدة</span>
-                  </>
-                )}
-              </button>
             </div>
           </div>
         </div>
@@ -503,6 +477,113 @@ const Commissions = () => {
           </div>
         </div>
       </div>
+
+      {/* Pay Dialog (stub) */}
+      {isPayDialogOpen && selectedCommission && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsPayDialogOpen(false)}></div>
+          <div className="relative w-full max-w-2xl mx-4">
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl border border-white/20 bg-white">
+              {/* Header */}
+              <div className="relative px-6 py-5 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500">
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                <div className="relative flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white shadow-inner">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-extrabold text-white">دفع عمولة</h3>
+                  </div>
+                  <button onClick={() => setIsPayDialogOpen(false)} className="text-white/90 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Body */}
+              <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget as HTMLFormElement;
+                const formData = new FormData(form);
+                const payload = {
+                  amount: Number(formData.get('amount')),
+                  fromSafeId: String(formData.get('fromSafeId') || ''),
+                  toSafeId: String(formData.get('toSafeId') || ''),
+                  description: String(formData.get('description') || '')
+                };
+
+                if (!payload.amount || payload.amount < 0.01) return;
+                if (!payload.fromSafeId || !payload.toSafeId || payload.fromSafeId === payload.toSafeId) return;
+
+                await payoutCommission({ id: selectedCommission.id, payload }).unwrap();
+                setIsPayDialogOpen(false);
+              }}
+            >
+                <div className="p-6">
+                  {/* Meta */}
+                  <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">المسوق</p>
+                      <p className="text-sm font-semibold text-gray-800 truncate">{selectedCommission.marketingEmployee.name}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">المتدرب</p>
+                      <p className="text-sm font-semibold text-gray-800 truncate">{selectedCommission.trainee.nameAr}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                      <p className="text-xs text-gray-500">قيمة العمولة</p>
+                      <p className="text-sm font-extrabold text-emerald-700">{selectedCommission.amount} ج.م</p>
+                    </div>
+                  </div>
+
+                  {/* Form */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-gray-700">المبلغ</label>
+                      <input name="amount" type="number" step="0.01" min="0.01" className="w-full border-2 border-gray-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 rounded-xl px-3 py-2 transition" required />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-gray-700">الخزينة المصدر</label>
+                      <select name="fromSafeId" className="w-full border-2 border-gray-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 rounded-xl px-3 py-2 transition" required>
+                        <option value="">اختر خزينة</option>
+                        {safes.map((s) => (
+                          <option key={s.id} value={s.id}>{s.name} - {s.balance} {s.currency}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-gray-700">الخزينة الهدف</label>
+                      <select name="toSafeId" className="w-full border-2 border-gray-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 rounded-xl px-3 py-2 transition" required>
+                        <option value="">اختر خزينة</option>
+                        {safes.map((s) => (
+                          <option key={s.id} value={s.id}>{s.name} - {s.balance} {s.currency}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium mb-1 text-gray-700">الوصف</label>
+                      <textarea name="description" className="w-full border-2 border-gray-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 rounded-xl px-3 py-2 transition" rows={3} required />
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex justify-end gap-3">
+                    <button type="button" onClick={() => setIsPayDialogOpen(false)} className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition">إلغاء</button>
+                    <button type="submit" disabled={isPaying} className="px-5 py-2 rounded-xl text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 disabled:opacity-50 transition">
+                      {isPaying ? 'جاري التنفيذ...' : 'تأكيد الدفع'}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
