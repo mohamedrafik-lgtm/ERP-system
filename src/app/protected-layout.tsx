@@ -20,7 +20,15 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   const [isClient, setIsClient] = useState(false);
 
   // صفحات لا تحتاج إلى مصادقة
-  const publicPaths = ["/login"];
+  const publicPaths = [
+    "/login", 
+    "/account-type", 
+    "/login/student", 
+    "/login/employee",
+    "/register/student/verify",
+    "/register/student/create-account",
+    "/register/student/confirm"
+  ];
   
   // التحقق إذا كانت الصفحة الحالية هي صفحة عامة
   const isPublicPath = publicPaths.includes(pathname);
@@ -36,7 +44,7 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     if (!isPublicPath && isClient) {
       const token = Cookies.get('auth_token');
       if (!token) {
-        router.push('/login');
+        router.push('/account-type');
       }
     }
 
