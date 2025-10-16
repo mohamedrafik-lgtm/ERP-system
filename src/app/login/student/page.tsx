@@ -3,7 +3,7 @@ import { Input } from "@/components/input";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { LoginSchema } from "@/Schema/login";
-import { useLoginMutation } from "@/lip/features/auth/login";
+import { useTraineeLoginMutation } from "@/lip/features/trainee-auth/traineeAuthApi";
 import { setCredentials } from "@/lip/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -22,13 +22,13 @@ import {
 } from '@heroicons/react/24/outline';
 
 interface LoginInputs {
-  emailOrPhone: string;
+  nationalId: string;
   password: string;
   remember: boolean;
 }
 
 const StudentLoginPage = () => {
-  const [login, { data, isLoading, isError, isSuccess }] = useLoginMutation();
+  const [login, { data, isLoading, isError, isSuccess }] = useTraineeLoginMutation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState<string | null>(null);
@@ -39,8 +39,35 @@ const StudentLoginPage = () => {
     // إذا تم تسجيل الدخول بنجاح
     if (isSuccess && data) {
       console.log('Student login successful:', data);
+      
+      // حفظ التوكن في الكوكيز
+      if (data.access_token) {
+        Cookies.set('access_token', data.access_token, { expires: 7 }); // 7 أيام
+        Cookies.set('auth_token', data.access_token, { expires: 7 });
+      }
+      
+      // تحويل البيانات إلى تنسيق متوافق مع authSlice
+      const authData = {
+        access_token: data.access_token,
+        user: {
+          id: data.trainee.id,
+          name: data.trainee.nameAr,
+          email: data.trainee.email || '',
+          role: 'trainee',
+          nationalId: data.trainee.nationalId,
+          phone: data.trainee.phone || '',
+          program: data.trainee.program,
+          isActive: data.trainee.isActive,
+        }
+      };
+      
       // تخزين معلومات المصادقة في Redux
-      dispatch(setCredentials(data));
+      dispatch(setCredentials(authData));
+      
+      // حفظ بيانات المتدرب في localStorage للاستخدام لاحقاً
+      localStorage.setItem('traineeData', JSON.stringify(data.trainee));
+      
+      toast.success(`مرحباً ${data.trainee.nameAr}! تم تسجيل الدخول بنجاح`);
       
       // الانتقال إلى الصفحة الرئيسية
       router.push('/');
@@ -62,42 +89,18 @@ const StudentLoginPage = () => {
     setErrorMessage(null);
     try {
       const response = await login({
-        emailOrPhone: formData.emailOrPhone,
+        nationalId: formData.nationalId,
         password: formData.password
       }).unwrap();
       
       console.log('Student login response:', response);
       
-      // تخزين التوكن باسم access_token
-      if (response.access_token) {
-        const expiresIn = formData.remember ? 30 : 1;
-        toast.success('تم تسجيل الدخول بنجاح');
-        
-        Cookies.set('access_token', response.access_token, { 
-          expires: expiresIn,
-          path: '/' 
-        });
-        
-        Cookies.set('auth_token', response.access_token, { 
-          expires: expiresIn,
-          path: '/' 
-        });
-        
-        if (response.user) {
-          Cookies.set('user_data', JSON.stringify(response.user), { 
-            expires: expiresIn,
-            path: '/' 
-          });
-        }
-      } else {
-        console.error('No access_token in response:', response);
-        setErrorMessage('لم يتم العثور على توكن المصادقة في الاستجابة');
-      }
+      // لا حاجة لمعالجة إضافية هنا لأن useEffect سيتولى ذلك
     } catch (err) {
       console.error('Student login failed:', err);
       if (err && typeof err === 'object' && 'status' in err) {
         if (err.status === 401) {
-          setErrorMessage('بيانات الاعتماد غير صحيحة. يرجى التحقق من البريد الإلكتروني وكلمة المرور.');
+          setErrorMessage('بيانات الاعتماد غير صحيحة. يرجى التحقق من الرقم القومي وكلمة المرور.');
         } else if (err.status === 429) {
           setErrorMessage('تم تجاوز عدد محاولات تسجيل الدخول. يرجى المحاولة مرة أخرى لاحقًا.');
         } else {
@@ -142,10 +145,10 @@ const StudentLoginPage = () => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email/Phone Input */}
+            {/* National ID Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                البريد الإلكتروني أو رقم الهاتف
+              <label htmlFor="nationalId" className="text-sm font-medium text-gray-700">
+                الرقم القومي
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -153,24 +156,28 @@ const StudentLoginPage = () => {
                 </div>
                 <Input
                   type="text"
-                  {...register("emailOrPhone")}
-                  placeholder="example@domain.com"
-                  id="email"
-                  onFocus={() => setIsFocused('email')}
+                  {...register("nationalId")}
+                  placeholder="12345678901234"
+                  id="nationalId"
+                  maxLength={14}
+                  onFocus={() => setIsFocused('nationalId')}
                   onBlur={() => setIsFocused(null)}
                   className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 ${
-                    isFocused === 'email' 
+                    isFocused === 'nationalId' 
                       ? 'border-green-500 ring-4 ring-green-100' 
                       : 'border-gray-200 hover:border-gray-300'
-                  } ${errors.emailOrPhone ? 'border-red-500 ring-4 ring-red-100' : ''}`}
+                  } ${errors.nationalId ? 'border-red-500 ring-4 ring-red-100' : ''}`}
                 />
               </div>
-              {errors.emailOrPhone?.message && (
+              {errors.nationalId?.message && (
                 <div className="flex items-center space-x-2 text-red-600 text-sm">
                   <ExclamationTriangleIcon className="w-4 h-4" />
-                  <span>{errors.emailOrPhone.message}</span>
+                  <span>{errors.nationalId.message}</span>
                 </div>
               )}
+              <p className="text-xs text-gray-500">
+                أدخل الرقم القومي المكون من 14 رقم
+              </p>
             </div>
 
             {/* Password Input */}

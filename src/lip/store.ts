@@ -20,6 +20,7 @@ import { marketersApi } from './features/marketers/marketersApi';
 import { traineeAccountsApi } from './features/trainee-platform/traineeAccountsApi';
 import { traineeStatsApi } from './features/trainee-platform/traineeStatsApi';
 import { traineeAuthApi } from './features/trainee-auth/traineeAuthApi';
+import { quizApi } from './features/quiz/quizApi';
 
 export const store = configureStore({
   reducer: {
@@ -42,6 +43,7 @@ export const store = configureStore({
     [traineeAccountsApi.reducerPath]: traineeAccountsApi.reducer,
     [traineeStatsApi.reducerPath]: traineeStatsApi.reducer,
     [traineeAuthApi.reducerPath]: traineeAuthApi.reducer,
+    [quizApi.reducerPath]: quizApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -65,7 +67,8 @@ export const store = configureStore({
       marketersApi.middleware,
       traineeAccountsApi.middleware,
       traineeStatsApi.middleware,
-      traineeAuthApi.middleware
+      traineeAuthApi.middleware,
+      quizApi.middleware
     ),
 })
 

@@ -58,8 +58,19 @@ export const addStudentApi = createApi({
       invalidatesTags: ['Students'],
     }),
     getStudents: builder.query<IStudentResponce[], void>({
-      query: () => '/api/trainees',
+      query: () => {
+        console.log("🔍 Getting students from API endpoint: /api/trainees");
+        return '/api/trainees';
+      },
       providesTags: ['Students'],
+      transformResponse: (response: IStudentResponce[]) => {
+        console.log("🔍 Students API Response:", response);
+        return response;
+      },
+      transformErrorResponse: (response) => {
+        console.error("❌ Error getting students:", response);
+        return response;
+      },
     }),
     getStudent: builder.query<IStudentResponce,IGetStudent >({
       query: ({id}) => `/api/trainees/${id}`,

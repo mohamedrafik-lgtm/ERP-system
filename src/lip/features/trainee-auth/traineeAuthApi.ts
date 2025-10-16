@@ -7,6 +7,8 @@ import {
   VerifyPhoneResponse,
   CreatePasswordRequest,
   CreatePasswordResponse,
+  TraineeLoginRequest,
+  TraineeLoginResponse,
 } from '@/types/traineeAuth';
 
 export const traineeAuthApi = createApi({
@@ -59,6 +61,23 @@ export const traineeAuthApi = createApi({
       }),
       invalidatesTags: [{ type: 'TraineeAuth' as const, id: 'CREATE_PASSWORD' }],
     }),
+    
+    // Step 4: Trainee Login
+    traineeLogin: builder.mutation<TraineeLoginResponse, TraineeLoginRequest>({
+      query: (data) => ({
+        url: '/api/trainee-auth/login',
+        method: 'POST',
+        body: data,
+      }),
+      transformResponse: (response: TraineeLoginResponse) => {
+        console.log('Trainee login response:', response);
+        return response;
+      },
+      transformErrorResponse: (response) => {
+        console.error('Trainee login error:', response);
+        return response;
+      },
+    }),
   }),
 });
 
@@ -66,5 +85,6 @@ export const {
   useVerifyTraineeMutation,
   useVerifyPhoneMutation,
   useCreatePasswordMutation,
+  useTraineeLoginMutation,
 } = traineeAuthApi;
 

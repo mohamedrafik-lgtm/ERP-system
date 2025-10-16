@@ -1,6 +1,7 @@
 "use client";
 import { useGetTraineesStatsQuery } from "@/lip/features/trainees/traineesApi";
 import { RefreshCw } from "lucide-react";
+import StudentTable from "@/components/AllStudent/studentTable";
 
 export default function TraineesArchivePage() {
   const { data, isLoading, error, refetch } = useGetTraineesStatsQuery();
@@ -30,28 +31,42 @@ export default function TraineesArchivePage() {
         )}
 
         {data && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
-              <p className="text-sm text-gray-600">إجمالي المتدربين</p>
-              <p className="text-4xl font-extrabold text-gray-900">{data.totalTrainees}</p>
+          <>
+            {/* Statistics Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-sm text-gray-600">إجمالي المتدربين</p>
+                <p className="text-4xl font-extrabold text-gray-900">{data.totalTrainees}</p>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-sm text-gray-600">النشطون</p>
+                <p className="text-4xl font-extrabold text-blue-700">{data.activeTrainees}</p>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-sm text-gray-600">الجدد هذا الشهر</p>
+                <p className="text-4xl font-extrabold text-emerald-700">{data.newTrainees}</p>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-sm text-gray-600">المتخرجون</p>
+                <p className="text-4xl font-extrabold text-purple-700">{data.graduates}</p>
+              </div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                <p className="text-sm text-gray-600">نسبة التخرج</p>
+                <p className="text-4xl font-extrabold text-orange-700">{data.graduationRate}%</p>
+              </div>
             </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
-              <p className="text-sm text-gray-600">النشطون</p>
-              <p className="text-4xl font-extrabold text-blue-700">{data.activeTrainees}</p>
+
+            {/* Students Table */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-900">قائمة المتدربين</h2>
+                <p className="text-gray-600 mt-1">جميع المتدربين المسجلين في النظام</p>
+              </div>
+              <div className="p-6">
+                <StudentTable />
+              </div>
             </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
-              <p className="text-sm text-gray-600">الجدد هذا الشهر</p>
-              <p className="text-4xl font-extrabold text-emerald-700">{data.newTrainees}</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
-              <p className="text-sm text-gray-600">المتخرجون</p>
-              <p className="text-4xl font-extrabold text-purple-700">{data.graduates}</p>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
-              <p className="text-sm text-gray-600">نسبة التخرج</p>
-              <p className="text-4xl font-extrabold text-orange-700">{data.graduationRate}%</p>
-            </div>
-          </div>
+          </>
         )}
       </div>
     </div>

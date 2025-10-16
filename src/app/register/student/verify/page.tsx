@@ -54,7 +54,11 @@ const VerifyTraineePage = () => {
       } else {
         // الانتقال إلى المرحلة الثانية (التحقق من رقم الهاتف)
         // سنقوم بتخزين بيانات التحقق في sessionStorage للمرحلة التالية
-        sessionStorage.setItem('traineeVerification', JSON.stringify(response));
+        const dataToStore = {
+          ...response,
+          birthDate: formData.birthDate, // إضافة تاريخ الميلاد للبيانات المحفوظة
+        };
+        sessionStorage.setItem('traineeVerification', JSON.stringify(dataToStore));
         router.push('/register/student/create-account');
       }
     } catch (err: any) {

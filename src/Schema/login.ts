@@ -3,12 +3,13 @@ import * as yup from "yup"
 
 export const LoginSchema = yup
   .object({
-    emailOrPhone: yup
+    nationalId: yup
       .string()
-      .required("البريد الإلكتروني مطلوب")
+      .required("الرقم القومي مطلوب")
       .matches(
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "هذه ليس بريد الكتروني"),
+        /^\d{14}$/,
+        "الرقم القومي يجب أن يكون 14 رقم"
+      ),
     password: yup
       .string()
       .required("كلمة المرور مطلوبة")

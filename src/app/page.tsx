@@ -327,6 +327,26 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  // توجيه الطالب إلى صفحته الخاصة
+  useEffect(() => {
+    if (currentUser?.role === 'trainee') {
+      // توجيه الطالب إلى صفحة منصة الطالب
+      window.location.href = '/StudentPlatform';
+    }
+  }, [currentUser]);
+
+  if (currentUser?.role === 'trainee') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center">
+          <div className="w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">جاري التوجيه...</h3>
+          <p className="text-gray-600">سيتم توجيهك إلى صفحتك الشخصية</p>
+        </div>
+      </div>
+    );
+  }
+
   const formatTime = (date: Date) => {
     return date.toLocaleString('ar-SA', {
       weekday: 'long',

@@ -36,6 +36,7 @@ const CreatePasswordPage = () => {
   useEffect(() => {
     // استرجاع بيانات التحقق من المراحل السابقة
     const storedData = sessionStorage.getItem('traineeVerification');
+    console.log('Create password page - stored data:', storedData);
     if (!storedData) {
       toast.error('يرجى البدء من المرحلة الأولى');
       router.push('/register/student/verify');
@@ -59,10 +60,40 @@ const CreatePasswordPage = () => {
     if (!traineeData) return;
 
     setErrorMessage(null);
+    
+    // Debug: Log the trainee data
+    console.log('Trainee data from sessionStorage:', traineeData);
+    console.log('Birth date value:', traineeData.birthDate);
+    console.log('Birth date type:', typeof traineeData.birthDate);
+    
+    // Check if birthDate exists
+    if (!traineeData.birthDate) {
+      setErrorMessage('تاريخ الميلاد غير موجود. يرجى البدء من المرحلة الأولى.');
+      return;
+    }
+    
     try {
+      // Ensure birthDate is in correct format (YYYY-MM-DD)
+      let formattedBirthDate = traineeData.birthDate;
+      
+      // If birthDate is a Date object, convert to ISO string and extract date part
+      if (traineeData.birthDate instanceof Date) {
+        formattedBirthDate = traineeData.birthDate.toISOString().split('T')[0];
+      }
+      // If birthDate is an ISO string, extract date part
+      else if (typeof traineeData.birthDate === 'string' && traineeData.birthDate.includes('T')) {
+        formattedBirthDate = traineeData.birthDate.split('T')[0];
+      }
+      // If birthDate is already in YYYY-MM-DD format, use as is
+      else if (typeof traineeData.birthDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(traineeData.birthDate)) {
+        formattedBirthDate = traineeData.birthDate;
+      }
+      
+      console.log('Formatted birth date:', formattedBirthDate);
+      
       const response = await createPassword({
         nationalId: traineeData.nationalId,
-        birthDate: traineeData.birthDate,
+        birthDate: formattedBirthDate,
         password: formData.password,
       }).unwrap();
 

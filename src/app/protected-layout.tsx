@@ -27,11 +27,13 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     "/login/employee",
     "/register/student/verify",
     "/register/student/create-account",
+    "/register/student/create-password",
     "/register/student/confirm"
   ];
   
   // التحقق إذا كانت الصفحة الحالية هي صفحة عامة
   const isPublicPath = publicPaths.includes(pathname);
+  console.log('Protected layout - pathname:', pathname, 'isPublicPath:', isPublicPath);
 
   useEffect(() => {
     // تعليم أننا في الـ client لتجنب مشاكل الـ hydration
@@ -44,6 +46,7 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     if (!isPublicPath && isClient) {
       const token = Cookies.get('auth_token');
       if (!token) {
+        console.log('No token found, redirecting to account-type from:', pathname);
         router.push('/account-type');
       }
     }

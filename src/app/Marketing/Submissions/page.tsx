@@ -45,6 +45,14 @@ const MarketingSubmissionsPage = () => {
   const { data: traineesData, isLoading, error, refetch } = useGetMarketingTraineesQuery(queryParams);
   const { data: marketingEmployees = [] } = useGetMarketingEmployeesQuery();
 
+  // Debug logging
+  console.log("🔍 Debug - Query Params:", queryParams);
+  console.log("🔍 Debug - Trainees Data:", traineesData);
+  console.log("🔍 Debug - Trainees Data Length:", traineesData?.data?.length);
+  console.log("🔍 Debug - Is Loading:", isLoading);
+  console.log("🔍 Debug - Error:", error);
+  console.log("🔍 Debug - Marketing Employees:", marketingEmployees);
+
   // Mutation for updating contact assignment
   const [updateTraineeContact, { isLoading: isUpdating }] = useUpdateTraineeContactMutation();
 
@@ -239,6 +247,14 @@ const MarketingSubmissionsPage = () => {
                   <Filter className="w-5 h-5" />
                   مسح الفلاتر
                 </button>
+                
+                <button
+                  onClick={() => refetch()}
+                  className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  تحديث البيانات
+                </button>
 
                 {/* Enhanced First Contact Filter */}
                 <div className="relative group">
@@ -365,7 +381,8 @@ const MarketingSubmissionsPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white/80 backdrop-blur-sm">
-                {traineesData?.data.map((trainee, index) => (
+                {traineesData?.data && traineesData.data.length > 0 ? (
+                  traineesData.data.map((trainee, index) => (
                   <tr key={trainee.id} className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-indigo-50/50 transition-all duration-300 group ${index % 2 === 0 ? 'bg-white/90' : 'bg-gray-50/40'}`}>
                     {/* Trainee Info - Fixed Height */}
                     <td className="py-4 px-4 w-80">
@@ -514,7 +531,35 @@ const MarketingSubmissionsPage = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="py-16 text-center">
+                      <div className="flex flex-col items-center justify-center space-y-4">
+                        <div className="w-20 h-20 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+                          <Users className="w-10 h-10 text-gray-500" />
+                        </div>
+                        <div className="text-center">
+                          <h3 className="text-xl font-bold text-gray-700 mb-2">لا توجد متدربين</h3>
+                          <p className="text-gray-500 mb-4">
+                            {searchTerm || statusFilter !== "all" || employeeFilter !== "all" || unassignedFilter !== "all"
+                              ? "لم يتم العثور على متدربين مطابقين للفلاتر المحددة"
+                              : "لا يوجد متدربين مسجلين في النظام حالياً"
+                            }
+                          </p>
+                          {(searchTerm || statusFilter !== "all" || employeeFilter !== "all" || unassignedFilter !== "all") && (
+                            <button
+                              onClick={clearFilters}
+                              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 font-semibold"
+                            >
+                              مسح الفلاتر
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

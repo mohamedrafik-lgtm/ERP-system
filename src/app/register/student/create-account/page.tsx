@@ -64,6 +64,7 @@ const VerifyPhonePage = () => {
       sessionStorage.setItem('traineeVerification', JSON.stringify(updatedData));
 
       // الانتقال إلى المرحلة الثالثة (إنشاء كلمة المرور)
+      console.log('Redirecting to create-password page...');
       router.push('/register/student/create-password');
     } catch (err: any) {
       console.error('Verify phone failed:', err);

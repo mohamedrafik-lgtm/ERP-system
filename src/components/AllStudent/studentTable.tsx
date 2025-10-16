@@ -73,6 +73,13 @@ const StudentTable = () => {
   const { data, isError, isLoading, isSuccess } = useGetStudentsQuery();
   const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
 
+  // Debug logging
+  console.log("🔍 StudentTable Debug - Data:", data);
+  console.log("🔍 StudentTable Debug - Is Loading:", isLoading);
+  console.log("🔍 StudentTable Debug - Is Error:", isError);
+  console.log("🔍 StudentTable Debug - Is Success:", isSuccess);
+  console.log("🔍 StudentTable Debug - Data Length:", data?.length);
+
   if(isLoading) return <RowCardSkeleton/>;
 
   if(isError) {
