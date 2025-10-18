@@ -31,9 +31,30 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     "/register/student/confirm"
   ];
   
+  // صفحات منصة الطالب (لا تحتاج إلى navbar إداري)
+  const studentPlatformPaths = [
+    "/StudentPlatform",
+    "/StudentPlatform/AccountManagement",
+    "/StudentPlatform/Statistics",
+    "/StudentPlatform/schedule",
+    "/StudentPlatform/profile",
+    "/StudentPlatform/program",
+    "/StudentPlatform/attendance",
+    "/StudentPlatform/payments",
+    "/StudentPlatform/documents",
+    "/StudentPlatform/assessments",
+    "/StudentPlatform/messages",
+    "/StudentPlatform/reports",
+    "/StudentPlatform/settings"
+  ];
+  
   // التحقق إذا كانت الصفحة الحالية هي صفحة عامة
   const isPublicPath = publicPaths.includes(pathname);
-  console.log('Protected layout - pathname:', pathname, 'isPublicPath:', isPublicPath);
+  
+  // التحقق إذا كانت الصفحة الحالية هي صفحة منصة الطالب
+  const isStudentPlatformPath = studentPlatformPaths.includes(pathname) || pathname.startsWith('/StudentPlatform');
+  
+  console.log('Protected layout - pathname:', pathname, 'isPublicPath:', isPublicPath, 'isStudentPlatformPath:', isStudentPlatformPath);
 
   useEffect(() => {
     // تعليم أننا في الـ client لتجنب مشاكل الـ hydration
@@ -63,6 +84,11 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
 
   if (isPublicPath) {
     // إذا كانت صفحة عامة مثل تسجيل الدخول، اعرض المحتوى فقط بدون شريط التنقل
+    return <>{children}</>;
+  }
+
+  if (isStudentPlatformPath) {
+    // إذا كانت صفحة منصة الطالب، اعرض المحتوى فقط بدون navbar إداري
     return <>{children}</>;
   }
 

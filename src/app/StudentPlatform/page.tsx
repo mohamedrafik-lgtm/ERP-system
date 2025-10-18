@@ -27,212 +27,131 @@ import { useDispatch } from "react-redux";
 import { logout } from "@/lip/features/auth/authSlice";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useGetTraineeProfileQuery } from "@/lip/features/trainee-auth/traineeAuthApi";
 
-// Mock data - سيتم استبدالها بالبيانات الحقيقية من API
-const mockTraineeData = {
-  id: 1,
-  nameAr: "أحمد محمد علي",
-  nameEn: "Ahmed Mohamed Ali",
-  nationalId: "12345678901234",
-  phone: "01012345678",
-  email: "ahmed@example.com",
-  program: {
-    id: 1,
-    nameAr: "برمجة الحاسوب",
-    nameEn: "Computer Programming",
-    code: "CP101",
-    duration: 6,
-    description: "برنامج شامل لتعلم البرمجة وتطوير التطبيقات"
-  },
-  attendanceRecords: [
-    {
-      id: 1,
-      status: "PRESENT",
-      createdAt: "2024-01-15T09:00:00Z",
-      session: {
-        id: 1,
-        title: "مقدمة في البرمجة",
-        startTime: "2024-01-15T09:00:00Z",
-        endTime: "2024-01-15T11:00:00Z",
-        content: {
-          id: 1,
-          name: "أساسيات البرمجة",
-          code: "PROG101"
-        }
-      }
-    },
-    {
-      id: 2,
-      status: "PRESENT",
-      createdAt: "2024-01-17T09:00:00Z",
-      session: {
-        id: 2,
-        title: "متغيرات وأنواع البيانات",
-        startTime: "2024-01-17T09:00:00Z",
-        endTime: "2024-01-17T11:00:00Z",
-        content: {
-          id: 1,
-          name: "أساسيات البرمجة",
-          code: "PROG101"
-        }
-      }
-    },
-    {
-      id: 3,
-      status: "ABSENT",
-      createdAt: "2024-01-19T09:00:00Z",
-      session: {
-        id: 3,
-        title: "الهياكل الشرطية",
-        startTime: "2024-01-19T09:00:00Z",
-        endTime: "2024-01-19T11:00:00Z",
-        content: {
-          id: 1,
-          name: "أساسيات البرمجة",
-          code: "PROG101"
-        }
-      }
-    }
-  ],
-  traineePayments: [
-    {
-      id: 1,
-      amount: 500,
-      paymentDate: "2024-01-01T00:00:00Z",
-      status: "PAID",
-      fee: {
-        id: 1,
-        name: "رسوم التسجيل",
-        amount: 500,
-        dueDate: "2024-01-01T00:00:00Z"
-      }
-    },
-    {
-      id: 2,
-      amount: 1000,
-      paymentDate: "2024-01-15T00:00:00Z",
-      status: "PAID",
-      fee: {
-        id: 2,
-        name: "القسط الأول",
-        amount: 1000,
-        dueDate: "2024-01-15T00:00:00Z"
-      }
-    },
-    {
-      id: 3,
-      amount: 1000,
-      paymentDate: null,
-      status: "PENDING",
-      fee: {
-        id: 3,
-        name: "القسط الثاني",
-        amount: 1000,
-        dueDate: "2024-02-15T00:00:00Z"
-      }
-    }
-  ],
-  documents: [
-    {
-      id: 1,
-      documentType: "شهادة الميلاد",
-      fileName: "birth_certificate.pdf",
-      fileUrl: "/documents/birth_certificate.pdf",
-      isVerified: true,
-      uploadedAt: "2024-01-01T00:00:00Z"
-    },
-    {
-      id: 2,
-      documentType: "صورة شخصية",
-      fileName: "profile_photo.jpg",
-      fileUrl: "/documents/profile_photo.jpg",
-      isVerified: true,
-      uploadedAt: "2024-01-01T00:00:00Z"
-    },
-    {
-      id: 3,
-      documentType: "شهادة المؤهل",
-      fileName: "qualification_certificate.pdf",
-      fileUrl: "/documents/qualification_certificate.pdf",
-      isVerified: false,
-      uploadedAt: "2024-01-05T00:00:00Z"
-    }
-  ]
-};
 
 const StudentDashboard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [traineeData, setTraineeData] = useState(mockTraineeData);
   const [currentTime, setCurrentTime] = useState(new Date());
+  
+  // استخدام API call بدلاً من static data
+  const { 
+    data: profileData, 
+    isLoading, 
+    error, 
+    refetch 
+  } = useGetTraineeProfileQuery();
 
+  // التحقق من وجود البيانات الأساسية
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">جاري تحميل البيانات...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">⚠️</div>
+          <p className="text-red-600 text-lg">حدث خطأ في تحميل البيانات</p>
+          <button
+            onClick={() => refetch()}
+            className="mt-4 flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profileData?.trainee) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center">
+          <p className="text-gray-600 text-lg">لا توجد بيانات متاحة</p>
+        </div>
+      </div>
+    );
+  }
+
+  const traineeData = profileData.trainee;
+
+  // تحديث الوقت كل دقيقة
   useEffect(() => {
-    // تحديث الوقت كل دقيقة
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
 
-    // محاولة جلب البيانات الحقيقية من localStorage
-    const storedData = localStorage.getItem('traineeData');
-    if (storedData) {
-      try {
-        setTraineeData(JSON.parse(storedData));
-      } catch (error) {
-        console.error('Error parsing trainee data:', error);
-      }
-    }
-
     return () => clearInterval(timer);
   }, []);
 
+  // دالة تسجيل الخروج
   const handleLogout = () => {
-    // مسح البيانات من localStorage
-    localStorage.removeItem('traineeData');
-    
-    // مسح الكوكيز
-    Cookies.remove('access_token');
-    Cookies.remove('auth_token');
-    Cookies.remove('user_data');
-    
-    // تسجيل الخروج من Redux
-    dispatch(logout());
-    
-    // توجيه إلى صفحة تسجيل الدخول
-    router.push('/login/student');
-    
-    toast.success('تم تسجيل الخروج بنجاح');
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ar-EG', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString('ar-EG', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PRESENT':
-        return 'text-green-600 bg-green-100';
-      case 'ABSENT':
-        return 'text-red-600 bg-red-100';
-      case 'LATE':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'EXCUSED':
-        return 'text-blue-600 bg-blue-100';
-      default:
-        return 'text-gray-600 bg-gray-100';
+    try {
+      // حذف الـ token من الـ cookies
+      Cookies.remove('token');
+      Cookies.remove('refreshToken');
+      
+      // إرسال action لتسجيل الخروج
+      dispatch(logout());
+      
+      // إظهار رسالة نجاح
+      toast.success('تم تسجيل الخروج بنجاح');
+      
+      // التوجيه إلى صفحة تسجيل الدخول
+      router.push('/login/student');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast.error('حدث خطأ أثناء تسجيل الخروج');
     }
   };
 
+  // دالة تنسيق التاريخ
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString('ar-EG');
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
+    }
+  };
+
+  // دالة تنسيق الوقت
+  const formatTime = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleTimeString('ar-EG', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return '';
+    }
+  };
+
+  // دالة الحصول على لون حالة الحضور
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PRESENT':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'ABSENT':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'LATE':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  // دالة الحصول على نص حالة الحضور
   const getStatusText = (status: string) => {
     switch (status) {
       case 'PRESENT':
@@ -241,26 +160,26 @@ const StudentDashboard = () => {
         return 'غائب';
       case 'LATE':
         return 'متأخر';
-      case 'EXCUSED':
-        return 'معذور';
       default:
-        return status;
+        return 'غير محدد';
     }
   };
 
+  // دالة الحصول على لون حالة الدفع
   const getPaymentStatusColor = (status: string) => {
     switch (status) {
       case 'PAID':
-        return 'text-green-600 bg-green-100';
+        return 'bg-green-100 text-green-800 border-green-200';
       case 'PENDING':
-        return 'text-yellow-600 bg-yellow-100';
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'OVERDUE':
-        return 'text-red-600 bg-red-100';
+        return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return 'text-gray-600 bg-gray-100';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
+  // دالة الحصول على نص حالة الدفع
   const getPaymentStatusText = (status: string) => {
     switch (status) {
       case 'PAID':
@@ -270,25 +189,30 @@ const StudentDashboard = () => {
       case 'OVERDUE':
         return 'متأخر';
       default:
-        return status;
+        return 'غير محدد';
     }
   };
 
-  // حساب الإحصائيات
-  const totalSessions = traineeData.attendanceRecords.length;
-  const presentSessions = traineeData.attendanceRecords.filter(record => record.status === 'PRESENT').length;
+  // حساب إجمالي الجلسات
+  const totalSessions = traineeData.attendanceRecords?.length || 0;
+  const presentSessions = traineeData.attendanceRecords?.filter(record => record.status === 'PRESENT').length || 0;
   const attendanceRate = totalSessions > 0 ? Math.round((presentSessions / totalSessions) * 100) : 0;
-  
-  const totalPayments = traineeData.traineePayments.reduce((sum, payment) => sum + payment.amount, 0);
-  const paidAmount = traineeData.traineePayments
-    .filter(payment => payment.status === 'PAID')
-    .reduce((sum, payment) => sum + payment.amount, 0);
-  const pendingAmount = traineeData.traineePayments
-    .filter(payment => payment.status === 'PENDING')
-    .reduce((sum, payment) => sum + payment.amount, 0);
+
+  // حساب المبلغ المعلق
+  const pendingAmount = traineeData.traineePayments?.reduce((sum, payment) => {
+    try {
+      if (payment.status === 'PENDING' || payment.status === 'OVERDUE') {
+        return sum + (payment.amount || 0);
+      }
+      return sum;
+    } catch (error) {
+      console.error('Error calculating pending amount:', error);
+      return sum;
+    }
+  }, 0) || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50" dir="rtl">
+    <div className="p-6">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -302,218 +226,172 @@ const StudentDashboard = () => {
                 <p className="text-sm text-gray-600">مرحباً {traineeData.nameAr}</p>
               </div>
             </div>
-            
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm text-gray-600">الوقت الحالي</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {currentTime.toLocaleTimeString('ar-EG', { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    second: '2-digit'
+                <p className="text-sm text-gray-600">
+                  {currentTime.toLocaleDateString('ar-EG', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </p>
+                <p className="text-sm text-gray-500">
+                  {currentTime.toLocaleTimeString('ar-EG')}
+                </p>
               </div>
-              
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-xl transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               >
-                <LogOut className="w-5 h-5" />
-                <span>تسجيل الخروج</span>
+                <LogOut size={20} />
+                تسجيل الخروج
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto py-6">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-3xl font-bold mb-2">مرحباً {traineeData.nameAr}</h2>
-                <p className="text-blue-100 mb-4">مرحباً بك في منصة التدريب الإلكترونية</p>
-                <div className="flex items-center space-x-6">
-                  <div className="flex items-center space-x-2">
-                    <BookOpen className="w-5 h-5" />
-                    <span>{traineeData.program.nameAr}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Award className="w-5 h-5" />
-                    <span>كود البرنامج: {traineeData.program.code}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                  <User className="w-10 h-10" />
-                </div>
-              </div>
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold mb-2">مرحباً {traineeData.nameAr}</h2>
+              <p className="text-blue-100">
+                {traineeData.program?.nameAr || 'برنامج غير محدد'} - 
+                كود البرنامج: {traineeData.program?.code || 'غير محدد'}
+              </p>
+              <p className="text-blue-100 text-sm mt-1">
+                1.5 من {traineeData.program?.duration || 0} أشهر
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-3xl font-bold">{attendanceRate}%</div>
+              <div className="text-blue-100">معدل الحضور</div>
             </div>
           </div>
         </div>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Attendance Rate */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          {/* Attendance Stats */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-green-600" />
+              <div className="p-3 bg-green-100 rounded-lg">
+                <CheckCircle className="text-green-600" size={24} />
               </div>
-              <span className="text-2xl font-bold text-green-600">{attendanceRate}%</span>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-800">{presentSessions}</div>
+                <div className="text-sm text-gray-600">من {totalSessions}</div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">معدل الحضور</h3>
-            <p className="text-gray-600 text-sm">{presentSessions} من {totalSessions} جلسة</p>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">سجل الحضور</h3>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${attendanceRate}%` }}
+              ></div>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">معدل الحضور: {attendanceRate}%</p>
           </div>
 
           {/* Program Progress */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Target className="w-6 h-6 text-blue-600" />
+              <div className="p-3 bg-blue-100 rounded-lg">
+                <BookOpen className="text-blue-600" size={24} />
               </div>
-              <span className="text-2xl font-bold text-blue-600">25%</span>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-800">25%</div>
+                <div className="text-sm text-gray-600">مكتمل</div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">تقدم البرنامج</h3>
-            <p className="text-gray-600 text-sm">1.5 من {traineeData.program.duration} أشهر</p>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">تقدم البرنامج</h3>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-blue-500 h-2 rounded-full transition-all duration-300" style={{ width: '25%' }}></div>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">1.5 من 6 أشهر</p>
           </div>
 
-          {/* Payments */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          {/* Pending Payments */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-purple-600" />
+              <div className="p-3 bg-yellow-100 rounded-lg">
+                <CreditCard className="text-yellow-600" size={24} />
               </div>
-              <span className="text-2xl font-bold text-purple-600">{paidAmount} ج.م</span>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-800">{pendingAmount.toLocaleString()}</div>
+                <div className="text-sm text-gray-600">جنيه</div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">المبلغ المدفوع</h3>
-            <p className="text-gray-600 text-sm">من أصل {totalPayments} ج.م</p>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">المبالغ المعلقة</h3>
+            <p className="text-sm text-gray-600">يجب سدادها قريباً</p>
           </div>
 
-          {/* Documents */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          {/* Documents Status */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-orange-600" />
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <FileText className="text-purple-600" size={24} />
               </div>
-              <span className="text-2xl font-bold text-orange-600">{traineeData.documents.length}</span>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-800">{traineeData.documents?.length || 0}</div>
+                <div className="text-sm text-gray-600">مستند</div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">المستندات</h3>
-            <p className="text-gray-600 text-sm">مستندات مرفوعة</p>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">المستندات</h3>
+            <p className="text-sm text-gray-600">تم رفعها</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Attendance */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">سجل الحضور الأخير</h3>
-                <Calendar className="w-5 h-5 text-gray-400" />
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {traineeData.attendanceRecords.slice(0, 5).map((record) => (
-                  <div key={record.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-3 h-3 rounded-full ${getStatusColor(record.status).split(' ')[1]}`}></div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{record.session.title}</p>
-                        <p className="text-sm text-gray-600">{formatDate(record.createdAt)}</p>
-                      </div>
-                    </div>
-                    <div className="text-left">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(record.status)}`}>
-                        {getStatusText(record.status)}
-                      </span>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {formatTime(record.session.startTime)} - {formatTime(record.session.endTime)}
-                      </p>
-                    </div>
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Calendar className="text-blue-600" size={20} />
+              سجل الحضور الأخير
+            </h3>
+            <div className="space-y-3">
+              {traineeData.attendanceRecords?.slice(0, 3).map((record) => (
+                <div key={record.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div>
+                    <p className="font-medium text-gray-800">{formatDate(record.date)}</p>
+                    <p className="text-sm text-gray-600">{record.subject}</p>
                   </div>
-                ))}
-              </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(record.status)}`}>
+                    {getStatusText(record.status)}
+                  </span>
+                </div>
+              )) || (
+                <p className="text-gray-500 text-center py-4">لا توجد سجلات حضور</p>
+              )}
             </div>
           </div>
 
-          {/* Payment Status */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">حالة المدفوعات</h3>
-                <CreditCard className="w-5 h-5 text-gray-400" />
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {traineeData.traineePayments.map((payment) => (
-                  <div key={payment.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div>
-                      <p className="font-semibold text-gray-900">{payment.fee.name}</p>
-                      <p className="text-sm text-gray-600">{formatDate(payment.fee.dueDate)}</p>
-                    </div>
-                    <div className="text-left">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPaymentStatusColor(payment.status)}`}>
-                        {getPaymentStatusText(payment.status)}
-                      </span>
-                      <p className="text-sm text-gray-600 mt-1">{payment.amount} ج.م</p>
-                    </div>
+          {/* Recent Payments */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <CreditCard className="text-green-600" size={20} />
+              المدفوعات الأخيرة
+            </h3>
+            <div className="space-y-3">
+              {traineeData.traineePayments?.slice(0, 3).map((payment) => (
+                <div key={payment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div>
+                    <p className="font-medium text-gray-800">{payment.description}</p>
+                    <p className="text-sm text-gray-600">{payment.amount.toLocaleString()} جنيه</p>
                   </div>
-                ))}
-              </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPaymentStatusColor(payment.status)}`}>
+                    {getPaymentStatusText(payment.status)}
+                  </span>
+                </div>
+              )) || (
+                <p className="text-gray-500 text-center py-4">لا توجد مدفوعات</p>
+              )}
             </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">الإجراءات السريعة</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button 
-              onClick={() => router.push('/StudentPlatform/MyAccount')}
-              className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-            >
-              <User className="w-6 h-6 text-blue-600" />
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">حسابي الشخصي</p>
-                <p className="text-sm text-gray-600">إدارة البيانات الشخصية</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
-
-            <button className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <BookOpen className="w-6 h-6 text-green-600" />
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">المحتوى التدريبي</p>
-                <p className="text-sm text-gray-600">عرض الدروس والمواد</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
-
-            <button className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <Calendar className="w-6 h-6 text-purple-600" />
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">الجدول الزمني</p>
-                <p className="text-sm text-gray-600">عرض الجدول</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
-
-            <button 
-              onClick={() => router.push('/StudentPlatform/MyStats')}
-              className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-            >
-              <BarChart3 className="w-6 h-6 text-orange-600" />
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">إحصائياتي</p>
-                <p className="text-sm text-gray-600">تتبع تقدمي وأدائي</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
           </div>
         </div>
       </div>

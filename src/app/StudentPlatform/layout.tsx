@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/lip/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import StudentSidebar from "@/components/ui/StudentSidebar";
 
 export default function StudentPlatformLayout({
   children,
@@ -12,6 +13,7 @@ export default function StudentPlatformLayout({
 }) {
   const currentUser = useSelector(selectCurrentUser);
   const router = useRouter();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     // التحقق من أن المستخدم مسجل دخول وأنه طالب
@@ -44,5 +46,18 @@ export default function StudentPlatformLayout({
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex" dir="rtl">
+      {/* Student Sidebar */}
+      <StudentSidebar 
+        isCollapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+      
+      {/* Main Content */}
+      <div className="flex-1">
+        {children}
+      </div>
+    </div>
+  );
 }

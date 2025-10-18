@@ -10,6 +10,9 @@ import {
   TraineeLoginRequest,
   TraineeLoginResponse,
 } from '@/types/traineeAuth';
+import { TraineeProfileResponse } from '@/types/trainee';
+import { MyScheduleResponse } from '@/types/schedule';
+import { AdvancedStatsResponse } from '@/types/advancedStats';
 
 export const traineeAuthApi = createApi({
   reducerPath: 'traineeAuthApi',
@@ -78,6 +81,34 @@ export const traineeAuthApi = createApi({
         return response;
       },
     }),
+
+    // Get Trainee Profile
+    getTraineeProfile: builder.query<TraineeProfileResponse, void>({
+      query: () => '/api/trainee-auth/profile',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'PROFILE' }],
+    }),
+
+    // Update Trainee Profile
+    updateTraineeProfile: builder.mutation<TraineeProfileResponse, Partial<TraineeProfileResponse>>({
+      query: (data) => ({
+        url: '/api/trainee-auth/profile',
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'TraineeAuth' as const, id: 'PROFILE' }],
+    }),
+
+    // Get My Schedule
+    getMySchedule: builder.query<MyScheduleResponse, void>({
+      query: () => '/api/trainee-auth/my-schedule',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'SCHEDULE' }],
+    }),
+
+    // Get Advanced Stats
+    getAdvancedStats: builder.query<AdvancedStatsResponse, void>({
+      query: () => '/api/trainee-auth/advanced-stats',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'ADVANCED_STATS' }],
+    }),
   }),
 });
 
@@ -86,5 +117,9 @@ export const {
   useVerifyPhoneMutation,
   useCreatePasswordMutation,
   useTraineeLoginMutation,
+  useGetTraineeProfileQuery,
+  useUpdateTraineeProfileMutation,
+  useGetMyScheduleQuery,
+  useGetAdvancedStatsQuery,
 } = traineeAuthApi;
 
