@@ -43,7 +43,16 @@ const StudentDashboard = () => {
     refetch 
   } = useGetTraineeProfileQuery();
 
-  // التحقق من وجود البيانات الأساسية
+  // تحديث الوقت كل دقيقة - يجب أن يكون قبل أي early return
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // التحقق من وجود البيانات الأساسية - بعد جميع الـ Hooks
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center" dir="rtl">
@@ -83,15 +92,6 @@ const StudentDashboard = () => {
   }
 
   const traineeData = profileData.trainee;
-
-  // تحديث الوقت كل دقيقة
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   // دالة تسجيل الخروج
   const handleLogout = () => {
