@@ -65,222 +65,186 @@ const TraineeFees = () =>{
         };
     }, [traineeFeesData, response]);
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-            {/* Animated Background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-pink-600/10"></div>
-            </div>
-            
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Modern Header Section */}
-                <div className="mb-16">
-                    <div className="text-center mb-12">
-                        {/* Floating Icon with Glow Effect */}
-                        <div className="relative inline-block mb-8">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-600 rounded-3xl blur-xl opacity-75 animate-pulse"></div>
-                            <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 shadow-2xl">
-                                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-x-hidden" dir="rtl" style={{ maxWidth: '100vw' }}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" style={{ maxWidth: '100%', overflow: 'hidden' }}>
+                {/* Modern Header with Card */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-6">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                             </div>
+                            <div>
+                                <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                                    إدارة الرسوم
+                                </h1>
+                                <p className="text-sm text-gray-600">
+                                    إدارة وتتبع رسوم المتدربين بسهولة
+                                </p>
+                            </div>
                         </div>
-                        
-                        {/* Modern Typography */}
-                        <h1 className="text-6xl font-black bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
-                            إدارة الرسوم
-                        </h1>
-                        <p className="text-2xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed mb-8">
-                            نظام متطور لإدارة وتتبع رسوم المتدربين بذكاء وكفاءة عالية
-                        </p>
-                        
-                        {/* Status Indicators */}
-                        <div className="flex items-center justify-center gap-12 mt-10">
-                            <div className="flex items-center gap-3 text-gray-300 group">
-                                <div className="w-4 h-4 bg-emerald-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
-                                <span className="font-semibold text-lg">نظام آمن</span>
-                            </div>
-                            <div className="flex items-center gap-3 text-gray-300 group">
-                                <div className="w-4 h-4 bg-blue-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
-                                <span className="font-semibold text-lg">تتبع دقيق</span>
-                            </div>
-                            <div className="flex items-center gap-3 text-gray-300 group">
-                                <div className="w-4 h-4 bg-purple-400 rounded-full animate-pulse group-hover:scale-125 transition-transform"></div>
-                                <span className="font-semibold text-lg">تقارير ذكية</span>
-                            </div>
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setIsOpen(true)}
+                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                إضافة رسم جديد
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Search and Actions Section */}
-                <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 p-6 mb-10">
-                    <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-                        <div className="flex-1 w-full lg:w-auto">
-                            <div className="relative group">
-                                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
+                {/* Search and Filter Section */}
+                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5 mb-6">
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex-1">
+                            <div className="relative">
                                 <input 
                                     type="text" 
                                     placeholder="ابحث عن رسم، برنامج، أو متدرب..." 
-                                    className="relative w-full px-6 py-4 pl-14 bg-white/80 backdrop-blur-sm border-2 border-gray-200/50 rounded-2xl focus:ring-4 focus:ring-blue-100/50 focus:border-blue-500 transition-all duration-300 text-gray-700 placeholder-gray-500 group-hover:shadow-xl focus:shadow-2xl"
+                                    className="w-full pr-12 pl-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-500"
                                 />
-                                <div className="absolute left-5 top-1/2 transform -translate-y-1/2">
-                                    <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
-                                <div className="absolute right-5 top-1/2 transform -translate-y-1/2">
-                                    <kbd className="px-3 py-1 text-xs font-bold text-gray-500 bg-gray-100/80 border border-gray-300/50 rounded-lg backdrop-blur-sm">Ctrl+K</kbd>
-                                </div>
                             </div>
                         </div>
-                        
-                        <div className="flex items-center gap-3">
-                            <FilterButton
-                                className="bg-white/80 backdrop-blur-sm hover:bg-white text-gray-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 border border-gray-200/50"
-                                label="فلتر"
-                                paramKey="status"
-                                options={[
-                                    "الكل",
-                                    "مفعل",
-                                    "غير مدفوع"
-                                ]}
-                            />
-                            <button
-                                onClick={() => setIsOpen(true)}
-                                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl flex items-center gap-2 group"
-                            >
-                                <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                                <span>إضافة رسم</span>
-                            </button>
-                        </div>
+                        <FilterButton
+                            className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 px-5 py-3 rounded-xl font-medium transition-all shadow-sm hover:shadow-md flex items-center gap-2 whitespace-nowrap"
+                            label="فلتر"
+                            paramKey="status"
+                            options={[
+                                "الكل",
+                                "مفعل",
+                                "غير مدفوع"
+                            ]}
+                        />
                     </div>
                 </div>
 
                 {/* Stats Cards */}
                 {((traineeFeesData || response)?.length ?? 0) > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
                         {/* إجمالي الرسوم */}
-                        <div className="group relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="relative">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold text-gray-600 mb-1">إجمالي الرسوم</p>
-                                        <p className="text-2xl font-black text-gray-900">{(traineeFeesData || response)?.length || 0}</p>
-                                        <p className="text-xs text-gray-500 font-medium">رسم إجمالي</p>
-                                    </div>
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-md border border-blue-200 p-5 hover:shadow-lg transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-md">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
                                 </div>
-                                <div className="h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
+                                <span className="text-xs font-medium text-blue-700 bg-blue-200 px-2 py-1 rounded-full">
+                                    رسم
+                                </span>
                             </div>
+                            <p className="text-sm font-medium text-blue-700 mb-1">إجمالي الرسوم</p>
+                            <p className="text-3xl font-black text-blue-900">{(traineeFeesData || response)?.length || 0}</p>
                         </div>
                         
                         {/* إجمالي المبلغ */}
-                        <div className="group relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="relative">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
-                                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                                        </svg>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold text-gray-600 mb-1">إجمالي المبلغ</p>
-                                        <p className="text-2xl font-black text-purple-600">
-                                            {(traineeFeesData || response)?.reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0}
-                                        </p>
-                                        <p className="text-xs text-gray-500 font-medium">
-                                            {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
-                                        </p>
-                                    </div>
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-md border border-purple-200 p-5 hover:shadow-lg transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center shadow-md">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                    </svg>
                                 </div>
-                                <div className="h-1 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full"></div>
+                                <span className="text-xs font-medium text-purple-700 bg-purple-200 px-2 py-1 rounded-full">
+                                    {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
+                                </span>
                             </div>
+                            <p className="text-sm font-medium text-purple-700 mb-1">إجمالي المبلغ</p>
+                            <p className="text-3xl font-black text-purple-900">
+                                {(traineeFeesData || response)?.reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0}
+                            </p>
                         </div>
                         
                         {/* مدفوعة */}
-                        <div className="group relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="relative">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform duration-300">
-                                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold text-gray-600 mb-1">مدفوعة</p>
-                                        <p className="text-2xl font-black text-green-600">
-                                            {(traineeFeesData || response)?.filter(fee => fee.isApplied).length || 0}
-                                        </p>
-                                        <p className="text-xs text-gray-500 font-medium">
-                                            {(traineeFeesData || response)?.filter(fee => fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
-                                        </p>
-                                    </div>
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-md border border-green-200 p-5 hover:shadow-lg transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shadow-md">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
                                 </div>
-                                <div className="h-1 bg-gradient-to-r from-green-500 to-green-600 rounded-full"></div>
+                                <span className="text-xs font-medium text-green-700 bg-green-200 px-2 py-1 rounded-full">
+                                    مدفوع
+                                </span>
                             </div>
+                            <p className="text-sm font-medium text-green-700 mb-1">رسوم مدفوعة</p>
+                            <p className="text-3xl font-black text-green-900">
+                                {(traineeFeesData || response)?.filter(fee => fee.isApplied).length || 0}
+                            </p>
+                            <p className="text-xs text-green-600 font-medium mt-2">
+                                {(traineeFeesData || response)?.filter(fee => fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
+                            </p>
                         </div>
                         
                         {/* غير مدفوعة */}
-                        <div className="group relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div className="relative">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-300">
-                                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold text-gray-600 mb-1">غير مدفوعة</p>
-                                        <p className="text-2xl font-black text-red-600">
-                                            {(traineeFeesData || response)?.filter(fee => !fee.isApplied).length || 0}
-                                        </p>
-                                        <p className="text-xs text-gray-500 font-medium">
-                                            {(traineeFeesData || response)?.filter(fee => !fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
-                                        </p>
-                                    </div>
+                        <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl shadow-md border border-red-200 p-5 hover:shadow-lg transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center shadow-md">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
                                 </div>
-                                <div className="h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>
+                                <span className="text-xs font-medium text-red-700 bg-red-200 px-2 py-1 rounded-full">
+                                    معلق
+                                </span>
                             </div>
+                            <p className="text-sm font-medium text-red-700 mb-1">غير مدفوعة</p>
+                            <p className="text-3xl font-black text-red-900">
+                                {(traineeFeesData || response)?.filter(fee => !fee.isApplied).length || 0}
+                            </p>
+                            <p className="text-xs text-red-600 font-medium mt-2">
+                                {(traineeFeesData || response)?.filter(fee => !fee.isApplied).reduce((sum, fee) => sum + fee.amount, 0).toLocaleString() || 0} {(traineeFeesData || response)?.[0]?.safe?.currency || 'ر.س'}
+                            </p>
                         </div>
                     </div>
                 )}
 
-                {/* Table Section */}
-                <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/40 overflow-hidden">
+                {/* Table Section with Complete Overflow Fix */}
+                <div className="bg-white rounded-xl shadow-md border border-gray-200">
                     {isTraineeFeesLoading ? (
-                        <div className="flex items-center justify-center py-12">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                            <span className="mr-3 text-gray-600">جاري تحميل البيانات...</span>
+                        <div className="flex flex-col items-center justify-center py-16">
+                            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+                            <span className="mt-4 text-gray-600 font-medium">جاري تحميل البيانات...</span>
                         </div>
                     ) : traineeFeesError ? (
-                        <div className="text-center py-12">
-                            <div className="text-red-500 text-lg font-medium mb-2">خطأ في تحميل البيانات</div>
-                            <p className="text-gray-600 mb-4">حدث خطأ أثناء جلب بيانات الرسوم</p>
+                        <div className="text-center py-16 px-4">
+                            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-bold text-red-600 mb-2">خطأ في تحميل البيانات</h3>
+                            <p className="text-gray-600 mb-6">حدث خطأ أثناء جلب بيانات الرسوم. يرجى المحاولة مرة أخرى.</p>
                             <button 
                                 onClick={() => refetchTraineeFees()}
-                                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
                             >
                                 إعادة المحاولة
                             </button>
                         </div>
                     ) : (
-                        <TraineeFeesTable data={traineeFeesData || []} />
+                        <div className="overflow-x-auto" style={{ maxWidth: '100%' }}>
+                            <div className="min-w-max w-full" style={{ maxWidth: 'none' }}>
+                                <TraineeFeesTable data={traineeFeesData || []} />
+                            </div>
+                        </div>
                     )}
                 </div>
 
                 {/* Pagination Section */}
-                <div className="mt-8 flex justify-center">
-                    <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/30 p-4">
+                <div className="mt-6 flex justify-center">
+                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-4">
                         <Paginator totalPages={3} />
                     </div>
                 </div>

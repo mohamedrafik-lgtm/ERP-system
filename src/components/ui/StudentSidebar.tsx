@@ -66,7 +66,7 @@ const StudentSidebar = ({ isCollapsed = false, onToggle }: StudentSidebarProps) 
     },
     {
       name: "المدفوعات",
-      href: "/StudentPlatform/payments",
+      href: "/StudentPlatform/my-payments",
       icon: CreditCard,
       description: "حالة المدفوعات والرسوم"
     },

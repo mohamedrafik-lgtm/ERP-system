@@ -69,3 +69,38 @@ export const DialogFooter: React.FC<DialogFooterProps> = ({ children, className 
     </div>
   );
 };
+
+interface DialogReportsProps {
+  name: React.ReactNode;
+  children: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export const DialogReports: React.FC<DialogReportsProps> = ({ 
+  name, 
+  children, 
+  open = false, 
+  onOpenChange 
+}) => {
+  const [isOpen, setIsOpen] = React.useState(open);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setIsOpen(newOpen);
+    onOpenChange?.(newOpen);
+  };
+
+  return (
+    <>
+      <div onClick={() => handleOpenChange(true)}>
+        {name}
+      </div>
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        {children}
+      </Dialog>
+    </>
+  );
+};
+
+// Export default Dialog
+export default Dialog;

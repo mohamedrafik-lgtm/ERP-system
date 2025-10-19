@@ -2,7 +2,7 @@
 import { Input } from "@/components/input";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { LoginSchema } from "@/Schema/login";
+import { EmployeeLoginSchema } from "@/Schema/login";
 import { useLoginMutation } from "@/lip/features/auth/login";
 import { setCredentials } from "@/lip/features/auth/authSlice";
 import { useDispatch } from "react-redux";
@@ -30,6 +30,9 @@ interface LoginInputs {
 
 const EmployeeLoginPage = () => {
   const [login, { data, isLoading, isError, isSuccess }] = useLoginMutation();
+  
+  console.log('🔧 Employee login component mounted');
+  console.log('🔧 Login mutation state:', { isLoading, isError, isSuccess });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState<string | null>(null);
@@ -53,15 +56,21 @@ const EmployeeLoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInputs>({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(EmployeeLoginSchema) as any,
     defaultValues: {
       remember: true
     }
   });
 
-  const onSubmit: SubmitHandler<LoginInputs> = async (formData) => {
+  const onSubmit = async (formData: any) => {
+    console.log('🎯 Employee login form submitted with data:', formData);
+    console.log('🔍 Form validation status:', {
+      hasErrors: Object.keys(errors).length > 0,
+      errors: errors
+    });
     setErrorMessage(null);
     try {
+      console.log('📞 Calling login mutation...');
       const response = await login({
         emailOrPhone: formData.emailOrPhone,
         password: formData.password
@@ -95,7 +104,12 @@ const EmployeeLoginPage = () => {
         setErrorMessage('لم يتم العثور على توكن المصادقة في الاستجابة');
       }
     } catch (err) {
-      console.error('Employee login failed:', err);
+      console.error('❌ Employee login failed:', err);
+      console.error('❌ Error details:', {
+        status: (err as any)?.status,
+        data: (err as any)?.data,
+        message: (err as any)?.message
+      });
       if (err && typeof err === 'object' && 'status' in err) {
         if (err.status === 401) {
           setErrorMessage('بيانات الاعتماد غير صحيحة. يرجى التحقق من البريد الإلكتروني وكلمة المرور.');
@@ -142,7 +156,11 @@ const EmployeeLoginPage = () => {
             <p className="text-gray-600">سجل دخولك للوصول إلى لوحة التحكم الإدارية</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={(e) => {
+            console.log('📝 Form submit event triggered');
+            e.preventDefault();
+            handleSubmit(onSubmit)(e);
+          }} className="space-y-6">
             {/* Email/Phone Input */}
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -255,6 +273,7 @@ const EmployeeLoginPage = () => {
             {/* Submit Button */}
             <button 
               type="submit" 
+              onClick={() => console.log('🖱️ Submit button clicked')}
               className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-100 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >

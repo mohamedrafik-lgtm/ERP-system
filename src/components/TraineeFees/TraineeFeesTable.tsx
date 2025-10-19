@@ -1,6 +1,6 @@
 "use client";
 import MenuComponent from "../ui/MenuReport";
-import DialogReports from "../ui/Dialog";
+import { DialogReports } from "../ui/Dialog";
 import { useActivateFeeMutation, useGetFeesQuery } from "@/lip/features/Fees/Fees";
 import { TraineeFee } from "@/types/traineeFees";
 import toast from "react-hot-toast";

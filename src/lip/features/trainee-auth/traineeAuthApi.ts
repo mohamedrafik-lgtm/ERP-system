@@ -16,12 +16,16 @@ import { AdvancedStatsResponse } from '@/types/advancedStats';
 import { AttendanceRecordsResponse } from '@/types/attendance';
 import { MyGradesResponse } from '@/types/grades';
 import { AvailableQuizzesResponse } from '@/types/exams';
+import { TraineePaymentsResponse } from '@/types/payments';
 
 export const traineeAuthApi = createApi({
   reducerPath: 'traineeAuthApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
-    prepareHeaders: (headers) => {
+    prepareHeaders: (headers, { endpoint }) => {
+      console.log('🌐 API Request to endpoint:', endpoint);
+      console.log('🔗 Full URL:', `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}${endpoint}`);
+      
       headers.set('Content-Type', 'application/json');
       headers.set('Accept', 'application/json');
 
@@ -31,8 +35,12 @@ export const traineeAuthApi = createApi({
         headers.set('Authorization', `Bearer ${token}`);
         headers.set('access_token', token);
         headers.set('x-access-token', token);
+        console.log('🔑 Token found and added to headers');
+      } else {
+        console.log('⚠️ No token found in cookies');
       }
 
+      console.log('📋 Request headers:', Object.fromEntries(headers.entries()));
       return headers;
     },
   }),
@@ -68,19 +76,23 @@ export const traineeAuthApi = createApi({
       invalidatesTags: [{ type: 'TraineeAuth' as const, id: 'CREATE_PASSWORD' }],
     }),
     
-    // Step 4: Trainee Login
+    // Step 4: Employee Login (using general auth endpoint)
     traineeLogin: builder.mutation<TraineeLoginResponse, TraineeLoginRequest>({
-      query: (data) => ({
-        url: '/api/trainee-auth/login',
-        method: 'POST',
-        body: data,
-      }),
+      query: (data) => {
+        console.log('🚀 Sending login request to:', '/api/auth/login');
+        console.log('📤 Login request data:', data);
+        return {
+          url: '/api/auth/login',
+          method: 'POST',
+          body: data,
+        };
+      },
       transformResponse: (response: TraineeLoginResponse) => {
-        console.log('Trainee login response:', response);
+        console.log('✅ Employee login response received:', response);
         return response;
       },
       transformErrorResponse: (response) => {
-        console.error('Trainee login error:', response);
+        console.error('❌ Employee login error:', response);
         return response;
       },
     }),
@@ -130,6 +142,12 @@ export const traineeAuthApi = createApi({
       query: () => '/api/quizzes/trainee/available',
       providesTags: [{ type: 'TraineeAuth' as const, id: 'QUIZZES' }],
     }),
+    
+    // Get Trainee Payments
+    getTraineePayments: builder.query<TraineePaymentsResponse, number>({
+      query: (traineeId) => `/api/finances/trainees/${traineeId}/payments`,
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'PAYMENTS' }],
+    }),
   }),
 });
 
@@ -145,5 +163,6 @@ export const {
   useGetAttendanceRecordsQuery,
   useGetMyGradesQuery,
   useGetAvailableQuizzesQuery,
+  useGetTraineePaymentsQuery,
 } = traineeAuthApi;
 

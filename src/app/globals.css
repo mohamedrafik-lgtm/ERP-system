@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Fix for horizontal overflow */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 /* :root {
     --bg-color: #fff;
     --text-color: #000;
