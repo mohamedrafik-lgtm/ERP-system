@@ -13,6 +13,9 @@ import {
 import { TraineeProfileResponse } from '@/types/trainee';
 import { MyScheduleResponse } from '@/types/schedule';
 import { AdvancedStatsResponse } from '@/types/advancedStats';
+import { AttendanceRecordsResponse } from '@/types/attendance';
+import { MyGradesResponse } from '@/types/grades';
+import { AvailableQuizzesResponse } from '@/types/exams';
 
 export const traineeAuthApi = createApi({
   reducerPath: 'traineeAuthApi',
@@ -109,6 +112,24 @@ export const traineeAuthApi = createApi({
       query: () => '/api/trainee-auth/advanced-stats',
       providesTags: [{ type: 'TraineeAuth' as const, id: 'ADVANCED_STATS' }],
     }),
+    
+    // Get Attendance Records
+    getAttendanceRecords: builder.query<AttendanceRecordsResponse, void>({
+      query: () => '/api/trainee-auth/attendance-records',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'ATTENDANCE' }],
+    }),
+    
+    // Get My Grades
+    getMyGrades: builder.query<MyGradesResponse, void>({
+      query: () => '/api/trainee-auth/my-grades',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'GRADES' }],
+    }),
+    
+    // Get Available Quizzes
+    getAvailableQuizzes: builder.query<AvailableQuizzesResponse, void>({
+      query: () => '/api/quizzes/trainee/available',
+      providesTags: [{ type: 'TraineeAuth' as const, id: 'QUIZZES' }],
+    }),
   }),
 });
 
@@ -121,5 +142,8 @@ export const {
   useUpdateTraineeProfileMutation,
   useGetMyScheduleQuery,
   useGetAdvancedStatsQuery,
+  useGetAttendanceRecordsQuery,
+  useGetMyGradesQuery,
+  useGetAvailableQuizzesQuery,
 } = traineeAuthApi;
 

@@ -19,7 +19,9 @@ import {
   MessageSquare,
   Download,
   Clock,
-  TrendingUp
+  TrendingUp,
+  FileCheck,
+  Award
 } from "lucide-react";
 
 interface StudentSidebarProps {
@@ -79,6 +81,18 @@ const StudentSidebar = ({ isCollapsed = false, onToggle }: StudentSidebarProps) 
       href: "/StudentPlatform/assessments",
       icon: BarChart3,
       description: "النتائج والتقييمات"
+    },
+    {
+      name: "الاختبارات الإلكترونية",
+      href: "/StudentPlatform/exams",
+      icon: FileCheck,
+      description: "الاختبارات المتاحة والإجابة عليها"
+    },
+    {
+      name: "الدرجات",
+      href: "/StudentPlatform/grades",
+      icon: Award,
+      description: "عرض الدرجات والمعدلات"
     },
     {
       name: "الإحصائيات المتقدمة",

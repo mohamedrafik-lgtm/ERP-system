@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import StudentSidebar from "@/components/ui/StudentSidebar";
 import { 
   MessageSquare, 
   Send, 
@@ -16,7 +15,6 @@ import {
 } from "lucide-react";
 
 const StudentMessages = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -111,11 +109,6 @@ const StudentMessages = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex" dir="rtl">
-      {/* Student Sidebar */}
-      <StudentSidebar 
-        isCollapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
       
       {/* Main Content */}
       <div className="flex-1 lg:ml-0">
