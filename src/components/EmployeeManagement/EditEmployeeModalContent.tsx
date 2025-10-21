@@ -5,42 +5,38 @@ import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { 
   UserIcon, 
   EnvelopeIcon, 
-  KeyIcon, 
-  ShieldCheckIcon,
+  PhoneIcon, 
+  UserGroupIcon,
   ExclamationTriangleIcon,
-  CheckCircleIcon,
-  PhoneIcon,
-  UserGroupIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
-export interface FormValues {
+export interface EditFormValues {
   name: string;
   email: string;
   phone: string;
-  password: string;
   accountType?: string;
   roleId?: string;
 }
 
 interface Props {
-  accountTypes: string[]; // مصفوفة أنواع الحسابات
-  register: UseFormRegister<FormValues>; // الريجيستر من الأب
-  errors: FieldErrors<FormValues>; // الأخطاء من الأب
+  register: UseFormRegister<EditFormValues>;
+  errors: FieldErrors<EditFormValues>;
 }
 
-const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
+const EditUserForm: React.FC<Props> = ({ register, errors }) => {
   return (
     <div className="space-y-6">
       {/* Info Banner */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4">
+      <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl p-4">
         <div className="flex items-start space-x-3">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <CheckCircleIcon className="w-5 h-5 text-blue-600" />
+          <div className="p-2 bg-orange-100 rounded-lg">
+            <CheckCircleIcon className="w-5 h-5 text-orange-600" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-blue-900 mb-1">معلومات تسجيل الدخول</h4>
-            <p className="text-sm text-blue-700">
-              سيقوم المستخدم بتسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور المدخلة هنا
+            <h4 className="text-sm font-semibold text-orange-900 mb-1">تحديث بيانات المستخدم</h4>
+            <p className="text-sm text-orange-700">
+              يمكنك تحديث أي من الحقول التالية. الحقول الفارغة لن يتم تحديثها.
             </p>
           </div>
         </div>
@@ -63,7 +59,7 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
               className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none ${
                 errors.name 
                   ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                  : 'border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100'
               }`}
               placeholder="أدخل الاسم الكامل"
             />
@@ -92,7 +88,7 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
               className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none ${
                 errors.email 
                   ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                  : 'border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100'
               }`}
               placeholder="example@domain.com"
             />
@@ -121,7 +117,7 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
               className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none ${
                 errors.phone 
                   ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                  : 'border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100'
               }`}
               placeholder="+20 123 456 7890"
             />
@@ -149,15 +145,12 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
               className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none appearance-none bg-white ${
                 errors.accountType 
                   ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                  : 'border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100'
               }`}
             >
               <option value="" className="text-gray-500">اختر نوع الحساب</option>
-              {accountTypes.map((type, index) => (
-                <option key={index} value={type} className="text-gray-900">
-                  {type === 'STAFF' ? 'موظف' : 'مدرب'}
-                </option>
-              ))}
+              <option value="STAFF" className="text-gray-900">موظف</option>
+              <option value="INSTRUCTOR" className="text-gray-900">مدرب</option>
             </select>
           </div>
           {errors.accountType && (
@@ -168,35 +161,34 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
           )}
         </div>
 
-        {/* كلمة المرور */}
+        {/* معرف الدور */}
         <div className="space-y-2 md:col-span-2">
-          <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
-            كلمة المرور
+          <label htmlFor="roleId" className="block text-sm font-semibold text-gray-700">
+            معرف الدور (اختياري)
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <KeyIcon className="h-5 w-5 text-gray-400" />
+              <UserIcon className="h-5 w-5 text-gray-400" />
             </div>
             <input
-              id="password"
-              type="password"
-              {...register("password")}
+              id="roleId"
+              {...register("roleId")}
               className={`w-full pr-10 pl-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none ${
-                errors.password 
+                errors.roleId 
                   ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                  : 'border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100'
               }`}
-              placeholder="أدخل كلمة المرور"
+              placeholder="أدخل معرف الدور (اختياري)"
             />
           </div>
-          {errors.password && (
+          {errors.roleId && (
             <div className="flex items-center space-x-2 text-red-600 text-sm">
               <ExclamationTriangleIcon className="w-4 h-4" />
-              <span>{errors.password.message}</span>
+              <span>{errors.roleId.message}</span>
             </div>
           )}
           <p className="text-xs text-gray-500 mt-1">
-            يجب أن تكون كلمة المرور 6 أحرف على الأقل
+            معرف الدور اختياري ويمكن تركه فارغاً
           </p>
         </div>
       </div>
@@ -204,4 +196,4 @@ const AddUserForm: React.FC<Props> = ({ accountTypes, register, errors }) => {
   );
 };
 
-export default AddUserForm;
+export default EditUserForm;

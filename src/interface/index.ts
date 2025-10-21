@@ -801,3 +801,59 @@ export interface TransactionResponse {
 
 // Re-export types from traineeFees
 export * from '@/types/traineeFees';
+
+// User Account Types
+export enum AccountType {
+  STAFF = 'STAFF',
+  INSTRUCTOR = 'INSTRUCTOR',
+}
+
+// User Creation Interface
+export interface CreateUserRequest {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  accountType?: AccountType;
+  roleId?: string;
+}
+
+// User Update Interface
+export interface UpdateUserRequest {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  accountType?: AccountType;
+  roleId?: string;
+}
+
+// User Response Interface
+export interface UserResponse {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  accountType: AccountType;
+  roleId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// User Login Interface
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+// User Login Response Interface
+export interface LoginResponse {
+  access_token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    accountType: AccountType;
+    roleId?: string;
+  };
+}

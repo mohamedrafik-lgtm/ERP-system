@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import Home from '@/app/page'
 import { activities, stats } from '@/data'
 
@@ -16,23 +15,19 @@ jest.mock('next/link', () => {
 })
 
 describe('Home Page Component', () => {
-  const renderWithRouter = (component: React.ReactElement) => {
-    return render(
-      <BrowserRouter>
-        {component}
-      </BrowserRouter>
-    )
+  const renderComponent = (component: React.ReactElement) => {
+    return render(component)
   }
 
   it('renders dashboard title and welcome message', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
     expect(screen.getByText(/Welcome back, Eleanor!/)).toBeInTheDocument()
   })
 
   it('renders all stat cards', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     stats.forEach((stat) => {
       expect(screen.getByText(stat.title)).toBeInTheDocument()
@@ -41,26 +36,26 @@ describe('Home Page Component', () => {
   })
 
   it('renders quick action buttons', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     expect(screen.getByText('Add New Student')).toBeInTheDocument()
     expect(screen.getByText('Create New Course')).toBeInTheDocument()
   })
 
   it('renders quick actions section title', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     expect(screen.getByText('Quick Actions')).toBeInTheDocument()
   })
 
   it('renders recent activities section title', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     expect(screen.getByText('Recent Activities')).toBeInTheDocument()
   })
 
   it('renders activities table with headers', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     expect(screen.getByText('Date')).toBeInTheDocument()
     expect(screen.getByText('Activity')).toBeInTheDocument()
@@ -68,7 +63,7 @@ describe('Home Page Component', () => {
   })
 
   it('renders all activities from data', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     activities.forEach((activity) => {
       expect(screen.getByText(activity.activity)).toBeInTheDocument()
@@ -77,7 +72,7 @@ describe('Home Page Component', () => {
   })
 
   it('has correct links for quick actions', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const addStudentLink = screen.getByText('Add New Student').closest('a')
     const createCourseLink = screen.getByText('Create New Course').closest('a')
@@ -87,21 +82,21 @@ describe('Home Page Component', () => {
   })
 
   it('renders with correct layout classes', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const mainContainer = screen.getByText('Dashboard').closest('div')
     expect(mainContainer).toHaveClass('p-6', 'max-w-6xl', 'mx-auto')
   })
 
   it('displays correct grid layout for stats', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const statsContainer = screen.getByText(stats[0].title).closest('div')
     expect(statsContainer).toHaveClass('grid', 'grid-cols-1', 'md:grid-cols-3')
   })
 
   it('shows activities in a table format', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const table = screen.getByRole('table')
     expect(table).toBeInTheDocument()
@@ -111,28 +106,28 @@ describe('Home Page Component', () => {
   })
 
   it('renders activities with correct spacing', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const tableBody = screen.getByRole('table').querySelector('tbody')
     expect(tableBody).toHaveClass('space-y-10')
   })
 
   it('displays quick actions with proper spacing', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const quickActionsContainer = screen.getByText('Quick Actions').nextElementSibling
     expect(quickActionsContainer).toHaveClass('space-x-4')
   })
 
   it('renders button elements for quick actions', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const buttons = screen.getAllByRole('button')
     expect(buttons).toHaveLength(2)
   })
 
   it('applies hover effects to quick action buttons', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const buttons = screen.getAllByRole('button')
     buttons.forEach((button) => {
@@ -141,14 +136,14 @@ describe('Home Page Component', () => {
   })
 
   it('renders activities table with proper styling', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const tableContainer = screen.getByRole('table').closest('div')
     expect(tableContainer).toHaveClass('bg-white/70', 'rounded-xl', 'shadow')
   })
 
   it('displays table headers with correct styling', () => {
-    renderWithRouter(<Home />)
+    renderComponent(<Home />)
     
     const headers = screen.getAllByRole('columnheader')
     headers.forEach((header) => {
