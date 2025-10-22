@@ -21,7 +21,11 @@ import {
   Clock,
   TrendingUp,
   FileCheck,
-  Award
+  Award,
+  Users,
+  UserCheck,
+  UserX,
+  UserPlus
 } from "lucide-react";
 
 interface StudentSidebarProps {
@@ -111,6 +115,25 @@ const StudentSidebar = ({ isCollapsed = false, onToggle }: StudentSidebarProps) 
       href: "/StudentPlatform/reports",
       icon: Download,
       description: "تحميل التقارير"
+    },
+    // إدارة التوزيع
+    {
+      name: "التوزيعات",
+      href: "/StudentPlatform/distributions",
+      icon: Users,
+      description: "عرض جميع التوزيعات"
+    },
+    {
+      name: "إدارة التوزيع",
+      href: "/StudentPlatform/distribution-management",
+      icon: UserCheck,
+      description: "إدارة وتنظيم التوزيعات"
+    },
+    {
+      name: "طلاب غير موزعين",
+      href: "/StudentPlatform/unassigned-students",
+      icon: UserX,
+      description: "الطلاب الذين لم يتم توزيعهم"
     }
   ];
 
