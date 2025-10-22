@@ -15,14 +15,12 @@
 // قبل الإصلاح (مشكلة)
 const studentPlatformPaths = [
   "/StudentPlatform",
-  "/StudentPlatform/AccountManagement",
   "/StudentPlatform/Statistics"
 ];
 
 // بعد الإصلاح (صحيح)
 const studentPlatformPaths = [
   "/StudentPlatform",
-  "/StudentPlatform/AccountManagement",
   "/StudentPlatform/Statistics",
   "/StudentPlatform/schedule",        // ✅ إضافة الجدول الدراسي
   "/StudentPlatform/profile",          // ✅ إضافة الملف الشخصي

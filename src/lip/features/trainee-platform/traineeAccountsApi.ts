@@ -1,136 +1,238 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
-import { 
-  TraineeAccountResponse, 
-  TraineeAccountFilters, 
-  TraineeAccountUpdateRequest, 
-  TraineeAccountCreateRequest 
-} from '@/types/traineePlatform';
 
-// RTK Query API slice for trainee accounts
+// Types for Trainee Accounts
+export interface TraineeAccount {
+  id: string;
+  nationalId: string;
+  birthDate: Date;
+  password: string | null;
+  isActive: boolean;
+  lastLoginAt: Date | null;
+  resetCode: string | null;
+  resetCodeExpiresAt: Date | null;
+  resetCodeGeneratedAt: Date | null;
+  traineeId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  trainee: {
+    id: number;
+    nameAr: string;
+    nameEn: string;
+    nationalId: string;
+    email: string | null;
+    phone: string;
+    photoUrl: string | null;
+    traineeStatus: string;
+    classLevel: string;
+    academicYear: string;
+    program: {
+      id: number;
+      nameAr: string;
+      nameEn: string;
+    };
+  };
+}
+
+export interface TraineeAccountsResponse {
+  data: TraineeAccount[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+export interface TraineeAccountsQuery {
+  search?: string;
+  isActive?: boolean;
+  programId?: number;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+// Platform Statistics Types
+export interface PlatformOverview {
+  totalAccounts: number;
+  activeAccounts: number;
+  inactiveAccounts: number;
+  registeredTrainees: number;
+  unregisteredTrainees: number;
+  totalSessions: number;
+  totalTimeSpent: number;
+  averageSessionTime: number;
+  activeToday: number;
+  activeThisWeek: number;
+  activeThisMonth: number;
+}
+
+export interface LoginActivity {
+  date: string;
+  count: number;
+  uniqueUsers: number;
+  totalTime: number;
+  averageTime: number;
+}
+
+export interface ProgramStats {
+  id: number;
+  nameAr: string;
+  traineeCount: number;
+}
+
+export interface RecentActivity {
+  id: string;
+  loginAt: Date;
+  logoutAt: Date | null;
+  duration: number | null;
+  device: string | null;
+  trainee: {
+    nameAr: string;
+    program: {
+      nameAr: string;
+    };
+  };
+}
+
+export interface TopActivity {
+  type: string;
+  count: number;
+}
+
+export interface DeviceStats {
+  device: string;
+  count: number;
+}
+
+export interface PlatformStats {
+  overview: PlatformOverview;
+  loginActivity: LoginActivity[];
+  programsStats: ProgramStats[];
+  recentActivity: RecentActivity[];
+  topActivities: TopActivity[];
+  deviceStats: DeviceStats[];
+}
+
+export interface PlatformStatsFilters {
+  startDate?: string;
+  endDate?: string;
+  programId?: number;
+}
+
 export const traineeAccountsApi = createApi({
   reducerPath: 'traineeAccountsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
+    baseUrl: 'http://localhost:4000/api',
     prepareHeaders: (headers) => {
-      headers.set('Content-Type', 'application/json');
-      headers.set('Accept', 'application/json');
-      
-      // Get token from cookies (same as login API)
       const token = Cookies.get('access_token') || Cookies.get('auth_token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
-        headers.set('access_token', token);
-        headers.set('x-access-token', token);
       }
-      
+      headers.set('Content-Type', 'application/json');
       return headers;
     },
   }),
   tagTypes: ['TraineeAccount'],
   endpoints: (builder) => ({
-    // Get trainee accounts with filters and pagination
-    getTraineeAccounts: builder.query<TraineeAccountResponse, TraineeAccountFilters>({
-      query: (filters) => {
-        const params = new URLSearchParams();
+    // Get all trainee accounts with filters
+    getTraineeAccounts: builder.query<TraineeAccountsResponse, TraineeAccountsQuery>({
+      query: (params) => {
+        const searchParams = new URLSearchParams();
         
-        if (filters.search) params.append('search', filters.search);
-        if (filters.status && filters.status !== 'all') params.append('status', filters.status);
-        if (filters.programId) params.append('programId', filters.programId.toString());
-        if (filters.traineeStatus) params.append('traineeStatus', filters.traineeStatus);
-        if (filters.page) params.append('page', filters.page.toString());
-        if (filters.limit) params.append('limit', filters.limit.toString());
-
+        if (params.search) searchParams.append('search', params.search);
+        if (params.isActive !== undefined) searchParams.append('isActive', params.isActive.toString());
+        if (params.programId) searchParams.append('programId', params.programId.toString());
+        if (params.page) searchParams.append('page', params.page.toString());
+        if (params.limit) searchParams.append('limit', params.limit.toString());
+        if (params.sortBy) searchParams.append('sortBy', params.sortBy);
+        if (params.sortOrder) searchParams.append('sortOrder', params.sortOrder);
+        
         return {
-          url: `/api/trainee-platform/accounts`,
-          params: Object.fromEntries(params),
+          url: `/trainee-platform/accounts?${searchParams.toString()}`,
+          method: 'GET',
         };
       },
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'TraineeAccount' as const, id })),
-              { type: 'TraineeAccount', id: 'LIST' },
-            ]
-          : [{ type: 'TraineeAccount', id: 'LIST' }],
+      providesTags: ['TraineeAccount'],
     }),
-
+    
     // Get single trainee account by ID
-    getTraineeAccountById: builder.query<TraineeAccountResponse, string>({
-      query: (id) => `/api/trainee-platform/accounts/${id}`,
+    getTraineeAccountById: builder.query<TraineeAccount, string>({
+      query: (id) => `/trainee-platform/accounts/${id}`,
       providesTags: (result, error, id) => [{ type: 'TraineeAccount', id }],
     }),
-
-    // Update trainee account
-    updateTraineeAccount: builder.mutation<void, { id: string; data: TraineeAccountUpdateRequest }>({
-      query: ({ id, data }) => ({
-        url: `/api/trainee-platform/accounts/${id}`,
-        method: 'PUT',
-        body: data,
+    
+    // Toggle trainee account status
+    updateTraineeAccountStatus: builder.mutation<TraineeAccount, { id: string; isActive: boolean }>({
+      query: ({ id, isActive }) => ({
+        url: `/trainee-platform/accounts/${id}/toggle-status`,
+        method: 'PATCH',
+        body: {},
       }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'TraineeAccount', id },
-        { type: 'TraineeAccount', id: 'LIST' },
-      ],
+      invalidatesTags: (result, error, { id }) => [{ type: 'TraineeAccount', id }, 'TraineeAccount'],
     }),
-
-    // Create new trainee account
-    createTraineeAccount: builder.mutation<void, TraineeAccountCreateRequest>({
-      query: (data) => ({
-        url: `/api/trainee-platform/accounts`,
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: [{ type: 'TraineeAccount', id: 'LIST' }],
-    }),
-
-    // Delete trainee account
-    deleteTraineeAccount: builder.mutation<void, string>({
+    
+    // Reset trainee account password
+    resetTraineeAccountPassword: builder.mutation<{ message: string }, string>({
       query: (id) => ({
-        url: `/api/trainee-platform/accounts/${id}`,
+        url: `/trainee-platform/accounts/${id}/reset-password`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'TraineeAccount', id }],
+    }),
+    
+    // Delete trainee account
+    deleteTraineeAccount: builder.mutation<{ message: string }, string>({
+      query: (id) => ({
+        url: `/trainee-platform/accounts/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, id) => [
-        { type: 'TraineeAccount', id },
-        { type: 'TraineeAccount', id: 'LIST' },
-      ],
+      invalidatesTags: ['TraineeAccount'],
     }),
-
-     // Bulk update accounts
-     bulkUpdateAccounts: builder.mutation<void, { ids: string[]; data: TraineeAccountUpdateRequest }>({
-       query: ({ ids, data }) => ({
-         url: `/api/trainee-platform/accounts/bulk`,
-         method: 'PUT',
-         body: { ids, data },
-       }),
-       invalidatesTags: (result, error, { ids }) => [
-         ...ids.map(id => ({ type: 'TraineeAccount' as const, id })),
-         { type: 'TraineeAccount' as const, id: 'LIST' },
-       ],
-     }),
-
-     // Bulk delete accounts
-     bulkDeleteAccounts: builder.mutation<void, string[]>({
-       query: (ids) => ({
-         url: `/api/trainee-platform/accounts/bulk`,
-         method: 'DELETE',
-         body: { ids },
-       }),
-       invalidatesTags: (result, error, ids) => [
-         ...ids.map(id => ({ type: 'TraineeAccount' as const, id })),
-         { type: 'TraineeAccount' as const, id: 'LIST' },
-       ],
-     }),
+    
+    // Get trainee account statistics
+    getTraineeAccountStats: builder.query<{
+      totalAccounts: number;
+      activeAccounts: number;
+      inactiveAccounts: number;
+      averageAccountAgeInDays: number;
+    }, void>({
+      query: () => '/trainee-platform/accounts/stats',
+      providesTags: ['TraineeAccount'],
+    }),
+    
+    // Get platform statistics
+    getPlatformStats: builder.query<PlatformStats, PlatformStatsFilters | void>({
+      query: (filters) => {
+        const searchParams = new URLSearchParams();
+        
+        if (filters) {
+          if (filters.startDate) searchParams.append('startDate', filters.startDate);
+          if (filters.endDate) searchParams.append('endDate', filters.endDate);
+          if (filters.programId) searchParams.append('programId', filters.programId.toString());
+        }
+        
+        const queryString = searchParams.toString();
+        return queryString 
+          ? `/trainee-platform/stats?${queryString}`
+          : '/trainee-platform/stats';
+      },
+      providesTags: ['TraineeAccount'],
+    }),
   }),
 });
 
-// Export hooks for usage in functional components
+// Export hooks for use in components
 export const {
   useGetTraineeAccountsQuery,
   useGetTraineeAccountByIdQuery,
-  useUpdateTraineeAccountMutation,
-  useCreateTraineeAccountMutation,
+  useUpdateTraineeAccountStatusMutation,
+  useResetTraineeAccountPasswordMutation,
   useDeleteTraineeAccountMutation,
-  useBulkUpdateAccountsMutation,
-  useBulkDeleteAccountsMutation,
+  useGetTraineeAccountStatsQuery,
+  useGetPlatformStatsQuery,
 } = traineeAccountsApi;

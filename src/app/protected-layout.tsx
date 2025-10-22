@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import AuthGuard from "@/components/ui/AuthGuard";
-import { Navbar } from "@/components/ui/Navbar";
+import Sidebar from "@/components/ui/Sidebar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuthState, selectIsAuthenticated } from "@/lip/features/auth/authSlice";
@@ -34,7 +34,6 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   // صفحات منصة الطالب (لا تحتاج إلى navbar إداري)
   const studentPlatformPaths = [
     "/StudentPlatform",
-    "/StudentPlatform/AccountManagement",
     "/StudentPlatform/Statistics",
     "/StudentPlatform/schedule",
     "/StudentPlatform/profile",
@@ -92,11 +91,13 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     return <>{children}</>;
   }
 
-  // لباقي الصفحات، اعرض شريط التنقل مع المحتوى داخل AuthGuard
+  // لباقي الصفحات، اعرض Sidebar مع المحتوى داخل AuthGuard
   return (
     <AuthGuard>
-      <Navbar />
-      <main>{children}</main>
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <main className="flex-1 overflow-x-hidden">{children}</main>
+      </div>
     </AuthGuard>
   );
 };

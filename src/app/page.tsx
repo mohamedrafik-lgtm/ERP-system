@@ -122,6 +122,24 @@ const quickActions = [
     textColor: "text-blue-600"
   },
   {
+    title: "إدارة حسابات المتدربين",
+    description: "عرض وإدارة حسابات المتدربين",
+    icon: UserGroupIcon,
+    href: "/AccountManagement",
+    color: "from-indigo-500 to-indigo-600",
+    bgColor: "bg-indigo-50",
+    textColor: "text-indigo-600"
+  },
+  {
+    title: "إحصائيات المنصة",
+    description: "عرض إحصائيات شاملة للمنصة",
+    icon: ChartBarIcon,
+    href: "/PlatformStatistics",
+    color: "from-cyan-500 to-cyan-600",
+    bgColor: "bg-cyan-50",
+    textColor: "text-cyan-600"
+  },
+  {
     title: "إدارة البرامج",
     description: "إضافة أو تعديل البرامج",
     icon: BookOpenIcon,
