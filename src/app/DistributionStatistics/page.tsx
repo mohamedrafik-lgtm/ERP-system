@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useState } from 'react';
-import { DistributionHeader } from './components/DistributionHeader';
-import { DistributionFilters } from './components/DistributionFilters';
-import { DistributionCard } from './components/DistributionCard';
-import { CreateDistributionModal } from './components/CreateDistributionModal';
-import { DeleteConfirmationDialog } from './components/DeleteConfirmationDialog';
-import { LoadingState } from './components/LoadingState';
-import { ErrorState } from './components/ErrorState';
-import { EmptyState } from './components/EmptyState';
-import { useDistributionData } from './hooks/useDistributionData';
+import { 
+  DistributionHeader,
+  DistributionFilters,
+  DistributionCard,
+  CreateDistributionModal,
+  DeleteConfirmationDialog,
+  LoadingState,
+  ErrorState,
+  EmptyState,
+  useDistributionData
+} from '@/components/DistributionStatistics';
 import { DistributionType, Distribution } from './types';
 import { useDeleteDistributionMutation } from '@/lip/features/distribution/distributionApi';
 import toast from 'react-hot-toast';
 
-const DistributionStatisticsPage = () => {
+  const DistributionStatisticsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<DistributionType>('ALL');
   const [showCreateModal, setShowCreateModal] = useState(false);

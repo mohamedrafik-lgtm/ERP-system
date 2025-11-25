@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Search } from "lucide-react";
-import { DistributionType } from '../types';
+import { DistributionType } from '@/app/DistributionStatistics/types';
 
 interface DistributionFiltersProps {
   searchTerm: string;
@@ -47,3 +47,5 @@ export const DistributionFilters: React.FC<DistributionFiltersProps> = ({
     </div>
   );
 };
+
+

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useGetDistributionsQuery } from '@/lip/features/distribution/distributionApi';
-import { Distribution, DistributionType } from '../types';
+import { Distribution, DistributionType } from '@/app/DistributionStatistics/types';
 
 export const useDistributionData = (searchTerm: string, typeFilter: DistributionType) => {
   const [expandedDistributions, setExpandedDistributions] = useState<Set<string>>(new Set());
@@ -48,3 +48,5 @@ export const useDistributionData = (searchTerm: string, typeFilter: Distribution
     toggleDistribution
   };
 };
+
+

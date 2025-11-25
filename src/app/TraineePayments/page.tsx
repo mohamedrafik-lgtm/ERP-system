@@ -10,11 +10,14 @@ import { useState, useMemo } from 'react';
 export default function TraineePayments() {
   // استخدام Redux Toolkit Query لجلب البيانات
   const { 
-    data: payments = [], 
+    data: paymentsData, 
     isLoading, 
     error, 
     refetch 
   } = useGetTraineePaymentsQuery();
+
+  // التأكد من أن payments هو array
+  const payments = Array.isArray(paymentsData) ? paymentsData : [];
 
   // إدارة الحالة المحلية
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,7 +26,7 @@ export default function TraineePayments() {
 
   // حساب الإحصائيات
   const stats = useMemo(() => {
-    if (!payments.length) {
+    if (!payments || !Array.isArray(payments) || !payments.length) {
       return {
         total: 0,
         paid: 0,
@@ -32,8 +35,8 @@ export default function TraineePayments() {
       };
     }
 
-    const total = payments.reduce((sum, payment) => sum + payment.amount, 0);
-    const paid = payments.reduce((sum, payment) => sum + payment.paidAmount, 0);
+    const total = payments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
+    const paid = payments.reduce((sum, payment) => sum + (payment.paidAmount || 0), 0);
     const remaining = total - paid;
 
     return {
@@ -46,6 +49,11 @@ export default function TraineePayments() {
 
   // فلترة البيانات
   const filteredPayments = useMemo(() => {
+    // التأكد من أن payments هو array قبل استخدام spread operator
+    if (!payments || !Array.isArray(payments)) {
+      return [];
+    }
+
     let filtered = [...payments]; // إنشاء نسخة جديدة من الـ array
 
     // فلترة حسب النص

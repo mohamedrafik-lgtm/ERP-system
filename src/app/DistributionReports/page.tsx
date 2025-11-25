@@ -26,7 +26,7 @@ import {
 import { useGetUndistributedTraineesQuery } from '@/lip/features/distribution/undistributedTraineesApi';
 import { useGetProgramsQuery } from '@/lip/features/program/program';
 import { UndistributedTrainee, UndistributedTraineesFilters } from '@/types/undistributed-trainees';
-import { TraineeAvatar } from './components/TraineeAvatar';
+import { TraineeAvatar } from '@/components/DistributionReports';
 
 const DistributionReportsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');

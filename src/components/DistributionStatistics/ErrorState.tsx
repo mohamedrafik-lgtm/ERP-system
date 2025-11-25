@@ -22,3 +22,5 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ onRetry }) => {
     </div>
   );
 };
+
+

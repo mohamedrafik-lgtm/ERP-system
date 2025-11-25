@@ -12,7 +12,7 @@ import {
   Edit,
   Eye
 } from "lucide-react";
-import { Distribution, Room } from '../types';
+import { Distribution, Room } from '@/app/DistributionStatistics/types';
 
 interface DistributionCardProps {
   distribution: Distribution;
@@ -244,3 +244,5 @@ export const DistributionCard: React.FC<DistributionCardProps> = ({
     </div>
   );
 };
+
+

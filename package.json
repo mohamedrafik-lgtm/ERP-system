@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
+    "build:static": "next build",
+    "build:apk": "npm run build:static && npx cap sync android && npx cap build android",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -22,14 +24,21 @@
     "test:trainee-payments:coverage": "jest --config jest.traineePayments.config.js --coverage",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next out dist",
-    "preview": "next build && next start"
+    "preview": "next build && next start",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:run": "npx cap run android"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/cli": "^7.4.4",
+    "@capacitor/core": "^7.4.4",
     "@headlessui/react": "^2.2.7",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.1.1",
     "@reduxjs/toolkit": "^2.8.2",
     "@types/js-cookie": "^3.0.6",
+    "date-fns": "^3.6.0",
     "framer-motion": "^12.18.1",
     "init": "^0.1.2",
     "js-cookie": "^3.0.5",
@@ -44,8 +53,7 @@
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-webcam": "^7.2.0",
-    "yup": "^1.6.1",
-    "date-fns": "^3.6.0"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

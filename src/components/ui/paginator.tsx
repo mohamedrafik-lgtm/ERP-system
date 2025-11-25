@@ -7,14 +7,25 @@ import {
   ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline';
 
-const Paginator = ({ totalPages = 3, onPageChange }: { totalPages?: number; onPageChange?: (page: number) => void }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const Paginator = ({ 
+  totalPages = 3, 
+  currentPage: externalCurrentPage,
+  onPageChange 
+}: { 
+  totalPages?: number;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
+}) => {
+  const [internalCurrentPage, setInternalCurrentPage] = useState(1);
+  const currentPage = externalCurrentPage !== undefined ? externalCurrentPage : internalCurrentPage;
 
   const goToPage = useCallback((page: number) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    if (externalCurrentPage === undefined) {
+      setInternalCurrentPage(page);
+    }
     onPageChange?.(page);
-  }, [totalPages, onPageChange]);
+  }, [totalPages, onPageChange, externalCurrentPage]);
 
   const goToFirstPage = () => goToPage(1);
   const goToLastPage = () => goToPage(totalPages);

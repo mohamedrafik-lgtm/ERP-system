@@ -23,6 +23,8 @@ import { traineeAuthApi } from './features/trainee-auth/traineeAuthApi';
 import { quizApi } from './features/quiz/quizApi';
 import { distributionApi } from './features/distribution/distributionApi';
 import { undistributedTraineesApi } from './features/distribution/undistributedTraineesApi';
+import { rolesApi } from './features/roles/rolesApi';
+import { studyToolsApi } from './features/studyTools/studyToolsApi';
 
 export const store = configureStore({
   reducer: {
@@ -48,6 +50,8 @@ export const store = configureStore({
     [quizApi.reducerPath]: quizApi.reducer,
     [distributionApi.reducerPath]: distributionApi.reducer,
     [undistributedTraineesApi.reducerPath]: undistributedTraineesApi.reducer,
+    [rolesApi.reducerPath]: rolesApi.reducer,
+    [studyToolsApi.reducerPath]: studyToolsApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -74,7 +78,9 @@ export const store = configureStore({
       traineeAuthApi.middleware,
       quizApi.middleware,
       distributionApi.middleware,
-      undistributedTraineesApi.middleware
+      undistributedTraineesApi.middleware,
+      rolesApi.middleware,
+      studyToolsApi.middleware,
     ),
 })
 

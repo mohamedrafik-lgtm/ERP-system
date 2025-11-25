@@ -15,7 +15,7 @@ import {
 import { useCreateDistributionMutation } from '@/lip/features/distribution/distributionApi';
 import { useGetProgramsQuery } from '@/lip/features/program/program';
 import toast from 'react-hot-toast';
-import { CreateDistributionFormData, Program } from '../types';
+import { CreateDistributionFormData } from '@/app/DistributionStatistics/types';
 
 interface CreateDistributionModalProps {
   isOpen: boolean;
@@ -353,3 +353,5 @@ export const CreateDistributionModal: React.FC<CreateDistributionModalProps> = (
     </div>
   );
 };
+
+

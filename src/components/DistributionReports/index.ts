@@ -1,1 +1,3 @@
 export { TraineeAvatar } from './TraineeAvatar';
+
+

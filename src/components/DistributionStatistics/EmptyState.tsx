@@ -24,3 +24,5 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onCreateClick }) => {
     </div>
   );
 };
+
+

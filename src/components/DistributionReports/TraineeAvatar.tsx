@@ -76,3 +76,5 @@ export const TraineeAvatar: React.FC<TraineeAvatarProps> = ({
     </div>
   );
 };
+
+
