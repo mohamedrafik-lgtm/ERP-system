@@ -1,19 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
-import { 
-  UndistributedTraineesResponse, 
-  UndistributedTraineesFilters 
-} from '@/types/undistributed-trainees';
-
-// Base URL for the API
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api';
+import { UndistributedTraineesResponse, UndistributedTraineesQueryParams } from '@/types/undistributed-trainees';
 
 export const undistributedTraineesApi = createApi({
   reducerPath: 'undistributedTraineesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${API_BASE_URL}/trainee-distribution/undistributed/trainees`,
+    baseUrl: 'http://localhost:4000',
     prepareHeaders: (headers) => {
-      const token = Cookies.get('auth_token');
+      const token = Cookies.get('access_token') || Cookies.get('auth_token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -22,11 +16,18 @@ export const undistributedTraineesApi = createApi({
   }),
   tagTypes: ['UndistributedTrainees'],
   endpoints: (builder) => ({
-    getUndistributedTrainees: builder.query<UndistributedTraineesResponse, UndistributedTraineesFilters>({
-      query: (filters) => ({
-        url: '/',
-        params: filters,
-      }),
+    // Get undistributed trainees with pagination
+    getUndistributedTrainees: builder.query<UndistributedTraineesResponse, UndistributedTraineesQueryParams | void>({
+      query: (params = {}) => {
+        const queryString = params && Object.keys(params).length > 0
+          ? '?' + Object.entries(params)
+              .filter(([_, value]) => value !== undefined)
+              .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+              .join('&')
+          : '';
+        
+        return `/api/trainee-distribution/undistributed/trainees${queryString}`;
+      },
       providesTags: ['UndistributedTrainees'],
     }),
   }),

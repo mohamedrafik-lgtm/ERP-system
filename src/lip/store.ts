@@ -21,10 +21,12 @@ import { traineeAccountsApi } from './features/trainee-platform/traineeAccountsA
 import { traineeStatsApi } from './features/trainee-platform/traineeStatsApi';
 import { traineeAuthApi } from './features/trainee-auth/traineeAuthApi';
 import { quizApi } from './features/quiz/quizApi';
-import { distributionApi } from './features/distribution/distributionApi';
+import { distributionApi as oldDistributionApi } from './features/distribution/distributionApi';
 import { undistributedTraineesApi } from './features/distribution/undistributedTraineesApi';
 import { rolesApi } from './features/roles/rolesApi';
 import { studyToolsApi } from './features/studyTools/studyToolsApi';
+import { deferralRequestsApi } from './features/deferralRequests/deferralRequestsApi';
+import { traineeRequestsApi } from './features/traineeRequests/traineeRequestsApi';
 
 export const store = configureStore({
   reducer: {
@@ -48,10 +50,12 @@ export const store = configureStore({
     [traineeStatsApi.reducerPath]: traineeStatsApi.reducer,
     [traineeAuthApi.reducerPath]: traineeAuthApi.reducer,
     [quizApi.reducerPath]: quizApi.reducer,
-    [distributionApi.reducerPath]: distributionApi.reducer,
+    [oldDistributionApi.reducerPath]: oldDistributionApi.reducer,
     [undistributedTraineesApi.reducerPath]: undistributedTraineesApi.reducer,
     [rolesApi.reducerPath]: rolesApi.reducer,
     [studyToolsApi.reducerPath]: studyToolsApi.reducer,
+    [deferralRequestsApi.reducerPath]: deferralRequestsApi.reducer,
+    [traineeRequestsApi.reducerPath]: traineeRequestsApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -77,10 +81,12 @@ export const store = configureStore({
       traineeStatsApi.middleware,
       traineeAuthApi.middleware,
       quizApi.middleware,
-      distributionApi.middleware,
+      oldDistributionApi.middleware,
       undistributedTraineesApi.middleware,
       rolesApi.middleware,
       studyToolsApi.middleware,
+      deferralRequestsApi.middleware,
+      traineeRequestsApi.middleware,
     ),
 })
 

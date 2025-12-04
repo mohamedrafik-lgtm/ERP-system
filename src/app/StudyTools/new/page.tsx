@@ -5,20 +5,44 @@ import { useState } from 'react';
 import {
   useCreateStudyMaterialMutation,
   useGetProgramsQuery,
-  useGetFeesQuery,
   useGetUsersQuery,
 } from '@/lip/features/studyTools/studyToolsApi';
 import toast from 'react-hot-toast';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import Cookies from 'js-cookie';
 
 export default function NewStudyMaterialPage() {
   const router = useRouter();
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedProgramId, setSelectedProgramId] = useState<number | null>(null);
   
   const { data: programs } = useGetProgramsQuery();
-  const { data: fees } = useGetFeesQuery();
   const { data: users } = useGetUsersQuery();
   const [createMaterial, { isLoading }] = useCreateStudyMaterialMutation();
+  
+  // جلب الرسوم حسب البرنامج المختار
+  const [fees, setFees] = useState<any[]>([]);
+  const [loadingFees, setLoadingFees] = useState(false);
+  
+  const fetchFeesByProgram = async (programId: number) => {
+    setLoadingFees(true);
+    try {
+      const token = Cookies.get('access_token') || Cookies.get('auth_token');
+      const response = await fetch(`http://localhost:4000/api/finances/trainee-fees?programId=${programId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setFees(data);
+      }
+    } catch (error) {
+      console.error('Error fetching fees:', error);
+    }
+    setLoadingFees(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,6 +124,15 @@ export default function NewStudyMaterialPage() {
                 <select
                   name="programId"
                   required
+                  onChange={(e) => {
+                    const programId = Number(e.target.value);
+                    setSelectedProgramId(programId);
+                    if (programId) {
+                      fetchFeesByProgram(programId);
+                    } else {
+                      setFees([]);
+                    }
+                  }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="">اختر البرنامج</option>
@@ -134,9 +167,12 @@ export default function NewStudyMaterialPage() {
                 </label>
                 <select
                   name="linkedFeeId"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={!selectedProgramId || loadingFees}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                 >
-                  <option value="">بدون رسوم</option>
+                  <option value="">
+                    {!selectedProgramId ? 'اختر البرنامج أولاً' : loadingFees ? 'جاري التحميل...' : 'بدون رسوم'}
+                  </option>
                   {fees?.map((fee) => (
                     <option key={fee.id} value={fee.id}>{fee.name} ({fee.amount} جنيه)</option>
                   ))}

@@ -1,53 +1,66 @@
-import { 
-  EnrollmentType, 
-  MaritalStatus, 
-  ProgramType, 
-  Gender, 
-  Religion 
-} from './prisma-enums';
+// Undistributed Trainees Types
 
-// Interface للبرنامج التدريبي
-export interface TrainingProgramInfo {
-  id: number;
-  nameAr: string;
-  nameEn: string;
-}
-
-// Interface للمتدرب غير الموزع
 export interface UndistributedTrainee {
+  // بيانات المتدرب الأساسية
   id: number;
   nameAr: string;
   nameEn: string;
+  enrollmentType: "REGULAR" | "DISTANCE" | "BOTH";
+  maritalStatus: "SINGLE" | "MARRIED" | "DIVORCED" | "WIDOWED";
   nationalId: string;
-  enrollmentType: EnrollmentType;
-  maritalStatus: MaritalStatus;
-  idIssueDate: Date;
-  idExpiryDate: Date;
-  programType: ProgramType;
+  idIssueDate: Date | string;
+  idExpiryDate: Date | string;
+  programType: "SUMMER" | "WINTER" | "ANNUAL";
   nationality: string;
-  gender: Gender;
-  birthDate: Date;
+  gender: "MALE" | "FEMALE";
+  birthDate: Date | string;
   residenceAddress: string;
-  photoUrl?: string;
-  photoCloudinaryId?: string;
-  religion: Religion;
+  photoUrl: string | null;
+  photoCloudinaryId: string | null;
+  religion: "ISLAM" | "CHRISTIANITY" | "JUDAISM";
   programId: number;
   country: string;
-  governorate?: string;
+  governorate: string | null;
   city: string;
   address: string;
   phone: string;
-  email?: string;
+  email: string | null;
   guardianPhone: string;
-  guardianEmail?: string;
-  guardianJob?: string;
+  guardianEmail: string | null;
+  guardianJob: string | null;
   guardianRelation: string;
   guardianName: string;
-  landline?: string;
-  program: TrainingProgramInfo;
+  landline: string | null;
+  whatsapp: string | null;
+  facebook: string | null;
+  educationType: "PREPARATORY" | "INDUSTRIAL_SECONDARY" | "COMMERCIAL_SECONDARY" | "AGRICULTURAL_SECONDARY" | "AZHAR_SECONDARY" | "GENERAL_SECONDARY" | "UNIVERSITY" | "INDUSTRIAL_APPRENTICESHIP";
+  schoolName: string;
+  graduationDate: Date | string;
+  totalGrade: number | null;
+  gradePercentage: number | null;
+  sportsActivity: string | null;
+  culturalActivity: string | null;
+  educationalActivity: string | null;
+  notes: string | null;
+  traineeStatus: "NEW" | "CURRENT" | "GRADUATE" | "WITHDRAWN";
+  classLevel: "FIRST" | "SECOND" | "THIRD" | "FOURTH";
+  academicYear: string | null;
+  marketingEmployeeId: number | null;
+  firstContactEmployeeId: number | null;
+  secondContactEmployeeId: number | null;
+  createdById: string | null;
+  updatedById: string | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  
+  // بيانات البرنامج
+  program: {
+    id: number;
+    nameAr: string;
+    nameEn: string;
+  };
 }
 
-// Interface لمعلومات التصفح
 export interface PaginationInfo {
   page: number;
   limit: number;
@@ -57,17 +70,12 @@ export interface PaginationInfo {
   hasPrev: boolean;
 }
 
-// Interface للـ response الرئيسي
 export interface UndistributedTraineesResponse {
   trainees: UndistributedTrainee[];
   pagination: PaginationInfo;
 }
 
-// Interface للفلتر المستخدم في البحث
-export interface UndistributedTraineesFilters {
-  programId?: number;
-  type?: string;
-  search?: string;
+export interface UndistributedTraineesQueryParams {
   page?: number;
   limit?: number;
 }
