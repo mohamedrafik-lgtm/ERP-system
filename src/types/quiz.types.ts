@@ -1,41 +1,45 @@
-// Quiz Types for Electronic Tests
+// Quiz Types - أنواع الاختبارات المصغرة
 
-export interface QuizResponse {
+export interface Quiz {
+  // معلومات الاختبار الأساسية
   id: number;
   title: string;
-  description?: string;
-  instructions?: string;
+  description: string | null;
+  duration: number;              // بالدقائق
+  passingScore: number;          // النسبة المئوية للنجاح
   startDate: Date;
   endDate: Date;
-  duration: number;
-  passingScore?: number;
-  maxAttempts?: number;
-  shuffleQuestions?: boolean;
-  shuffleAnswers?: boolean;
-  showResults?: boolean;
-  showCorrectAnswers?: boolean;
-  isActive: boolean;
   isPublished: boolean;
+  isActive: boolean;
+  shuffleQuestions: boolean;
+  shuffleAnswers: boolean;
+  showResults: boolean;
+  showCorrectAnswers: boolean;
+  allowReview: boolean;
+  trainingContentId: number;
   createdAt: Date;
   updatedAt: Date;
-  trainingContentId: number;
-  
-  // معلومات المحتوى التدريبي
+
+  // المحتوى التدريبي المرتبط
   trainingContent: {
     id: number;
     name: string;
     code: string;
+    
+    // الفصل الدراسي
     classroom: {
       id: number;
       name: string;
     };
+    
+    // البرنامج التدريبي
     program: {
       id: number;
       nameAr: string;
       nameEn: string;
     };
   };
-  
+
   // إحصائيات
   _count: {
     questions: number;    // عدد الأسئلة
@@ -43,102 +47,77 @@ export interface QuizResponse {
   };
 }
 
-// Quiz Query Parameters
-export interface QuizQueryParams {
-  contentId?: string;
+export interface QuizzesResponse {
+  data: Quiz[];
+  meta?: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export interface QuizFilters {
+  search?: string;
+  isPublished?: boolean;
+  isActive?: boolean;
+  programId?: number;
+  trainingContentId?: number;
   page?: number;
   limit?: number;
-  search?: string;
-  status?: 'active' | 'draft' | 'completed' | 'all';
-  isPublished?: boolean;
 }
 
-// Quiz List Response
-export interface QuizListResponse {
-  data: QuizResponse[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-
-// Quiz Create Request
-export interface QuizCreateRequest {
-  title: string;
-  description?: string;
-  instructions?: string;
-  startDate: Date;
-  endDate: Date;
-  duration: number;
-  passingScore?: number;
-  maxAttempts?: number;
-  shuffleQuestions?: boolean;
-  shuffleAnswers?: boolean;
-  showResults?: boolean;
-  showCorrectAnswers?: boolean;
-  isActive: boolean;
-  isPublished: boolean;
-  trainingContentId: number;
-  questionIds: number[];
-}
-
-// Quiz Update Request
-export interface QuizUpdateRequest extends Partial<QuizCreateRequest> {
-  id: number;
-}
-
-// Quiz Statistics
 export interface QuizStats {
   totalQuizzes: number;
+  publishedQuizzes: number;
   activeQuizzes: number;
-  draftQuizzes: number;
-  completedQuizzes: number;
   totalQuestions: number;
   totalAttempts: number;
-  averageCompletionRate: number;
 }
 
-// Quiz Attempt (for future use)
-export interface QuizAttempt {
-  id: number;
-  quizId: number;
-  traineeId: number;
-  score: number;
-  maxScore: number;
-  percentage: number;
-  isPassed: boolean;
-  timeSpent: number;
-  startedAt: Date;
-  completedAt: Date;
-  answers: QuizAnswer[];
-}
-
-// Quiz Answer (for future use)
-export interface QuizAnswer {
-  id: number;
-  questionId: number;
-  answerId: number;
-  isCorrect: boolean;
-  timeSpent: number;
-}
-
-// Quiz Question (for future use)
 export interface QuizQuestion {
-  id: number;
-  quizId: number;
-  question: string;
-  type: 'multiple_choice' | 'true_false' | 'fill_blank' | 'essay';
-  points: number;
-  order: number;
-  isActive: boolean;
-  answers: QuizQuestionAnswer[];
+  questionId: number;
+  order?: number;
+  points?: number;
 }
 
-// Quiz Question Answer (for future use)
-export interface QuizQuestionAnswer {
+export interface CreateQuizRequest {
+  // ✅ حقول إجبارية (Required)
+  trainingContentId: number;      // معرف المحتوى التدريبي
+  title: string;                  // عنوان الاختبار
+  startDate: string;              // تاريخ البداية (ISO 8601 format)
+  endDate: string;                // تاريخ النهاية (ISO 8601 format)
+  duration: number;               // مدة الاختبار بالدقائق (min: 1)
+  questions: QuizQuestion[];      // قائمة الأسئلة
+
+  // ⚪ حقول اختيارية (Optional)
+  description?: string;           // وصف الاختبار
+  instructions?: string;          // تعليمات الاختبار
+  passingScore?: number;          // درجة النجاح % (0-100)
+  maxAttempts?: number;           // عدد المحاولات المسموح بها (min: 1)
+  shuffleQuestions?: boolean;     // خلط ترتيب الأسئلة
+  shuffleAnswers?: boolean;       // خلط ترتيب الإجابات
+  showResults?: boolean;          // عرض النتائج للمتدرب
+  showCorrectAnswers?: boolean;   // عرض الإجابات الصحيحة
+  isActive?: boolean;             // هل الاختبار نشط
+  isPublished?: boolean;          // هل تم نشر الاختبار
+}
+
+export interface UpdateQuizRequest extends Partial<CreateQuizRequest> {
   id: number;
-  questionId: number;
-  answer: string;
-  isCorrect: boolean;
-  order: number;
+}
+
+// For fetching training contents
+export interface TrainingContent {
+  id: number;
+  name: string;
+  code: string;
+}
+
+// For fetching questions from question bank
+export interface QuestionBankItem {
+  id: number;
+  questionText: string;
+  type: string;
+  difficulty?: string;
 }

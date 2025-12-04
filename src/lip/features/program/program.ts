@@ -20,6 +20,10 @@ export const programApi = createApi({
       query: () => `/api/programs`,
       providesTags: ['Programs'],
     }),
+    getProgramById: build.query<Program, number>({
+      query: (id) => `/api/programs/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Programs', id }],
+    }),
     addProgram: build.mutation<Program, ProgramData>({
       query: (body) => ({
         url: `/api/programs`,
@@ -52,4 +56,10 @@ export const programApi = createApi({
   }),
 });
 
-export const { useGetProgramsQuery, useAddProgramMutation ,useDeleteProgramMutation,useUpdateProgramMutation} = programApi;
+export const {
+  useGetProgramsQuery,
+  useGetProgramByIdQuery,
+  useAddProgramMutation,
+  useDeleteProgramMutation,
+  useUpdateProgramMutation
+} = programApi;

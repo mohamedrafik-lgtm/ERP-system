@@ -184,15 +184,34 @@ export interface ProgramData {
   description: string;
 }
 
+export interface Classroom {
+  id: number;
+  name: string;
+  classNumber: number;
+  programId: number;
+  startDate: string | null;
+  endDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+  _count: {
+    trainingContents: number;
+  };
+}
+
 export interface Program {
   id: number;
   nameAr: string;
   nameEn: string;
   price: number;
-  description: string;
-  _count: {
-    trainees:number
-  }
+  description: string | null;
+  numberOfClassrooms: number;
+  createdAt: string;
+  updatedAt: string;
+  trainees?: any[];
+  classrooms?: Classroom[];
+  _count?: {
+    trainees: number;
+  };
 }
 export interface UpdateProgramPayload {
   id: number; // ID من الباث
@@ -645,14 +664,14 @@ export interface IUpdateLocker{
   isActive?:boolean
 }
 
-export type TransactionType =
+export type TransactionTypeString =
   | 'DEPOSIT'
   | 'WITHDRAW'
   | 'TRANSFER'
   | 'FEE'
   | 'PAYMENT';
 
-export type AccountType = 'REVENUE' | 'EXPENSE' | 'DEBT';
+export type AccountTypeString = 'REVENUE' | 'EXPENSE' | 'DEBT';
 
 export interface Transaction {
   id: string; // معرف التحويل
@@ -673,7 +692,7 @@ export interface FinancialAccount {
   id: string;
   name: string;
   description: string | null;
-  type: AccountType;
+  type: AccountTypeString;
   balance: number;
   currency: string;
   isActive: boolean;
@@ -803,7 +822,7 @@ export interface TransactionResponse {
 export * from '@/types/traineeFees';
 
 // User Account Types
-export enum AccountType {
+export enum UserAccountType {
   STAFF = 'STAFF',
   INSTRUCTOR = 'INSTRUCTOR',
 }
@@ -814,7 +833,7 @@ export interface CreateUserRequest {
   email: string;
   phone: string;
   password: string;
-  accountType?: AccountType;
+  accountType?: UserAccountType;
   roleId?: string;
 }
 
@@ -824,7 +843,7 @@ export interface UpdateUserRequest {
   email?: string;
   phone?: string;
   password?: string;
-  accountType?: AccountType;
+  accountType?: UserAccountType;
   roleId?: string;
 }
 
@@ -834,7 +853,7 @@ export interface UserResponse {
   name: string;
   email: string;
   phone: string;
-  accountType: AccountType;
+  accountType: UserAccountType;
   roleId?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -853,7 +872,7 @@ export interface LoginResponse {
     id: string;
     name: string;
     email: string;
-    accountType: AccountType;
+    accountType: UserAccountType;
     roleId?: string;
   };
 }

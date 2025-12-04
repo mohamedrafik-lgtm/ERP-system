@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // إعدادات للتصدير الثابت (Static Export)
-  output: 'export',
+  // إعدادات للتصدير الثابت (Static Export) - معطل مؤقتاً للسماح بـ Dynamic Routes
+  // output: 'export',
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: 'out',
+  // distDir: 'out',
   
   // تعطيل ESLint مؤقتاً للبناء
   eslint: {

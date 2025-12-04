@@ -7,7 +7,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { Check, ChevronDown, RefreshCw } from 'lucide-react';
 import { IAddTrainengContent, ISemester, Year } from '@/interface';
 import { useGetProgramsQuery } from '@/lip/features/program/program';
-import { useGetUserEmployeeQuery } from '@/lip/features/users/user';
+import { useGetUsersQuery } from '@/lip/features/users/user';
 import { useAddTrainingContentMutation, useGetCodeQuery } from '@/lip/features/TraningContetn/Traning';
 import toast from 'react-hot-toast';
 import { trainingContentSchema } from '@/Schema/program/AddTraningContent';
@@ -28,7 +28,7 @@ interface Option {
 
 export default function AddTrainingContent() {
   const { data: programs = [] } = useGetProgramsQuery();
-  const { data: users = [] } = useGetUserEmployeeQuery();
+  const { data: users = [] } = useGetUsersQuery();
   const [code, setCode] = useState('');
   const router = useRouter();
   const {data:ContentCode,refetch} = useGetCodeQuery()
