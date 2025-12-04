@@ -73,6 +73,19 @@ const StudentTable = () => {
   const { data, isError, isLoading, isSuccess } = useGetStudentsQuery();
   const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
 
+  // Handle action click from menu
+  const handleActionClick = (action: string, studentId?: number) => {
+    if (action === "الحضور والغياب" && studentId) {
+      router.push(`/TraineeAttendance/${studentId}`);
+    } else if (action === "اثبات قيد" && studentId) {
+      router.push(`/EnrollmentCertificate/${studentId}`);
+    } else if (action === "إفادة للمتدرب" && studentId) {
+      router.push(`/TraineeCertificate/${studentId}`);
+    } else {
+      console.log(`تم اختيار: ${action} للطالب: ${studentId}`);
+    }
+  };
+
   // Debug logging
   console.log("🔍 StudentTable Debug - Data:", data);
   console.log("🔍 StudentTable Debug - Is Loading:", isLoading);
@@ -306,6 +319,8 @@ const StudentTable = () => {
                           value: action,
                         }))}
                         svg={<MoreVertical className="w-4 h-4" />}
+                        studentId={student.id}
+                        onActionClick={handleActionClick}
                       />
 
                       {/* Select Button */}

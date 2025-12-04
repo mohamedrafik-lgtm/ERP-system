@@ -1,91 +1,90 @@
-// Enums
-export enum AttendanceStatus {
-  PRESENT = 'PRESENT',
-  ABSENT = 'ABSENT',
-  LATE = 'LATE',
-  EXCUSED = 'EXCUSED'
-}
+// Attendance Status Types
+export type AttendanceStatus = 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+export type SessionType = 'THEORY' | 'PRACTICAL';
 
-export enum DayOfWeek {
-  SUNDAY = 'SUNDAY',
-  MONDAY = 'MONDAY',
-  TUESDAY = 'TUESDAY',
-  WEDNESDAY = 'WEDNESDAY',
-  THURSDAY = 'THURSDAY',
-  FRIDAY = 'FRIDAY',
-  SATURDAY = 'SATURDAY'
-}
-
-export enum SessionType {
-  THEORY = 'THEORY',
-  PRACTICAL = 'PRACTICAL'
-}
-
-// Interfaces
-export interface TrainingProgram {
-  id: number;
-  nameAr: string;
-  nameEn: string;
-  price: number;
-  description?: string;
-  numberOfClassrooms: number;
+// Attendance Record
+export interface AttendanceRecord {
+  id: string;
+  sessionId: number;
+  traineeId: number;
+  status: AttendanceStatus;
+  notes: string | null;
+  recordedBy: string;
+  updatedBy: string | null;
+  recordedAt: Date;
   createdAt: Date;
   updatedAt: Date;
+  
+  session: {
+    id: number;
+    date: Date;
+    startTime: string;
+    endTime: string;
+    isCancelled: boolean;
+    scheduleSlot: {
+      id: number;
+      type: SessionType;
+      content: {
+        id: number;
+        name: string;
+        code: string | null;
+      };
+      classroom: {
+        id: number;
+        name: string;
+        classNumber: string | null;
+      } | null;
+    };
+  };
+  
+  recordedByUser: {
+    id: string;
+    name: string;
+  } | null;
 }
 
-export interface Classroom {
-  id: number;
-  name: string;
-  classNumber: number;
-  startDate: Date;
-  endDate: Date;
-}
-
-export interface Trainee {
-  id: number;
-  nameAr: string;
-  nameEn: string;
-  nationalId: string;
-  photoUrl?: string;
-  program: TrainingProgram;
-  classroom: Classroom;
-}
-
+// Attendance Stats
 export interface AttendanceStats {
   total: number;
   present: number;
   absent: number;
   late: number;
   excused: number;
-  attendanceRate: number;
 }
 
-export interface SessionRecord {
-  id: string;
-  sessionId: number;
-  date: Date;
-  dayOfWeek: DayOfWeek;
-  sessionType: SessionType;
-  status: AttendanceStatus;
-  isCancelled: boolean;
-  notes?: string;
-  createdAt: Date;
-}
-
-export interface Content {
-  id: number;
-  nameAr: string;
-  nameEn: string;
-}
-
-export interface ContentGroup {
-  content: Content;
-  sessions: SessionRecord[];
+// Content Attendance
+export interface ContentAttendance {
+  content: {
+    id: number;
+    name: string;
+    code: string | null;
+  };
+  classroom: {
+    id: number;
+    name: string;
+    classNumber: string | null;
+  } | null;
   stats: AttendanceStats;
+  records: AttendanceRecord[];
 }
 
-export interface AttendanceRecordsResponse {
-  trainee: Trainee;
+// Trainee Attendance Details Response
+export interface TraineeAttendanceDetailsResponse {
+  trainee: {
+    id: number;
+    nameAr: string;
+    nameEn: string | null;
+    nationalId: string;
+    email: string | null;
+    phone: string;
+    photoUrl: string | null;
+    program: {
+      id: number;
+      nameAr: string;
+    };
+  };
+  
   stats: AttendanceStats;
-  contentGroups: ContentGroup[];
+  byContent: ContentAttendance[];
+  allRecords: AttendanceRecord[];
 }

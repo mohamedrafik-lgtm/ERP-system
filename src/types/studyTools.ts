@@ -161,3 +161,66 @@ export interface DeliveryStats {
   overdueDeliveries: number;
   totalToolsDelivered: number;
 }
+
+// ==================== New Delivery Types ====================
+
+export type DeliveryStatus = 'PENDING' | 'DELIVERED' | 'RETURNED' | 'LOST';
+
+export interface QueryDeliveriesDto {
+  studyMaterialId?: string;
+  traineeId?: number;
+  programId?: number;
+  status?: DeliveryStatus;
+  search?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface Delivery {
+  id: string;
+  studyMaterialId: string;
+  traineeId: number;
+  quantity: number;
+  status: DeliveryStatus;
+  deliveryDate: Date | null;
+  returnDate: Date | null;
+  notes: string | null;
+  returnNotes: string | null;
+  deliveredBy: string | null;
+  returnedBy: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  
+  // Relations
+  studyMaterial: {
+    id: string;
+    name: string;
+    nameEn: string | null;
+    program: {
+      id: number;
+      nameAr: string;
+      nameEn: string | null;
+    };
+  };
+  
+  trainee: {
+    id: number;
+    nameAr: string;
+    nameEn: string | null;
+    nationalId: string;
+    phone: string;
+    photoUrl: string | null;
+  };
+}
+
+export interface DeliveriesListResponse {
+  deliveries: Delivery[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}

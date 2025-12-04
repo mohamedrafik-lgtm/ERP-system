@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo, Fragment, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
@@ -492,6 +492,21 @@ const Sidebar = () => {
     ],
     []
   );
+  
+  // Auto-expand section based on current path
+  useEffect(() => {
+    const currentSection = menuSections.find(section =>
+      section.items.some(item => item.url === pathname)
+    );
+    
+    if (currentSection) {
+      setExpandedSections(prev => {
+        const newSet = new Set(prev);
+        newSet.add(currentSection.title);
+        return newSet;
+      });
+    }
+  }, [pathname]);
 
   const isActive = (url: string) => pathname === url;
 

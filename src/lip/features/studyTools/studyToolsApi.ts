@@ -13,6 +13,8 @@ import {
   CreateDeliveryRequest,
   UpdateDeliveryRequest,
   DeliveryStats,
+  QueryDeliveriesDto,
+  DeliveriesListResponse,
 } from '@/types/studyTools';
 
 export const studyToolsApi = createApi({
@@ -211,6 +213,28 @@ export const studyToolsApi = createApi({
       query: () => '/delivery-tracking/stats',
       providesTags: ['Delivery'],
     }),
+    
+    // ==================== New Deliveries List Endpoint ====================
+    
+    // Get deliveries list with filters
+    getDeliveriesList: builder.query<DeliveriesListResponse, QueryDeliveriesDto | void>({
+      query: (filters) => {
+        const params = new URLSearchParams();
+        
+        if (filters) {
+          if (filters.studyMaterialId) params.append('studyMaterialId', filters.studyMaterialId);
+          if (filters.traineeId) params.append('traineeId', filters.traineeId.toString());
+          if (filters.programId) params.append('programId', filters.programId.toString());
+          if (filters.status) params.append('status', filters.status);
+          if (filters.search) params.append('search', filters.search);
+          if (filters.page) params.append('page', filters.page.toString());
+          if (filters.limit) params.append('limit', filters.limit.toString());
+        }
+        
+        return `/study-materials/deliveries/list?${params.toString()}`;
+      },
+      providesTags: ['Delivery'],
+    }),
   }),
 });
 
@@ -234,4 +258,7 @@ export const {
   useUpdateDeliveryMutation,
   useDeleteDeliveryMutation,
   useGetDeliveryStatsQuery,
+  
+  // New Deliveries List hook
+  useGetDeliveriesListQuery,
 } = studyToolsApi;

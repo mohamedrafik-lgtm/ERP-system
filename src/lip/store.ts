@@ -27,6 +27,7 @@ import { rolesApi } from './features/roles/rolesApi';
 import { studyToolsApi } from './features/studyTools/studyToolsApi';
 import { deferralRequestsApi } from './features/deferralRequests/deferralRequestsApi';
 import { traineeRequestsApi } from './features/traineeRequests/traineeRequestsApi';
+import { attendanceApi } from './features/attendance/attendanceApi';
 
 export const store = configureStore({
   reducer: {
@@ -56,6 +57,7 @@ export const store = configureStore({
     [studyToolsApi.reducerPath]: studyToolsApi.reducer,
     [deferralRequestsApi.reducerPath]: deferralRequestsApi.reducer,
     [traineeRequestsApi.reducerPath]: traineeRequestsApi.reducer,
+    [attendanceApi.reducerPath]: attendanceApi.reducer,
     auth: authReducer,
     lockers: lockersReducer,
   },
@@ -87,6 +89,7 @@ export const store = configureStore({
       studyToolsApi.middleware,
       deferralRequestsApi.middleware,
       traineeRequestsApi.middleware,
+      attendanceApi.middleware,
     ),
 })
 

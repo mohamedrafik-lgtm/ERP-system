@@ -11,9 +11,11 @@ type MenuProps = {
   items: InlineMenuProps[];
   svg?: React.ReactNode;
   name?: string;
+  studentId?: number;
+  onActionClick?: (action: string, studentId?: number) => void;
 };
 
-const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
+const InlineMenu: React.FC<MenuProps> = ({ items, svg, name, studentId, onActionClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -74,7 +76,11 @@ const InlineMenu: React.FC<MenuProps> = ({ items, svg, name }) => {
                   key={index}
                   onClick={() => {
                     setIsOpen(false);
-                    console.log(`تم اختيار: ${item.name}`);
+                    if (onActionClick && item.name) {
+                      onActionClick(item.name, studentId);
+                    } else {
+                      console.log(`تم اختيار: ${item.name}`);
+                    }
                   }}
                   className="w-full px-4 py-4 flex items-center justify-between text-right hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 text-sm cursor-pointer rounded-xl transition-all duration-300 group border border-transparent hover:border-blue-200/50 hover:shadow-md"
                 >

@@ -47,11 +47,20 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     "/StudentPlatform/settings"
   ];
   
+  // صفحات الوثائق (لا تحتاج إلى sidebar)
+  const documentPaths = [
+    "/EnrollmentCertificate",
+    "/TraineeCertificate"
+  ];
+  
   // التحقق إذا كانت الصفحة الحالية هي صفحة عامة
   const isPublicPath = publicPaths.includes(pathname);
   
   // التحقق إذا كانت الصفحة الحالية هي صفحة منصة الطالب
   const isStudentPlatformPath = studentPlatformPaths.includes(pathname) || pathname.startsWith('/StudentPlatform');
+  
+  // التحقق إذا كانت الصفحة الحالية هي صفحة وثيقة
+  const isDocumentPath = pathname.startsWith('/EnrollmentCertificate') || pathname.startsWith('/TraineeCertificate');
   
   console.log('Protected layout - pathname:', pathname, 'isPublicPath:', isPublicPath, 'isStudentPlatformPath:', isStudentPlatformPath);
 
@@ -89,6 +98,11 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   if (isStudentPlatformPath) {
     // إذا كانت صفحة منصة الطالب، اعرض المحتوى فقط بدون navbar إداري
     return <>{children}</>;
+  }
+  
+  if (isDocumentPath) {
+    // إذا كانت صفحة وثيقة، اعرض المحتوى فقط بدون sidebar
+    return <AuthGuard>{children}</AuthGuard>;
   }
 
   // لباقي الصفحات، اعرض Sidebar مع المحتوى داخل AuthGuard
